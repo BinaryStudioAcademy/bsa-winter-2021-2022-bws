@@ -1,6 +1,6 @@
 enum ButtonColor {
-  ORANGE = 'orange',
-  BLACK = 'black',
+  FILLED = 'filled',
+  OUTLINED = 'outlined',
 }
 
 export { ButtonColor };

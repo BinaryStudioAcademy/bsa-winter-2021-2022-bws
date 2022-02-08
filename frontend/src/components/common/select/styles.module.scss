@@ -1,8 +1,13 @@
-.react-select__container {
+.reactSelectContainer {
   width: 100%;
 }
 
-.react-select__control {
+.reactSelectContainer > span,
+.reactSelectSingleValue {
+  color: #ffffff;
+}
+
+.reactSelectControl {
   width: 100%;
   height: 45px;
   background: #393939;
@@ -11,12 +16,8 @@
   cursor: pointer;
 }
 
-span,
-.react-select__single-value {
-  color: #ffffff;
-}
-
-.react-select__menu {
+.reactSelectMenu {
   color: #ffffff;
   background: #393939;
+  cursor: pointer;
 }
