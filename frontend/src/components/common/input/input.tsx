@@ -6,6 +6,8 @@ import {
 import { useFormControl } from 'hooks/hooks';
 import { InputType } from 'common/enums/enums';
 import { ErrorMessage } from 'components/common/common';
+import clsx from 'clsx';
+import styles from './styles.module.scss';
 
 type Props = {
   label: string;
@@ -29,8 +31,13 @@ const Input: React.FC<Props> = ({
   return (
     <label>
       <span>{label}</span>
-      <input {...field} type={type} placeholder={placeholder} />
-      <span>
+      <input
+        {...field}
+        type={type}
+        placeholder={placeholder}
+        className={clsx(styles.input, errors[name] && styles['input-error'])}
+      />
+      <span className={styles.error}>
         <ErrorMessage errors={errors} name={name} />
       </span>
     </label>

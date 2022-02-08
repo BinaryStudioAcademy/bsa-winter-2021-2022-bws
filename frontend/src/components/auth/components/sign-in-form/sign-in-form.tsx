@@ -1,4 +1,4 @@
-import { Button } from 'components/common/common';
+// import { Button } from 'components/common/common';
 
 type Props = {
   onSubmit: () => void;
@@ -7,9 +7,7 @@ type Props = {
 const SignInForm: React.FC<Props> = () => (
   <>
     <h1>Sign In ♒</h1>
-    <form>
-      <Button label="Sign in" />
-    </form>
+    <form>{/*<Button label="Sign in" />*/}</form>
   </>
 );
 

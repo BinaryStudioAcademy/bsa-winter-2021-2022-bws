@@ -1,0 +1,48 @@
+.container > label {
+  display: flex;
+  flex-direction: row;
+}
+
+input[type="checkbox"] {
+  position: absolute;
+  z-index: -1;
+  opacity: 0;
+}
+
+input[type="checkbox"] + span {
+  font: 20px sans-serif;
+  cursor: pointer;
+}
+
+input[type="checkbox"] + span::before {
+  content: "";
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-top: 10px;
+  margin-right: 10px;
+  vertical-align: -2px;
+  border: 1px solid #ff9c00;
+  border-radius: 2px;
+}
+
+input[type="checkbox"]:checked + span::before {
+  color: white;
+  background-color: #ff9c00;
+  background-image: url("https://api.iconify.design/ion/checkmark-sharp.svg?color=white");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px;
+  border-radius: 2px;
+}
+
+input[type="checkbox"]:focus + span::before,
+input[type="checkbox"]:not(:disabled) + span:hover::before {
+  outline: transparent dotted 2px;
+}
+
+input[type="checkbox"]:disabled + span {
+  color: black;
+  cursor: default;
+  opacity: 0.5;
+}

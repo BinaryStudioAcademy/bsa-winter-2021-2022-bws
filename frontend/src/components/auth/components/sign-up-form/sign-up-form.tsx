@@ -1,6 +1,11 @@
 import { masterSignUp as masterSignUpValidationSchema } from 'validation-schemas/validation-schemas';
 import logo from 'assets/img/logo.svg';
-import { AppRoute, ButtonType, InputType } from 'common/enums/enums';
+import {
+  AppRoute,
+  ButtonColor,
+  ButtonType,
+  InputType,
+} from 'common/enums/enums';
 import { useAppForm } from 'hooks/hooks';
 import { getNameOf } from 'helpers/helpers';
 import { MasterSignUpDto } from 'common/types/types';
@@ -55,7 +60,12 @@ const SignUpForm: React.FC<Props> = ({ onSubmit }) => {
             errors={errors}
           />
         </p>
-        <Button type={ButtonType.SUBMIT} label="Sign up" />
+        <Button
+          color={ButtonColor.ORANGE}
+          type={ButtonType.SUBMIT}
+          label={'Sing up'}
+          onClick={handleSubmit(onSubmit)}
+        />
       </form>
       <div className={styles.signUpFormPolicy}>
         <span>By using bws you are agreeing to our </span>
