@@ -1,3 +1,5 @@
+@import "src/assets/css/styles";
+
 .btn {
   width: 100%;
   min-height: 45px;
@@ -5,14 +7,14 @@
   color: white;
   font-weight: 800;
   font-size: 16px;
-  border: 2px solid #ff9c00;
+  border: 2px solid $orange;
   border-radius: 50px;
 }
 
 .filled {
-  background-color: #ff9c00;
+  background-color: $orange;
 }
 
 .outlined {
-  background-color: #393939;
+  background-color: $boltgun;
 }

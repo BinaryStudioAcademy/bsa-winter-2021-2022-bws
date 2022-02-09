@@ -1,3 +1,5 @@
+@import "src/assets/css/styles";
+
 .container > label {
   display: flex;
   flex-direction: row;
@@ -22,13 +24,13 @@ input[type="checkbox"] + span::before {
   margin-top: 10px;
   margin-right: 10px;
   vertical-align: -2px;
-  border: 1px solid #ff9c00;
+  border: 1px solid $orange;
   border-radius: 2px;
 }
 
 input[type="checkbox"]:checked + span::before {
   color: white;
-  background-color: #ff9c00;
+  background-color: $orange;
   background-image: url("https://api.iconify.design/ion/checkmark-sharp.svg?color=white");
   background-repeat: no-repeat;
   background-position: center;
