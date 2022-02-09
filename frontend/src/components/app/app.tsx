@@ -3,6 +3,7 @@ import { Routes, Route, PrivateRoute } from 'components/common/common';
 import { AppRoute } from 'common/enums/enums';
 import { Auth } from 'components/auth/auth';
 import { Dashboard } from 'components/dashboard/dashboard';
+import { Toaster } from 'components/common/common';
 
 const App: FC = () => {
   return (
@@ -19,6 +20,7 @@ const App: FC = () => {
           }
         />
       </Routes>
+      <Toaster />
     </>
   );
 };

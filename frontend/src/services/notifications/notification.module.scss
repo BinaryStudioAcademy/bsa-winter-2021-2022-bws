@@ -1,0 +1,23 @@
+.wrapper {
+  position: absolute;
+  top: 300px;
+  right: 50px;
+  width: 390px;
+}
+
+.wrapper > div {
+  position: relative;
+  display: flex;
+  width: 100%;
+  color: #9a9a9a;
+  font-size: 14px;
+  background: #393939;
+  border-top: 5px solid #ff0000;
+}
+
+.attention {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  background: 21px 0 no-repeat url("../../assets/img/attention-icon.svg");
+}
