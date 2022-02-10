@@ -1,8 +1,10 @@
 export {
   type MasterSignUpRequestDto,
   type MasterSignUpResponseDto,
-  type MasterSignInDto,
+  type MasterSignInRequestDto,
+  type MasterSignInResponseDto,
   type MasterDto,
 } from './master/master';
 export { type GroupDto } from './group/group';
+export { type TenantResponseDto } from './tenant/tenant';
 export { type ValidationSchema } from './validation/validation';

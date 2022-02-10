@@ -6,7 +6,7 @@ import {
 } from 'common/enums/enums';
 import {
   MasterSignUpRequestDto,
-  MasterSignInDto,
+  MasterSignInRequestDto,
   MasterDto,
 } from 'common/types/types';
 import { joinItems } from 'helpers/helpers';
@@ -36,7 +36,7 @@ class AuthApi {
       },
     );
   }
-  public signIn(payload: MasterSignInDto): Promise<MasterDto> {
+  public signIn(payload: MasterSignInRequestDto): Promise<MasterDto> {
     return this.#http.load(
       joinItems(this.#apiPrefix, ApiPath.MASTERS, MastersApiPath.SIGN_IN),
       {

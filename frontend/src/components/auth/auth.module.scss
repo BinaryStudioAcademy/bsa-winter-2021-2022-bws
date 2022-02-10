@@ -1,10 +1,9 @@
 .authConteiner {
   display: flex;
+  flex-grow: 1;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 1920px;
-  height: 1080px;
   background: (
     url("/assets/img/decorate.svg") 0 0 no-repeat,
     url("/assets/img/network.svg") 1685px 544px no-repeat,

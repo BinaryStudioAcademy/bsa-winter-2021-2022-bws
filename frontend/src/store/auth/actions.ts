@@ -1,7 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
   MasterSignUpRequestDto,
-  MasterSignInDto,
+  MasterSignInRequestDto,
   MasterDto,
   AsyncThunkConfig,
 } from 'common/types/types';
@@ -9,7 +9,7 @@ import { ActionType } from './common';
 
 const signIn = createAsyncThunk<
   Promise<MasterDto>,
-  MasterSignInDto,
+  MasterSignInRequestDto,
   AsyncThunkConfig
 >(ActionType.SIGN_IN, async (registerPayload, { extra }) => {
   const { authApi } = extra;

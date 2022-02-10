@@ -1,40 +1,44 @@
 import {
-  MasterDto as TMaster,
   MasterSignUpRequestDto,
   MasterSignUpResponseDto,
+  MasterSignInRequestDto,
+  MasterSignInResponseDto,
 } from '~/common/types/types';
 import { master as masterRep } from '~/data/repositories/repositories';
 import { Master as MasterEntity } from './master.entity';
 import { InvalidCredentialsError } from '~/exceptions/exceptions';
+import { HttpCode } from '~/common/enums/http/http';
+import { ExceptionMessage } from '~/common/enums/enums';
 import {
   token as tokenServ,
   encrypt as encryptServ,
+  tenant as tenantServ,
 } from '~/services/services';
+import { getRandomId as getRandomName } from '~/helpers/helpers';
 
 type Constructor = {
   masterRepository: typeof masterRep;
-  encrypt: typeof encryptServ;
-  token: typeof tokenServ;
+  encryptService: typeof encryptServ;
+  tokenService: typeof tokenServ;
+  tenantService: typeof tenantServ;
 };
 
 class Master {
   #masterRepository: typeof masterRep;
   #encryptService: typeof encryptServ;
   #tokenService: typeof tokenServ;
+  #tenantService: typeof tenantServ;
 
-  constructor({ masterRepository, encrypt, token }: Constructor) {
+  constructor({
+    masterRepository,
+    encryptService,
+    tokenService,
+    tenantService,
+  }: Constructor) {
     this.#masterRepository = masterRepository;
-    this.#encryptService = encrypt;
-    this.#tokenService = token;
-  }
-
-  async getAll(): Promise<TMaster[]> {
-    const masters = await this.#masterRepository.getAll();
-
-    return masters.map((m) => ({
-      id: m.id,
-      email: m.email,
-    }));
+    this.#encryptService = encryptService;
+    this.#tokenService = tokenService;
+    this.#tenantService = tenantService;
   }
 
   async login(id: string): Promise<MasterSignUpResponseDto> {
@@ -65,17 +69,47 @@ class Master {
       password,
       passwordSalt,
     );
+    const tenant = await this.#tenantService.create(getRandomName());
+
     const master = MasterEntity.createNew({
       name,
       email,
-    });
-    const { id } = await this.#masterRepository.create({
-      master,
-      passwordSalt,
       passwordHash,
+      passwordSalt,
+      tenantId: tenant.id,
     });
 
+    const { id } = await this.#masterRepository.create(master);
+
     return this.login(id);
+  }
+
+  async verifyLoginCredentials(
+    verifyMasterDto: MasterSignInRequestDto,
+  ): Promise<MasterSignInResponseDto> {
+    const user = await this.#masterRepository.getByEmail(verifyMasterDto.email);
+
+    if (!user) {
+      throw new InvalidCredentialsError({
+        status: HttpCode.UNAUTHORIZED,
+        message: ExceptionMessage.INCORRECT_EMAIL,
+      });
+    }
+
+    const isEqualPassword = await this.#encryptService.compare(
+      verifyMasterDto.password,
+      user.passwordSalt,
+      user.passwordHash,
+    );
+
+    if (!isEqualPassword) {
+      throw new InvalidCredentialsError({
+        status: HttpCode.UNAUTHORIZED,
+        message: ExceptionMessage.INVALID_CREDENTIALS,
+      });
+    }
+
+    return this.login(user.id);
   }
 }
 

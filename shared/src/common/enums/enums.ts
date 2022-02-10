@@ -5,5 +5,7 @@ export { HttpCode, HttpHeader, HttpMethod } from './http/http';
 export {
   MasterValidationMessage,
   MasterSignUpValidationRule,
+  GroupValidationMessage,
+  GroupValidationRule,
 } from './validation/validation';
 export { Permission } from './permissions/permissions';

@@ -20,9 +20,9 @@ services:
 
   bws_backend:
     container_name: bws_backend
+    image: docker.pkg.github.com/binarystudioacademy/bsa-winter-2021-2022-bws/bws-backend-development:latest
     depends_on:
       - bws_postgres
-    image: docker.pkg.github.com/binarystudioacademy/bsa-winter-2021-2022-bws/bws-backend-development:latest
     restart: on-failure
     command:
       - /bin/sh
@@ -47,6 +47,8 @@ services:
   bws_frontend:
     container_name: bws_frontend
     image: docker.pkg.github.com/binarystudioacademy/bsa-winter-2021-2022-bws/bws-frontend-development:latest
+    depends_on:
+      - bws_backend
     restart: on-failure
     ports:
       - 3000:80
@@ -56,6 +58,8 @@ services:
 
   bws_frontend_auto_ssl:
     image: valian/docker-nginx-auto-ssl
+    depends_on:
+      - bws_frontend
     restart: on-failure
     ports:
       - 80:80

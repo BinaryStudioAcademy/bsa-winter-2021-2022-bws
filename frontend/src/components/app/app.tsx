@@ -14,7 +14,7 @@ const App: FC = () => {
         <Route
           path={AppRoute.ROOT}
           element={
-            <PrivateRoute>
+            <PrivateRoute redirectTo={AppRoute.ROOT}>
               <Dashboard />
             </PrivateRoute>
           }
