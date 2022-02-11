@@ -17,7 +17,7 @@ const PrivateRoute: React.FC<Props> = ({
   const hasUser = Boolean(user);
 
   if (!hasUser) {
-    return <Navigate to={redirectTo} />;
+    return <Navigate to={redirectTo} replace />;
   }
 
   return <>{children}</>;

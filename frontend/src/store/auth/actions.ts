@@ -8,12 +8,13 @@ import {
 import { ActionType } from './common';
 
 const signIn = createAsyncThunk<
-  Promise<MasterDto>,
+  MasterDto,
   MasterSignInRequestDto,
   AsyncThunkConfig
 >(ActionType.SIGN_IN, async (registerPayload, { extra }) => {
   const { authApi } = extra;
-  return authApi.signIn(registerPayload);
+  const user: MasterDto = await authApi.signIn(registerPayload);
+  return user;
 });
 const signUp = createAsyncThunk<
   MasterDto,
