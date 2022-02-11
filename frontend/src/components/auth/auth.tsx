@@ -9,7 +9,7 @@ import { useLocation, useAppDispatch, useAppSelector } from 'hooks/hooks';
 import { SignInForm, SignUpForm } from './components/components';
 import styles from './auth.module.scss';
 import logo from 'assets/img/logo.svg';
-import { useNavigate, Navigate } from 'components/common/common';
+import { Navigate } from 'components/common/common';
 
 const Auth: FC = () => {
   const { user } = useAppSelector(({ auth }) => ({
@@ -22,16 +22,13 @@ const Auth: FC = () => {
   }
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const handleSignInSubmit = (payload: MasterSignInRequestDto): void => {
     dispatch(authActions.signIn(payload));
-    navigate(AppRoute.ROOT, { replace: true });
   };
 
   const handleSignUpSubmit = (payload: MasterSignUpRequestDto): void => {
     dispatch(authActions.signUp(payload));
-    navigate(AppRoute.ROOT, { replace: true });
   };
 
   const getScreen = (screen: string): React.ReactElement | null => {
