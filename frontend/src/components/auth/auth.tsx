@@ -5,13 +5,21 @@ import {
 } from 'common/types/types';
 import { auth as authActions } from 'store/actions';
 import { AppRoute } from 'common/enums/enums';
-import { useLocation, useAppDispatch } from 'hooks/hooks';
+import { useLocation, useAppDispatch, useAppSelector } from 'hooks/hooks';
 import { SignInForm, SignUpForm } from './components/components';
 import styles from './auth.module.scss';
 import logo from 'assets/img/logo.svg';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'components/common/common';
 
 const Auth: FC = () => {
+  const { user } = useAppSelector(({ auth }) => ({
+    user: auth.user,
+  }));
+
+  const hasUser = Boolean(user);
+  if (hasUser) {
+    return <Navigate to={AppRoute.ROOT} />;
+  }
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

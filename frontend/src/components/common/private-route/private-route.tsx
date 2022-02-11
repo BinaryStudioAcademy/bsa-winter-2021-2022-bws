@@ -2,7 +2,7 @@ import { FC } from 'react';
 import { RouteProps } from 'react-router-dom';
 import { AppRoute } from 'common/enums/enums';
 import { useAppSelector } from 'hooks/hooks';
-import { Navigate } from 'react-router-dom';
+import { Navigate } from 'components/common/common';
 
 type Props = RouteProps & {
   redirectTo?: AppRoute;
