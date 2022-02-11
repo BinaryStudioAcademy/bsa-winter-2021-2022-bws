@@ -41,7 +41,7 @@ const ENV = {
     DIALECT: DB_DIALECT,
   },
   API: {
-    V1_PREFIX: '/api/v1/',
+    V1_PREFIX: '/api/v1',
   },
 };
 

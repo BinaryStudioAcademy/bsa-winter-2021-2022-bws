@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import { masterSignUp as masterSignUpValidationSchema } from 'validation-schemas/validation-schemas';
 import { AppRoute, ButtonType, InputType } from 'common/enums/enums';
 import { useAppForm } from 'hooks/hooks';
@@ -11,7 +12,7 @@ type Props = {
   onSubmit: (payload: MasterSignUpRequestDto) => void;
 };
 
-const SignUpForm: React.FC<Props> = ({ onSubmit }) => {
+const SignUpForm: FC<Props> = ({ onSubmit }) => {
   const { control, errors, handleSubmit } = useAppForm<MasterSignUpRequestDto>({
     defaultValues: DEFAULT_REGISTER_PAYLOAD,
     validationSchema: masterSignUpValidationSchema,
@@ -50,7 +51,7 @@ const SignUpForm: React.FC<Props> = ({ onSubmit }) => {
             errors={errors}
           />
         </div>
-        <Button type={ButtonType.SUBMIT} label="Sign up" />
+        <Button type={ButtonType.SUBMIT} label="Sign Up" />
       </form>
     </>
   );

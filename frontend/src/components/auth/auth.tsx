@@ -7,7 +7,6 @@ import { auth as authActions } from 'store/actions';
 import { AppRoute } from 'common/enums/enums';
 import { useLocation, useAppDispatch } from 'hooks/hooks';
 import { SignInForm, SignUpForm } from './components/components';
-//import { extraArgument } from 'store/store';
 import styles from './auth.module.scss';
 import logo from 'assets/img/logo.svg';
 import { useNavigate } from 'react-router-dom';

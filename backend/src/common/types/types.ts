@@ -5,4 +5,9 @@ export {
   type MasterSignInResponseDto,
   type MasterDto,
 } from './master/master';
-export { type TenantResponseDto } from './tenant/tenant';
+export {
+  type TenantRequestDto,
+  type TenantResponseDto,
+  type TenantDto,
+} from './tenant/tenant';
+export { type TokenPayload } from './token/token';

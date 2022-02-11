@@ -1,4 +1,4 @@
-import { TenantResponseDto } from '~/common/types/types';
+import { TenantResponseDto, TenantDto } from '~/common/types/types';
 import { tenant as tenantRep } from '~/data/repositories/repositories';
 import { Tenant as TenantEntity } from './tenant.entity';
 
@@ -13,7 +13,18 @@ class Tenant {
     this.#tenantRepository = tenantRepository;
   }
 
-  async create(name: string): Promise<TenantResponseDto> {
+  public async getTenantById(id: string): Promise<TenantResponseDto | null> {
+    const tenant = await this.#tenantRepository.getById(id);
+    if (!tenant) {
+      return null;
+    }
+
+    return {
+      name: tenant.name,
+    };
+  }
+
+  async create(name: string): Promise<TenantDto> {
     const tenant = TenantEntity.createNew({ name });
     return await this.#tenantRepository.create(tenant);
   }

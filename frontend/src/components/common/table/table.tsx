@@ -1,4 +1,4 @@
-import React from 'react';
+import { FC } from 'react';
 import { useTable, Column } from 'react-table';
 
 import styles from './table.module.scss';
@@ -9,7 +9,7 @@ type Props = {
   title: string;
 };
 
-const Table: React.FC<Props> = ({ columns, data, title }) => {
+const Table: FC<Props> = ({ columns, data, title }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns: columns as Column<Record<string, string>>[],

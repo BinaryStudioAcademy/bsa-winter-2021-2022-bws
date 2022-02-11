@@ -1,3 +1,4 @@
+import { FC } from 'react';
 import {
   FormControl,
   FormControlErrors,
@@ -6,6 +7,8 @@ import {
 import { useFormControl } from 'hooks/hooks';
 import { InputType } from 'common/enums/enums';
 import { ErrorMessage } from 'components/common/common';
+import { getValidClasses } from 'helpers/helpers';
+import styles from './input.module.scss';
 
 type Props = {
   label: string;
@@ -16,7 +19,7 @@ type Props = {
   placeholder?: string;
 };
 
-const Input: React.FC<Props> = ({
+const Input: FC<Props> = ({
   label,
   name,
   control,
@@ -27,10 +30,18 @@ const Input: React.FC<Props> = ({
   const { field } = useFormControl({ name, control });
 
   return (
-    <label>
-      <span>{label}</span>
-      <input {...field} type={type} placeholder={placeholder} />
-      <span>
+    <label className={styles.inputLabel}>
+      <span className={styles.span}>{label}</span>
+      <input
+        {...field}
+        type={type}
+        placeholder={placeholder}
+        className={getValidClasses(
+          styles.input,
+          errors[name] && styles.inputError,
+        )}
+      />
+      <span className={styles.error}>
         <ErrorMessage errors={errors} name={name} />
       </span>
     </label>

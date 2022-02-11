@@ -5,9 +5,10 @@ import {
   HttpMethod,
 } from 'common/enums/enums';
 import {
+  MasterSignUpResponseDto,
+  MasterSignInResponseDto,
   MasterSignUpRequestDto,
   MasterSignInRequestDto,
-  MasterDto,
 } from 'common/types/types';
 import { joinItems } from 'helpers/helpers';
 import { Http } from 'services/http/http.service';
@@ -26,7 +27,9 @@ class AuthApi {
     this.#apiPrefix = apiPrefix;
   }
 
-  public signUp(payload: MasterSignUpRequestDto): Promise<MasterDto> {
+  public signUp(
+    payload: MasterSignUpRequestDto,
+  ): Promise<MasterSignUpResponseDto> {
     return this.#http.load(
       joinItems(this.#apiPrefix, ApiPath.MASTERS, MastersApiPath.SIGN_UP),
       {
@@ -36,13 +39,26 @@ class AuthApi {
       },
     );
   }
-  public signIn(payload: MasterSignInRequestDto): Promise<MasterDto> {
+
+  public signIn(
+    payload: MasterSignInRequestDto,
+  ): Promise<MasterSignInResponseDto> {
     return this.#http.load(
       joinItems(this.#apiPrefix, ApiPath.MASTERS, MastersApiPath.SIGN_IN),
       {
         method: HttpMethod.POST,
         contentType: ContentType.JSON,
         payload: JSON.stringify(payload),
+      },
+    );
+  }
+
+  public getCurrentUser(): Promise<MasterSignUpResponseDto> {
+    return this.#http.load(
+      joinItems(this.#apiPrefix, ApiPath.MASTERS, MastersApiPath.USER),
+      {
+        method: HttpMethod.GET,
+        contentType: ContentType.JSON,
       },
     );
   }

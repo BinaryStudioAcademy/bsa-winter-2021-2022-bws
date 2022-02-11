@@ -6,9 +6,9 @@
   align-items: center;
   background: (
     url("/assets/img/decorate.svg") 0 0 no-repeat,
-    url("/assets/img/network.svg") 1685px 544px no-repeat,
-    #2a2a2a
+    var(--color-background)
   );
+  background-size: cover;
   backdrop-filter: blur(2px);
 }
 
@@ -19,7 +19,7 @@
   max-width: 470px;
   padding: 120px 100px;
   font-style: normal;
-  background: #393939;
+  background: var(--color-boltgun);
   border-radius: 20px;
 }
 

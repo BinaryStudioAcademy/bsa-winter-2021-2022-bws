@@ -1,6 +1,6 @@
-type TenantResponseDto = {
+type TenantDto = {
   id: string;
   name: string;
 };
 
-export { type TenantResponseDto };
+export { type TenantDto };

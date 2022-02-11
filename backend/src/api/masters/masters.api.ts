@@ -40,6 +40,17 @@ const initMastersApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
       return rep.send(user).status(HttpCode.CREATED);
     },
   });
+  fastify.route({
+    method: HttpMethod.GET,
+    url: MastersApiPath.USER,
+    async handler(req, rep) {
+      const [, token] = req.headers?.authorization?.split(' ') ?? [];
+
+      return rep
+        .send(await masterService.getCurrentUser(token))
+        .status(HttpCode.OK);
+    },
+  });
 
   fastify.route({
     method: HttpMethod.POST,
