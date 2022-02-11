@@ -1,6 +1,6 @@
 export { Routes, Route } from 'react-router-dom';
 export { ErrorMessage } from '@hookform/error-message';
-export { Navigate, useNavigate } from 'react-router-dom';
+export { Navigate } from 'react-router-dom';
 export { Button } from './button/button';
 export { Checkbox } from './checkbox/checkbox';
 export { Select } from './select/select';

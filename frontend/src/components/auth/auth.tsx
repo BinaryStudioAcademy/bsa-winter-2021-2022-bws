@@ -17,9 +17,11 @@ const Auth: FC = () => {
   }));
 
   const hasUser = Boolean(user);
+
   if (hasUser) {
     return <Navigate to={AppRoute.ROOT} />;
   }
+
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
 
