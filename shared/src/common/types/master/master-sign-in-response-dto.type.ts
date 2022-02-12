@@ -1,6 +1,8 @@
-import { MasterDto } from './master-dto.type';
-type MasterSignInResponseDto = {
-  user: MasterDto;
+import { EAMMasterByIdResponseDto } from './master-by-id-response-dto.type';
+
+type EAMMasterSignInResponseDto = {
+  user: EAMMasterByIdResponseDto;
   token: string;
 };
-export { type MasterSignInResponseDto };
+
+export { type EAMMasterSignInResponseDto };

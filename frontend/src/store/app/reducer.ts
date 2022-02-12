@@ -1,11 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { DataStatus } from 'common/enums/enums';
 import { getTenant } from './actions';
-import { TenantResponseDto } from 'common/types/types';
+import { EAMTenantByIdResponseDto } from 'common/types/types';
 
 type State = {
   dataStatus: DataStatus;
-  tenant: TenantResponseDto | null;
+  tenant: EAMTenantByIdResponseDto | null;
 };
 
 const initialState: State = {

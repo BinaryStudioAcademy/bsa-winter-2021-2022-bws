@@ -1,7 +1,7 @@
 import { FastifyPluginAsync, FastifyRequest } from 'fastify';
+import { EAMTenantByIdRequestParamsDto } from '~/common/types/types';
 import { tenant as tenantServ } from '~/services/services';
 import { HttpCode, HttpMethod, TenantsApiPath } from '~/common/enums/enums';
-import { TenantRequestDto } from '~/common/types/types';
 
 type Options = {
   services: {
@@ -15,7 +15,10 @@ const initTenantsApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
   fastify.route({
     method: HttpMethod.GET,
     url: TenantsApiPath.$ID,
-    async handler(req: FastifyRequest<{ Params: TenantRequestDto }>, rep) {
+    async handler(
+      req: FastifyRequest<{ Params: EAMTenantByIdRequestParamsDto }>,
+      rep,
+    ) {
       const tenant = await tenantService.getTenantById(req.params.id);
       return rep.send(tenant).status(HttpCode.OK);
     },

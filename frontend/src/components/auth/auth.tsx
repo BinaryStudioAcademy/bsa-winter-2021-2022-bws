@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import {
-  MasterSignUpRequestDto,
-  MasterSignInRequestDto,
+  EAMMasterSignUpRequestDto,
+  EAMMasterSignInRequestDto,
 } from 'common/types/types';
 import { auth as authActions } from 'store/actions';
 import { AppRoute } from 'common/enums/enums';
@@ -25,11 +25,11 @@ const Auth: FC = () => {
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
 
-  const handleSignInSubmit = (payload: MasterSignInRequestDto): void => {
+  const handleSignInSubmit = (payload: EAMMasterSignInRequestDto): void => {
     dispatch(authActions.signIn(payload));
   };
 
-  const handleSignUpSubmit = (payload: MasterSignUpRequestDto): void => {
+  const handleSignUpSubmit = (payload: EAMMasterSignUpRequestDto): void => {
     dispatch(authActions.signUp(payload));
   };
 

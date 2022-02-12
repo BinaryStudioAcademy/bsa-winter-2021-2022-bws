@@ -2,13 +2,13 @@ import { FastifyPluginAsync, FastifyRequest } from 'fastify';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 import { master as masterServ } from '~/services/services';
 import {
-  masterSignUp as masterSignUpValidationSchema,
-  masterSignIn as masterSignInValidationSchema,
+  eamMasterSignUp as masterSignUpValidationSchema,
+  eamMasterSignIn as masterSignInValidationSchema,
 } from '~/validation-schemas/validation-schemas';
 import { HttpCode, HttpMethod, MastersApiPath } from '~/common/enums/enums';
 import {
-  MasterSignUpRequestDto,
-  MasterSignInRequestDto,
+  EAMMasterSignUpRequestDto,
+  EAMMasterSignInRequestDto,
 } from '~/common/types/types';
 
 type Options = {
@@ -30,12 +30,15 @@ const initMastersApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
       schema,
     }: FastifyRouteSchemaDef<typeof masterSignUpValidationSchema>) {
       return (
-        data: MasterSignUpRequestDto,
+        data: EAMMasterSignUpRequestDto,
       ): ReturnType<typeof masterSignUpValidationSchema['validate']> => {
         return schema.validate(data);
       };
     },
-    async handler(req: FastifyRequest<{ Body: MasterSignUpRequestDto }>, rep) {
+    async handler(
+      req: FastifyRequest<{ Body: EAMMasterSignUpRequestDto }>,
+      rep,
+    ) {
       const user = await masterService.create(req.body);
       return rep.send(user).status(HttpCode.CREATED);
     },
@@ -62,12 +65,15 @@ const initMastersApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
       schema,
     }: FastifyRouteSchemaDef<typeof masterSignInValidationSchema>) {
       return (
-        data: MasterSignInRequestDto,
+        data: EAMMasterSignInRequestDto,
       ): ReturnType<typeof masterSignInValidationSchema['validate']> => {
         return schema.validate(data);
       };
     },
-    async handler(req: FastifyRequest<{ Body: MasterSignInRequestDto }>, rep) {
+    async handler(
+      req: FastifyRequest<{ Body: EAMMasterSignInRequestDto }>,
+      rep,
+    ) {
       const signInUserPayload = await masterService.verifyLoginCredentials(
         req.body,
       );

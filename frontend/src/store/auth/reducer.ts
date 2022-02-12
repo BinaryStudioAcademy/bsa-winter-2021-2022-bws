@@ -1,11 +1,11 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { DataStatus } from 'common/enums/enums';
 import { signUp, loadCurrentUser, signIn } from './actions';
-import { MasterDto } from 'common/types/types';
+import { EAMMasterByIdResponseDto } from 'common/types/types';
 
 type State = {
   dataStatus: DataStatus;
-  user: MasterDto | null;
+  user: EAMMasterByIdResponseDto | null;
 };
 
 const initialState: State = {

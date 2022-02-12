@@ -1,22 +1,23 @@
 import { FC } from 'react';
-import { masterSignUp as masterSignUpValidationSchema } from 'validation-schemas/validation-schemas';
+import { eamMasterSignUp as masterSignUpValidationSchema } from 'validation-schemas/validation-schemas';
 import { AppRoute, ButtonType, InputType } from 'common/enums/enums';
 import { useAppForm } from 'hooks/hooks';
 import { getNameOf } from 'helpers/helpers';
-import { MasterSignUpRequestDto } from 'common/types/types';
+import { EAMMasterSignUpRequestDto } from 'common/types/types';
 import { Button, Input, Link, PasswordInput } from 'components/common/common';
 import { DEFAULT_REGISTER_PAYLOAD } from './common/constants';
 import styles from './sign-up-form.module.scss';
 
 type Props = {
-  onSubmit: (payload: MasterSignUpRequestDto) => void;
+  onSubmit: (payload: EAMMasterSignUpRequestDto) => void;
 };
 
 const SignUpForm: FC<Props> = ({ onSubmit }) => {
-  const { control, errors, handleSubmit } = useAppForm<MasterSignUpRequestDto>({
-    defaultValues: DEFAULT_REGISTER_PAYLOAD,
-    validationSchema: masterSignUpValidationSchema,
-  });
+  const { control, errors, handleSubmit } =
+    useAppForm<EAMMasterSignUpRequestDto>({
+      defaultValues: DEFAULT_REGISTER_PAYLOAD,
+      validationSchema: masterSignUpValidationSchema,
+    });
 
   return (
     <>
@@ -31,7 +32,7 @@ const SignUpForm: FC<Props> = ({ onSubmit }) => {
             type={InputType.TEXT}
             label="Email"
             placeholder="Enter your email"
-            name={getNameOf<MasterSignUpRequestDto>('email')}
+            name={getNameOf<EAMMasterSignUpRequestDto>('email')}
             control={control}
             errors={errors}
           />
@@ -39,14 +40,14 @@ const SignUpForm: FC<Props> = ({ onSubmit }) => {
             type={InputType.TEXT}
             label="Name"
             placeholder="Enter your name"
-            name={getNameOf<MasterSignUpRequestDto>('name')}
+            name={getNameOf<EAMMasterSignUpRequestDto>('name')}
             control={control}
             errors={errors}
           />
           <PasswordInput
             label="Password"
             placeholder="Enter your password"
-            name={getNameOf<MasterSignUpRequestDto>('password')}
+            name={getNameOf<EAMMasterSignUpRequestDto>('password')}
             control={control}
             errors={errors}
           />

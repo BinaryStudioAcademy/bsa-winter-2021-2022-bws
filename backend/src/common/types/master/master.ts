@@ -1,7 +1,7 @@
 export {
-  type MasterSignUpRequestDto,
-  type MasterSignUpResponseDto,
-  type MasterSignInRequestDto,
-  type MasterSignInResponseDto,
-  type MasterDto,
+  type EAMMasterSignUpRequestDto,
+  type EAMMasterSignUpResponseDto,
+  type EAMMasterSignInRequestDto,
+  type EAMMasterSignInResponseDto,
+  type EAMMasterByIdResponseDto,
 } from 'bws-shared/common/types/types';

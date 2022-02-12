@@ -1,5 +1,6 @@
 export {
-  type TenantRequestDto,
-  type TenantResponseDto,
-  type TenantDto,
+  type EAMTenantCreateRequestDto,
+  type EAMTenantCreateResponseDto,
+  type EAMTenantByIdRequestParamsDto,
+  type EAMTenantByIdResponseDto,
 } from 'bws-shared/common/types/types';

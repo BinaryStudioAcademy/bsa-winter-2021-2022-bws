@@ -1,13 +1,14 @@
 export {
-  type MasterSignUpRequestDto,
-  type MasterSignUpResponseDto,
-  type MasterSignInRequestDto,
-  type MasterSignInResponseDto,
-  type MasterDto,
+  type EAMMasterSignUpRequestDto,
+  type EAMMasterSignUpResponseDto,
+  type EAMMasterSignInRequestDto,
+  type EAMMasterSignInResponseDto,
+  type EAMMasterByIdResponseDto,
 } from './master/master';
 export {
-  type TenantRequestDto,
-  type TenantResponseDto,
-  type TenantDto,
+  type EAMTenantCreateRequestDto,
+  type EAMTenantCreateResponseDto,
+  type EAMTenantByIdRequestParamsDto,
+  type EAMTenantByIdResponseDto,
 } from './tenant/tenant';
 export { type TokenPayload } from './token/token';

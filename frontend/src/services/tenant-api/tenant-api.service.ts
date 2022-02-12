@@ -1,5 +1,8 @@
 import { ApiPath, ContentType, HttpMethod } from 'common/enums/enums';
-import { TenantRequestDto, TenantResponseDto } from 'common/types/types';
+import {
+  EAMTenantByIdRequestParamsDto,
+  EAMTenantByIdResponseDto,
+} from 'common/types/types';
 import { joinItems } from 'helpers/helpers';
 import { Http } from 'services/http/http.service';
 
@@ -17,9 +20,11 @@ class TenantApi {
     this.#apiPrefix = apiPrefix;
   }
 
-  public getTenant(payload: TenantRequestDto): Promise<TenantResponseDto> {
+  public getTenant(
+    params: EAMTenantByIdRequestParamsDto,
+  ): Promise<EAMTenantByIdResponseDto> {
     return this.#http.load(
-      joinItems(this.#apiPrefix, ApiPath.TENANTS, '/', payload.id),
+      joinItems(this.#apiPrefix, ApiPath.TENANTS, '/', params.id),
       {
         method: HttpMethod.GET,
         contentType: ContentType.JSON,

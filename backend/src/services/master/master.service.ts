@@ -1,10 +1,10 @@
 import {
-  MasterSignUpRequestDto,
-  MasterSignUpResponseDto,
-  MasterSignInRequestDto,
-  MasterSignInResponseDto,
+  EAMMasterSignUpRequestDto,
+  EAMMasterSignUpResponseDto,
+  EAMMasterSignInRequestDto,
+  EAMMasterSignInResponseDto,
   TokenPayload,
-  MasterDto,
+  EAMMasterByIdResponseDto,
 } from '~/common/types/types';
 import { master as masterRep } from '~/data/repositories/repositories';
 import { Master as MasterEntity } from './master.entity';
@@ -43,7 +43,9 @@ class Master {
     this.#tenantService = tenantService;
   }
 
-  public async getMasterById(id: string): Promise<MasterDto | null> {
+  public async getMasterById(
+    id: string,
+  ): Promise<EAMMasterByIdResponseDto | null> {
     const master = await this.#masterRepository.getById(id);
     if (!master) {
       return null;
@@ -56,7 +58,7 @@ class Master {
     };
   }
 
-  public async login(id: string): Promise<MasterSignUpResponseDto> {
+  public async login(id: string): Promise<EAMMasterSignUpResponseDto> {
     const { email, tenantId } = (await this.#masterRepository.getById(
       id,
     )) as MasterEntity;
@@ -72,7 +74,9 @@ class Master {
     };
   }
 
-  public async getCurrentUser(token: string): Promise<MasterSignUpResponseDto> {
+  public async getCurrentUser(
+    token: string,
+  ): Promise<EAMMasterSignUpResponseDto> {
     const { userId } = this.#tokenService.decode<TokenPayload>(token);
     return this.login(userId);
   }
@@ -81,7 +85,7 @@ class Master {
     email,
     name,
     password,
-  }: MasterSignUpRequestDto): Promise<MasterSignUpResponseDto> {
+  }: EAMMasterSignUpRequestDto): Promise<EAMMasterSignUpResponseDto> {
     const masterByEmail = await this.#masterRepository.getByEmail(email);
     if (masterByEmail) {
       throw new InvalidCredentialsError();
@@ -92,7 +96,7 @@ class Master {
       password,
       passwordSalt,
     );
-    const tenant = await this.#tenantService.create(getRandomName());
+    const tenant = await this.#tenantService.create({ name: getRandomName() });
 
     const master = MasterEntity.createNew({
       name,
@@ -108,8 +112,8 @@ class Master {
   }
 
   public async verifyLoginCredentials(
-    verifyMasterDto: MasterSignInRequestDto,
-  ): Promise<MasterSignInResponseDto> {
+    verifyMasterDto: EAMMasterSignInRequestDto,
+  ): Promise<EAMMasterSignInResponseDto> {
     const user = await this.#masterRepository.getByEmail(verifyMasterDto.email);
 
     if (!user) {

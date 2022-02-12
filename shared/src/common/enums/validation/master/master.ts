@@ -1,3 +1,2 @@
-export { MasterValidationMessage } from './master-validation-message';
-export { MasterSignUpValidationRule } from './master-sign-up-validation-rule.enum';
-export { MasterSignInValidationRule } from './master-sign-in-validation-rule.enum';
+export { EAMMasterValidationMessage } from './master-validation-message';
+export { EAMMasterValidationRule } from './master-validation-rule.enum';

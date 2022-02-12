@@ -1,5 +1,6 @@
-type MasterSignInRequestDto = {
+type EAMMasterSignInRequestDto = {
   email: string;
   password: string;
 };
-export { type MasterSignInRequestDto };
+
+export { type EAMMasterSignInRequestDto };

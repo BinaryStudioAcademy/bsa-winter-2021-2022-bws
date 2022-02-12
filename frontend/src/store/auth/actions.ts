@@ -1,16 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
-  MasterSignUpRequestDto,
-  MasterSignInRequestDto,
-  MasterDto,
+  EAMMasterSignUpRequestDto,
+  EAMMasterSignInRequestDto,
+  EAMMasterByIdResponseDto,
   AsyncThunkConfig,
 } from 'common/types/types';
 import { ActionType } from './common';
 import { StorageKey } from 'common/enums/enums';
 
 const signUp = createAsyncThunk<
-  MasterDto,
-  MasterSignUpRequestDto,
+  EAMMasterByIdResponseDto,
+  EAMMasterSignUpRequestDto,
   AsyncThunkConfig
 >(ActionType.SIGN_UP, async (registerPayload, { extra }) => {
   const { authApi, storage } = extra;
@@ -20,8 +20,8 @@ const signUp = createAsyncThunk<
 });
 
 const signIn = createAsyncThunk<
-  MasterDto,
-  MasterSignInRequestDto,
+  EAMMasterByIdResponseDto,
+  EAMMasterSignInRequestDto,
   AsyncThunkConfig
 >(ActionType.SIGN_IN, async (registerPayload, { extra }) => {
   const { authApi, storage } = extra;
@@ -30,13 +30,14 @@ const signIn = createAsyncThunk<
   return user;
 });
 
-const loadCurrentUser = createAsyncThunk<MasterDto, void, AsyncThunkConfig>(
-  ActionType.LOAD_CURRENT_USER,
-  async (payload, { extra }) => {
-    const { authApi } = extra;
-    const { user } = await authApi.getCurrentUser();
-    return user;
-  },
-);
+const loadCurrentUser = createAsyncThunk<
+  EAMMasterByIdResponseDto,
+  void,
+  AsyncThunkConfig
+>(ActionType.LOAD_CURRENT_USER, async (payload, { extra }) => {
+  const { authApi } = extra;
+  const { user } = await authApi.getCurrentUser();
+  return user;
+});
 
 export { signUp, signIn, loadCurrentUser };

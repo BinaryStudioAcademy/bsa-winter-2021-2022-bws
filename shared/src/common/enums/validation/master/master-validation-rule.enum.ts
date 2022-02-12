@@ -1,4 +1,4 @@
-const MasterSignUpValidationRule = {
+const EAMMasterValidationRule = {
   EMAIL_LOCAL_PART_FIRST_CHARTER: /^[a-zA-Z0-9].+$/,
   EMAIL_LOCAL_PART_LAST_CHARTER: /[a-zA-Z0-9]@/,
   EMAIL_LENGTH: /^[\S]{1,35}@[\S]{1,35}$/,
@@ -12,4 +12,4 @@ const MasterSignUpValidationRule = {
   PASSWORD_PATTERN: /^\S+$/,
 } as const;
 
-export { MasterSignUpValidationRule };
+export { EAMMasterValidationRule };

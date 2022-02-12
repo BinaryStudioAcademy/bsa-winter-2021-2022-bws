@@ -1,14 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import {
-  TenantRequestDto,
-  TenantResponseDto,
+  EAMTenantByIdRequestParamsDto,
+  EAMTenantByIdResponseDto,
   AsyncThunkConfig,
 } from 'common/types/types';
 import { ActionType } from './common';
 
 const getTenant = createAsyncThunk<
-  TenantResponseDto,
-  TenantRequestDto,
+  EAMTenantByIdResponseDto,
+  EAMTenantByIdRequestParamsDto,
   AsyncThunkConfig
 >(ActionType.GET_TENANT, async (registerPayload, { extra }) => {
   const { tenantApi } = extra;

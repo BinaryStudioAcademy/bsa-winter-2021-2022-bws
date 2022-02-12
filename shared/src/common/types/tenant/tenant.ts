@@ -1,3 +1,4 @@
-export { type TenantRequestDto } from './tenant-request-dto.type';
-export { type TenantResponseDto } from './tenant-response-dto.type';
-export { type TenantDto } from './tenant-dto.type';
+export { type EAMTenantCreateRequestDto } from './tenant-create-request-dto.type';
+export { type EAMTenantCreateResponseDto } from './tenant-create-response-dto.type';
+export { type EAMTenantByIdRequestParamsDto } from './tenant-by-id-request-params-dto.type';
+export { type EAMTenantByIdResponseDto } from './tenant-by-id-response-dto.type';
