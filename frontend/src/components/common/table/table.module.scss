@@ -37,7 +37,7 @@
 }
 
 .tableHeaderRow {
-  background-color: #393939;
+  background-color: var(--color-boltgun);
   border-bottom: 2px solid #282828;
 }
 
@@ -46,15 +46,15 @@
 }
 
 .tableRow {
-  background-color: #393939;
+  background-color: var(--color-boltgun);
 }
 
 .tableRow:hover {
-  background-color: #2a2a2a82;
+  background-color: var(--color-background);
   cursor: pointer;
   transition-duration: 500ms;
 }
 
 .tableCell {
-  color: #ffffff;
+  color: var(--color-white);
 }

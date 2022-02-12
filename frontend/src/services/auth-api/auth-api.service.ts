@@ -5,9 +5,10 @@ import {
   HttpMethod,
 } from 'common/enums/enums';
 import {
-  MasterSignUpRequestDto,
-  MasterSignInRequestDto,
-  MasterDto,
+  EAMMasterSignUpResponseDto,
+  EAMMasterSignInResponseDto,
+  EAMMasterSignUpRequestDto,
+  EAMMasterSignInRequestDto,
 } from 'common/types/types';
 import { joinItems } from 'helpers/helpers';
 import { Http } from 'services/http/http.service';
@@ -26,7 +27,9 @@ class AuthApi {
     this.#apiPrefix = apiPrefix;
   }
 
-  public signUp(payload: MasterSignUpRequestDto): Promise<MasterDto> {
+  public signUp(
+    payload: EAMMasterSignUpRequestDto,
+  ): Promise<EAMMasterSignUpResponseDto> {
     return this.#http.load(
       joinItems(this.#apiPrefix, ApiPath.MASTERS, MastersApiPath.SIGN_UP),
       {
@@ -36,13 +39,26 @@ class AuthApi {
       },
     );
   }
-  public signIn(payload: MasterSignInRequestDto): Promise<MasterDto> {
+
+  public signIn(
+    payload: EAMMasterSignInRequestDto,
+  ): Promise<EAMMasterSignInResponseDto> {
     return this.#http.load(
       joinItems(this.#apiPrefix, ApiPath.MASTERS, MastersApiPath.SIGN_IN),
       {
         method: HttpMethod.POST,
         contentType: ContentType.JSON,
         payload: JSON.stringify(payload),
+      },
+    );
+  }
+
+  public getCurrentUser(): Promise<EAMMasterSignUpResponseDto> {
+    return this.#http.load(
+      joinItems(this.#apiPrefix, ApiPath.MASTERS, MastersApiPath.USER),
+      {
+        method: HttpMethod.GET,
+        contentType: ContentType.JSON,
       },
     );
   }

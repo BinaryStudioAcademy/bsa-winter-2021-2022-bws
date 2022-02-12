@@ -1,2 +1,2 @@
-export { masterSignUp, masterSignIn } from './master/master';
-export { group } from './group/group';
+export { eamGroup } from './group/group';
+export { eamMasterSignUp, eamMasterSignIn } from './eam-master/eam-master';

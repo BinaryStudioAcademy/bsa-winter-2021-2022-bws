@@ -1,0 +1,35 @@
+name: build
+
+on:
+  pull_request:
+    branches:
+      - development
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build-backend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Build image
+      uses: whoan/docker-build-with-cache-action@v5
+      with:
+        image_name: bws-backend-development-build
+        push_image_and_stages: false
+        context: ./
+        dockerfile: ./backend/Dockerfile.development
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Build image
+      uses: whoan/docker-build-with-cache-action@v5
+      with:
+        image_name: bws-frontend-development-build
+        push_image_and_stages: false
+        context: ./
+        dockerfile: ./frontend/Dockerfile.development
+        build_extra_args: "--build-arg=REACT_APP_API_ORIGIN_URL=/api/v1"

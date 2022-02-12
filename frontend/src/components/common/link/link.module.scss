@@ -1,16 +1,13 @@
-.link {
-  color: #ff9c00;
+.link,
+.link:visited {
+  color: var(--color-orange);
   text-decoration: none;
 }
 
-.link:visited {
-  color: #a0a0a0;
-}
-
 .link:hover {
-  color: #a0a0a0;
+  color: var(--color-text);
 }
 
 .link:active {
-  color: #ff9c00;
+  color: var(--color-orange);
 }

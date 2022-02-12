@@ -1,5 +1,5 @@
 export {
-  MasterValidationMessage,
-  MasterSignUpValidationRule,
-} from './master/master';
-export { GroupValidationMessage, GroupValidationRule } from './group/group';
+  EAMMasterValidationMessage,
+  EAMMasterValidationRule,
+} from './eam-master/eam-master';
+export { EAMGroupValidationMessage } from './eam-group/eam-group';

@@ -12,8 +12,19 @@ export {
 export { type HttpOptions } from './http/http';
 export { type ValidationSchema } from './validation/validation';
 export {
-  type MasterSignUpRequestDto,
-  type MasterSignInRequestDto,
-  type MasterDto,
+  type EAMMasterSignUpResponseDto,
+  type EAMMasterSignInResponseDto,
+  type EAMMasterSignUpRequestDto,
+  type EAMMasterSignInRequestDto,
+  type EAMMasterByIdResponseDto,
 } from './master/master';
-export { type GroupDto } from './group/group';
+export {
+  type EAMGroupResponseDto,
+  type EAMGroupRequestDto,
+} from './group/group';
+export {
+  type EAMTenantCreateRequestDto,
+  type EAMTenantCreateResponseDto,
+  type EAMTenantByIdRequestParamsDto,
+  type EAMTenantByIdResponseDto,
+} from './tenant/tenant';

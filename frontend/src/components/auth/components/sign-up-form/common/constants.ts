@@ -1,6 +1,6 @@
-import { MasterSignUpRequestDto } from 'common/types/types';
+import { EAMMasterSignUpRequestDto } from 'common/types/types';
 
-const DEFAULT_REGISTER_PAYLOAD: MasterSignUpRequestDto = {
+const DEFAULT_REGISTER_PAYLOAD: EAMMasterSignUpRequestDto = {
   email: '',
   name: '',
   password: '',

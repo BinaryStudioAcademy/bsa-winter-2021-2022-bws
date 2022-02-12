@@ -1,1 +1,4 @@
-export { type GroupDto } from 'bws-shared/common/types/types';
+export {
+  type EAMGroupResponseDto,
+  type EAMGroupRequestDto,
+} from 'bws-shared/common/types/types';
