@@ -1,16 +1,16 @@
-import { FC } from 'react';
-import { RouteProps } from 'react-router-dom';
+import { FC, ReactNode } from 'react';
 import { AppRoute } from 'common/enums/enums';
 import { useAppSelector } from 'hooks/hooks';
 import { Navigate } from 'components/common/common';
 
-type Props = RouteProps & {
-  redirectTo?: AppRoute;
+type Props = {
+  redirectTo: AppRoute;
+  component: ReactNode;
 };
 
 const PrivateRoute: FC<Props> = ({
   redirectTo = AppRoute.SIGN_IN,
-  children,
+  component,
 }) => {
   const { user } = useAppSelector(({ auth }) => ({
     user: auth.user,
@@ -22,6 +22,7 @@ const PrivateRoute: FC<Props> = ({
     return <Navigate to={redirectTo} replace />;
   }
 
-  return <>{children}</>;
+  return <>{component}</>;
 };
+
 export { PrivateRoute };

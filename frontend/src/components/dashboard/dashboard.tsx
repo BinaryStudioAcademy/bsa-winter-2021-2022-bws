@@ -1,8 +1,9 @@
 import { FC } from 'react';
-import { Header } from 'components/common/common';
 import { useAppDispatch, useAppSelector, useEffect } from 'hooks/hooks';
 import { app as appActions } from 'store/actions';
 import { DataStatus } from 'common/enums/enums';
+import { ServicesList } from './components/components';
+import styles from './styles.module.scss';
 
 const Dashboard: FC = () => {
   const { user, tenantStatus } = useAppSelector(({ app, auth }) => ({
@@ -19,13 +20,15 @@ const Dashboard: FC = () => {
     dispatch(appActions.getTenant({ id: user.tenantId }));
   }, [user, dispatch]);
 
+  const isLoading = tenantStatus !== DataStatus.FULFILLED;
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div>
-      {tenantStatus === DataStatus.FULFILLED ? (
-        <Header />
-      ) : (
-        <div>Loading...</div>
-      )}
+    <div className={styles.wrapper}>
+      <ServicesList />
     </div>
   );
 };

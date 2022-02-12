@@ -1,5 +1,10 @@
 import { FC } from 'react';
-import { Routes, Route, PrivateRoute, Toaster } from 'components/common/common';
+import {
+  Routes,
+  Route,
+  AuthorizedRoute,
+  Toaster,
+} from 'components/common/common';
 import { useAppDispatch, useEffect } from 'hooks/hooks';
 import { auth as authActions } from 'store/actions';
 import { AppRoute, StorageKey } from 'common/enums/enums';
@@ -24,11 +29,7 @@ const App: FC = () => {
         <Route path={AppRoute.SIGN_UP} element={<Auth />} />
         <Route
           path={AppRoute.ROOT}
-          element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
-          }
+          element={<AuthorizedRoute component={<Dashboard />} />}
         />
       </Routes>
       <Toaster />

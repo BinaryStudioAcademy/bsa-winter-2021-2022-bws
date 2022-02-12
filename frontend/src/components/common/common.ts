@@ -11,3 +11,4 @@ export { PrivateRoute } from './private-route/private-route';
 export { Toaster } from './toaster/toaster';
 export { PasswordInput } from './input-password/input-password';
 export { Header } from './header/header';
+export { AuthorizedRoute } from './authorized-route/authorized-route';

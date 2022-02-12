@@ -10,6 +10,7 @@
 }
 
 .btn:hover {
+  color: var(--color-orange);
   cursor: pointer;
 }
 
@@ -18,5 +19,13 @@
 }
 
 .btnStyleOutlined {
+  background-color: var(--color-boltgun);
+}
+
+.btnStyleOutlined:hover {
+  background-color: var(--color-orange);
+}
+
+.btnStyleFilled:hover {
   background-color: var(--color-boltgun);
 }

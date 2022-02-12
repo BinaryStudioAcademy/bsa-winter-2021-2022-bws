@@ -41,7 +41,7 @@ const PasswordInput: FC<Props> = ({
       />
       <button
         onClick={handleShowToggle}
-        className={styles.eye_icon}
+        className={styles.eyeIcon}
         type={ButtonType.BUTTON}
       >
         <span className="visually-hidden">Toggle password visibility</span>

@@ -1,10 +1,7 @@
-.link {
+.link,
+.link:visited {
   color: var(--color-orange);
   text-decoration: none;
-}
-
-.link:visited {
-  color: var(--color-text);
 }
 
 .link:hover {
