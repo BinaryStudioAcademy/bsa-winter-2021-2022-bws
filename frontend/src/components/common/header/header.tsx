@@ -31,7 +31,7 @@ const Header: FC = () => {
           </button>
           {isVisible && (
             <div className={styles.dropdownContent}>
-              <div className={styles.dropdownItem}>Log Out</div>
+              <button className={styles.dropdownItem}>Log Out</button>
             </div>
           )}
         </div>
