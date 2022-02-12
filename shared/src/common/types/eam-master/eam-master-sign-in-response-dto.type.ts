@@ -1,4 +1,4 @@
-import { EAMMasterByIdResponseDto } from './master-by-id-response-dto.type';
+import { EAMMasterByIdResponseDto } from './eam-master-by-id-response-dto.type';
 
 type EAMMasterSignInResponseDto = {
   user: EAMMasterByIdResponseDto;

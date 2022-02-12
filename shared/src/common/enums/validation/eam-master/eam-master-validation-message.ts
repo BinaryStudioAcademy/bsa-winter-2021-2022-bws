@@ -1,4 +1,4 @@
-import { EAMMasterValidationRule } from './master-validation-rule.enum';
+import { EAMMasterValidationRule } from './eam-master-validation-rule.enum';
 
 const EAMMasterValidationMessage = {
   EMAIL_REQUIRE: 'Email is required',

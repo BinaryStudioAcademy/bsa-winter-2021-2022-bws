@@ -4,7 +4,7 @@ export {
   type EAMMasterSignInRequestDto,
   type EAMMasterSignInResponseDto,
   type EAMMasterByIdResponseDto,
-} from './master/master';
+} from './eam-master/eam-master';
 export {
   type EAMTenantCreateRequestDto,
   type EAMTenantCreateResponseDto,

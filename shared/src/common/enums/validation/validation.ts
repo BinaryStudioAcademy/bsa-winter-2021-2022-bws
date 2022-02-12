@@ -1,4 +1,4 @@
 export {
   EAMMasterValidationMessage,
   EAMMasterValidationRule,
-} from './master/master';
+} from './eam-master/eam-master';
