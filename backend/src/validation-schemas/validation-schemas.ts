@@ -1,1 +1,1 @@
-export { eamMasterSignUp, eamMasterSignIn } from './master/master';
+export { eamMasterSignUp, eamMasterSignIn } from './eam-master/eam-master';
