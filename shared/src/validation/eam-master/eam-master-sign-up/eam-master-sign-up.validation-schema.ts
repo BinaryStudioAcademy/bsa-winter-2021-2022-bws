@@ -21,13 +21,13 @@ const eamMasterSignUp = Joi.object({
     }),
   [getNameOf<EAMMasterSignUpRequestDto>('name')]: Joi.string()
     .trim()
+    .regex(EAMMasterValidationRule.NAME_PATTERN)
     .ruleset.min(EAMMasterValidationRule.NAME_MIN_LENGTH)
     .max(EAMMasterValidationRule.NAME_MAX_LENGTH)
     .rule({ message: EAMMasterValidationMessage.NAME_LENGTH })
     .ruleset.regex(EAMMasterValidationRule.NAME_FIRST_CHARTER)
     .regex(EAMMasterValidationRule.NAME_LAST_CHARTER)
     .rule({ message: EAMMasterValidationMessage.NAME_FIRST_AND_LAST_CHARTER })
-    .regex(EAMMasterValidationRule.NAME_PATTERN)
     .required()
     .messages({
       'string.empty': EAMMasterValidationMessage.NAME_REQUIRE,

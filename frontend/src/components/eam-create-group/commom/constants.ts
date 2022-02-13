@@ -1,10 +1,10 @@
-import { GroupDto } from 'common/types/types';
+import { EAMGroupCreateResponseDto } from 'common/types/types';
 
-const DEFAULT_GROUP_PAYLOAD: GroupDto = {
+const DEFAULT_GROUP_PAYLOAD: EAMGroupCreateResponseDto = {
   id: '',
   name: '',
   createdAt: new Date(),
-  tenant_id: '',
+  tenantId: '',
 };
 
 export { DEFAULT_GROUP_PAYLOAD };

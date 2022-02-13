@@ -6,10 +6,13 @@ export {
   type EAMMasterByIdResponseDto,
 } from './master/master';
 export {
-  type EAMGroupRequestDto,
-  type EAMGroupResponseDto,
+  type EAMWorkerCreateResponseDto,
+  type EAMWorkerCreateRequestDto,
+} from './worker/worker';
+export {
+  type EAMGroupCreateResponseDto,
+  type EAMGroupCreateRequestDto,
 } from './group/group';
-export { type TenantResponseDto } from './tenant/tenant';
 export {
   type EAMTenantCreateRequestDto,
   type EAMTenantCreateResponseDto,

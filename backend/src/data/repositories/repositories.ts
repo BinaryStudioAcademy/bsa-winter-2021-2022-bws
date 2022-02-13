@@ -3,20 +3,27 @@ import { Group } from './group/group.repository';
 import { Tenant } from './tenant/tenant.repository';
 import {
   Master as MasterModel,
-  Group as GroupModel,
   Tenant as TenantModel,
+  Worker as WorkerModel,
+  Group as GroupModel,
+  UsersGroups as UsersGroupsModel,
 } from '~/data/models/models';
 
 const master = new Master({
   MasterModel,
 });
 
-const group = new Group({
-  GroupModel,
-});
-
 const tenant = new Tenant({
   TenantModel,
 });
 
-export { master, group, tenant };
+const worker = new Worker({
+  WorkerModel,
+  UsersGroupsModel,
+});
+
+const group = new Group({
+  GroupModel,
+});
+
+export { master, group, tenant, worker };

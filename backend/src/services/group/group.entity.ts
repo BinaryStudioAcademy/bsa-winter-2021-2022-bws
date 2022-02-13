@@ -4,56 +4,56 @@ class Group {
   public id: string;
   public name: string;
   public createdAt: Date;
-  public tenant_id: string;
+  public tenantId: string;
 
   private constructor({
     id,
     name,
     createdAt,
-    tenant_id,
+    tenantId,
   }: {
     id: string;
     name: string;
     createdAt: Date;
-    tenant_id: string;
+    tenantId: string;
   }) {
     this.id = id;
     this.name = name;
     this.createdAt = createdAt;
-    this.tenant_id = tenant_id;
+    this.tenantId = tenantId;
   }
 
   public static initialize({
     id,
     name,
     createdAt,
-    tenant_id,
+    tenantId,
   }: {
     id: string;
     name: string;
     createdAt: Date;
-    tenant_id: string;
+    tenantId: string;
   }): Group {
     return new Group({
       id,
       name,
       createdAt,
-      tenant_id,
+      tenantId,
     });
   }
 
   public static createNew({
     name,
-    tenant_id,
+    tenantId,
   }: {
     name: string;
-    tenant_id: string;
+    tenantId: string;
   }): Group {
     return new Group({
       id: getRandomId(),
       name,
       createdAt: new Date(),
-      tenant_id,
+      tenantId,
     });
   }
 }

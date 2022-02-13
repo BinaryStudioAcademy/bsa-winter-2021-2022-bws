@@ -1,2 +1,2 @@
-export type { EAMGroupRequestDto } from './eam-group-request-dto.type';
-export type { EAMGroupResponseDto } from './eam-group-response-dto.type';
+export type { EAMGroupCreateResponseDto } from './eam-group-create-response-dto.type';
+export type { EAMGroupCreateRequestDto } from './eam-group-create-request-dto.type';

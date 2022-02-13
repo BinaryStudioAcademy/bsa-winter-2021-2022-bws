@@ -4,18 +4,19 @@
 import { Input, Button } from 'components/common/common';
 import { useAppForm } from 'hooks/hooks';
 import { DEFAULT_GROUP_PAYLOAD } from './commom/constants';
-import { GroupDto } from 'common/types/types';
+import { EAMGroupCreateResponseDto } from 'common/types/types';
 import { getNameOf } from 'helpers/helpers';
 import { ButtonType, InputType } from 'common/enums/enums';
-import { group as groupValidationSchema } from 'validation-schemas/validation-schemas';
+import { eamGroup as groupValidationSchema } from 'validation-schemas/validation-schemas';
 type Props = {
-  onSubmit: (payload: GroupDto) => void;
+  onSubmit: (payload: EAMGroupCreateResponseDto) => void;
 };
 const EamCreateGroup: React.FC<Props> = ({ onSubmit }) => {
-  const { control, errors, handleSubmit } = useAppForm<GroupDto>({
-    defaultValues: DEFAULT_GROUP_PAYLOAD,
-    validationSchema: groupValidationSchema,
-  });
+  const { control, errors, handleSubmit } =
+    useAppForm<EAMGroupCreateResponseDto>({
+      defaultValues: DEFAULT_GROUP_PAYLOAD,
+      validationSchema: groupValidationSchema,
+    });
 
   return (
     <>
@@ -27,12 +28,11 @@ const EamCreateGroup: React.FC<Props> = ({ onSubmit }) => {
             type={InputType.TEXT}
             label="Group Name"
             placeholder=""
-            name={getNameOf<GroupDto>('name')}
+            name={getNameOf<EAMGroupCreateResponseDto>('name')}
             control={control}
             errors={errors}
           />
         </div>
-
         <Button type={ButtonType.SUBMIT} label="Cancel" />
         <Button type={ButtonType.SUBMIT} label="Create" />
       </form>

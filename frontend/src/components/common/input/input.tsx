@@ -29,7 +29,7 @@ const Input: FC<Props> = ({
 }) => {
   const { field } = useFormControl({ name, control });
 
-  const hasErrors = Boolean(Object.keys(errors).length);
+  const hasError = Boolean(errors[name]);
 
   return (
     <label className={styles.inputLabel}>
@@ -38,9 +38,7 @@ const Input: FC<Props> = ({
         {...field}
         type={type}
         placeholder={placeholder}
-        className={getValidClasses(
-          hasErrors ? styles.inputError : styles.input,
-        )}
+        className={getValidClasses(hasError ? styles.inputError : styles.input)}
       />
       <span className={styles.error}>
         <ErrorMessage errors={errors} name={name} />

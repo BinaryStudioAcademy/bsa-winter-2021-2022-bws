@@ -4,8 +4,9 @@ import {
   Route,
   AuthorizedRoute,
   Toaster,
+  Loader,
 } from 'components/common/common';
-import { useAppDispatch, useEffect } from 'hooks/hooks';
+import { useAppDispatch, useAppSelector, useEffect } from 'hooks/hooks';
 import { auth as authActions } from 'store/actions';
 import { AppRoute, StorageKey } from 'common/enums/enums';
 import { Auth } from 'components/auth/auth';
@@ -13,14 +14,22 @@ import { Dashboard } from 'components/dashboard/dashboard';
 import { storage } from 'services/services';
 
 const App: FC = () => {
+  const { user } = useAppSelector(({ auth }) => ({
+    user: auth.user,
+  }));
   const dispatch = useAppDispatch();
   const hasToken = Boolean(storage.getItem(StorageKey.TOKEN));
+  const hasUser = Boolean(user);
 
   useEffect(() => {
     if (hasToken) {
       dispatch(authActions.loadCurrentUser());
     }
   }, [dispatch]);
+
+  if (!hasUser && hasToken) {
+    return <Loader />;
+  }
 
   return (
     <>

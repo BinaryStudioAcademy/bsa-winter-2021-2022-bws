@@ -12,17 +12,17 @@ class Group {
     this.#GroupModel = GroupModel;
   }
 
-  async getAll(): Promise<GroupEntity[]> {
-    const groups = await this.#GroupModel.query();
-    return groups.map(Group.modelToEntity);
-  }
-
-  async getByName(name: string): Promise<GroupEntity | null> {
+  async getGroupByNameAndTenant(
+    name: string,
+    tenantId: string,
+  ): Promise<GroupEntity | null> {
     const group = await this.#GroupModel
       .query()
       .select()
       .where({ name })
+      .andWhere({ tenantId })
       .first();
+
     if (!group) {
       return null;
     }
@@ -30,13 +30,17 @@ class Group {
     return Group.modelToEntity(group);
   }
 
-  async create({ group }: { group: GroupM }): Promise<GroupM> {
-    return this.#GroupModel.query().insert({
-      id: group.id,
-      name: group.name,
-      createdAt: group.createdAt,
-      tenant_id: group.tenant_id,
+  async create(group: GroupEntity): Promise<GroupEntity> {
+    const { id, name, tenantId, createdAt } = group;
+
+    const created = await this.#GroupModel.query().insert({
+      id,
+      name,
+      createdAt: createdAt.toISOString(),
+      tenantId,
     });
+
+    return Group.modelToEntity(created);
   }
 
   public static modelToEntity(model: GroupM): GroupEntity {
@@ -44,7 +48,7 @@ class Group {
       id: model.id,
       name: model.name,
       createdAt: new Date(model.createdAt),
-      tenant_id: model.tenant_id,
+      tenantId: model.tenantId,
     });
   }
 }

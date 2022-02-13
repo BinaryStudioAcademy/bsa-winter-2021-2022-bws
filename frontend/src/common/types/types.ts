@@ -19,8 +19,8 @@ export {
   type EAMMasterByIdResponseDto,
 } from './master/master';
 export {
-  type EAMGroupResponseDto,
-  type EAMGroupRequestDto,
+  type EAMGroupCreateResponseDto,
+  type EAMGroupCreateRequestDto,
 } from './group/group';
 export {
   type EAMTenantCreateRequestDto,

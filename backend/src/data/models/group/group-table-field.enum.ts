@@ -1,6 +1,6 @@
 enum GroupTableField {
   NAME = 'name',
-  TENANT_ID = 'tenant_id',
+  TENANT_ID = 'tenantId',
 }
 
 export { GroupTableField };
