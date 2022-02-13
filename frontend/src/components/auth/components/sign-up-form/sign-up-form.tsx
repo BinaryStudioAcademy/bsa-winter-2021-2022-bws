@@ -18,7 +18,6 @@ const SignUpForm: FC<Props> = ({ onSubmit }) => {
       defaultValues: DEFAULT_REGISTER_PAYLOAD,
       validationSchema: masterSignUpValidationSchema,
     });
-
   return (
     <>
       <h1 className={styles.title}>Sign Up</h1>

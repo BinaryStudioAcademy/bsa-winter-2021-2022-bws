@@ -1,10 +1,10 @@
 import { FC } from 'react';
 import { eamMasterSignIn as masterSignInValidationSchema } from 'validation-schemas/validation-schemas';
-import { ButtonType, InputType, AppRoute } from 'common/enums/enums';
+import { AppRoute, ButtonType, InputType } from 'common/enums/enums';
 import { useAppForm } from 'hooks/hooks';
 import { getNameOf } from 'helpers/helpers';
 import { EAMMasterSignInRequestDto } from 'common/types/types';
-import { Button, Input, PasswordInput, Link } from 'components/common/common';
+import { Button, Input, Link, PasswordInput } from 'components/common/common';
 import { DEFAULT_LOGIN_PAYLOAD } from './common/constants';
 import styles from './sign-in-form.module.scss';
 
