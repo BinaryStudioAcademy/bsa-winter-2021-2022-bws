@@ -30,6 +30,7 @@ const App: FC = () => {
   if (!hasUser && hasToken) {
     return <Loader />;
   }
+  //localStorage.clear();
 
   return (
     <>

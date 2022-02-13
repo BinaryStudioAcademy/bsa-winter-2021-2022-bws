@@ -1,6 +1,3 @@
-import { Master } from './master/master.repository';
-import { Group } from './group/group.repository';
-import { Tenant } from './tenant/tenant.repository';
 import {
   Master as MasterModel,
   Tenant as TenantModel,
@@ -8,7 +5,10 @@ import {
   Group as GroupModel,
   UsersGroups as UsersGroupsModel,
 } from '~/data/models/models';
-
+import { Master } from './master/master.repository';
+import { Tenant } from './tenant/tenant.repository';
+import { Worker } from './worker/worker.repository';
+import { Group } from './group/group.repository';
 const master = new Master({
   MasterModel,
 });
