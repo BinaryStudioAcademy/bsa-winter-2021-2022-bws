@@ -18,6 +18,17 @@ const EamWorkerCreate = Joi.object({
       'string.min': EAMWorkerValidationMessage.NAME_MIN_LENGTH,
       'string.pattern.base': EAMWorkerValidationMessage.NAME_REGEX,
     }),
+  [getNameOf<EAMWorkerCreateRequestDto>('password')]: Joi.string()
+    .trim()
+    .required()
+    .regex(EAMWorkerValidationRule.PASSWORD_PATTERN)
+    .ruleset.min(EAMWorkerValidationRule.PASSWORD_MIN_LENGTH)
+    .max(EAMWorkerValidationRule.PASSWORD_MAX_LENGTH)
+    .rule({ message: EAMWorkerValidationMessage.PASSWORD_LENGTH })
+    .messages({
+      'string.empty': EAMWorkerValidationMessage.PASSWORD_REQUIRE,
+      'string.pattern.base': EAMWorkerValidationMessage.PASSWORD_LENGTH,
+    }),
 });
 
 export { EamWorkerCreate };
