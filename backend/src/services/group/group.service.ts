@@ -24,7 +24,7 @@ class Group {
   ): Promise<EAMGroupGetByTenantResponseDto> {
     const groups = await this.#groupRepository.getGroupsByTenant(filter);
     const groupsCount = await this.#groupRepository.getCountGroups();
-    return { items: groups, count: groupsCount };
+    return { items: groups, itemsCount: groupsCount };
   }
 
   public async create({

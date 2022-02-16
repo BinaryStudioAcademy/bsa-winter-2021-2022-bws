@@ -2,7 +2,7 @@ import { EAMGroupGetByTenantResponseItemDto } from './eam-group-get-by-tenant-re
 
 type EAMGroupGetByTenantResponseDto = {
   items: EAMGroupGetByTenantResponseItemDto[];
-  count: number;
+  itemsCount: number;
 };
 
 export { type EAMGroupGetByTenantResponseDto };
