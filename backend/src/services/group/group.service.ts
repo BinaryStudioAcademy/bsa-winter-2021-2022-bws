@@ -3,7 +3,7 @@ import {
   EAMGroupCreateRequestDto,
   EAMGroupCreateResponseDto,
   EAMGroupGetByTenantRequestParamsDto,
-  EAMGroupGetByTenantResponseItemDto,
+  EAMGroupGetByTenantResponseDto,
 } from '~/common/types/types';
 import { Group as GroupEntity } from '~/services/group/group.entity';
 import { InvalidGroupNameError } from '~/exceptions/exceptions';
@@ -21,13 +21,10 @@ class Group {
 
   public async getGroupsByTenant(
     filter: EAMGroupGetByTenantRequestParamsDto,
-  ): Promise<{
-    items: EAMGroupGetByTenantResponseItemDto[];
-    itemsCount: number;
-  }> {
+  ): Promise<EAMGroupGetByTenantResponseDto> {
     const groups = await this.#groupRepository.getGroupsByTenant(filter);
     const groupsCount = await this.#groupRepository.getCountGroups();
-    return { items: groups, itemsCount: groupsCount };
+    return { items: groups, count: groupsCount };
   }
 
   public async create({
