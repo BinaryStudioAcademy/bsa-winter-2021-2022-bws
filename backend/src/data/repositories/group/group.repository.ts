@@ -30,6 +30,10 @@ class Group {
       .limit(limit);
   }
 
+  async getCountGroups(): Promise<number> {
+    return this.#GroupModel.query().resultSize();
+  }
+
   async getGroupByNameAndTenant(
     name: string,
     tenantId: string,
