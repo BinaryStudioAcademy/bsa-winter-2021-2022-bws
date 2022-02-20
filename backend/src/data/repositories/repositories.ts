@@ -33,6 +33,7 @@ const tenant = new Tenant({
 const worker = new Worker({
   WorkerModel,
   UsersGroupsModel,
+  GroupModel,
 });
 
 const group = new Group({

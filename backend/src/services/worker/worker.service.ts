@@ -9,15 +9,17 @@ import {
   TokenPayload,
 } from '~/common/types/types';
 import { Worker as WorkerEntity } from './worker.entity';
-import { HttpCode } from '~/common/enums/http/http';
-import { ExceptionMessage, UserRole } from '~/common/enums/enums';
+import { ExceptionMessage, UserRole, HttpCode } from '~/common/enums/enums';
 import {
   encrypt as encryptServ,
   master as masterServ,
   token as tokenServ,
   tenant as tenantServ,
 } from '~/services/services';
-import { InvalidCredentialsError } from '~/exceptions/invalid-credentials-error/invalid-credentials-error';
+import {
+  InvalidCredentialsError,
+  InvalidWorkerGroupError,
+} from '~/exceptions/exceptions';
 
 type Constructor = {
   workerRepository: typeof workerRep;
@@ -109,12 +111,10 @@ class Worker {
       master.tenantId,
     );
 
-    if (groupIdsByTenant.length === 0) {
-      throw new InvalidCredentialsError({
-        status: HttpCode.DENIED,
-        message:
-          'That group does not exist. Please select any group or create a new one first',
-      });
+    const hasGroups = groupIdsByTenant.length > 0;
+
+    if (!hasGroups) {
+      throw new InvalidWorkerGroupError();
     }
 
     const worker = WorkerEntity.createNew({
