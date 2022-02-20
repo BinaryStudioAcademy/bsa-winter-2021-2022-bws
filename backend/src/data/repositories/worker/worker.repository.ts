@@ -1,6 +1,7 @@
 import {
   Worker as WorkerM,
   UsersGroups as UsersGroupsM,
+  Group as GroupM,
 } from '~/data/models/models';
 import { Worker as WorkerEntity } from '~/services/worker/worker.entity';
 import { getRandomId } from '~/helpers/helpers';
@@ -12,6 +13,7 @@ import {
 type Constructor = {
   WorkerModel: typeof WorkerM;
   UsersGroupsModel: typeof UsersGroupsM;
+  GroupModel: typeof GroupM;
 };
 
 type UsersGroups = {
@@ -21,10 +23,12 @@ type UsersGroups = {
 class Worker {
   #WorkerModel: typeof WorkerM;
   #UsersGroupsModel: typeof UsersGroupsM;
+  #GroupModel: typeof GroupM;
 
-  constructor({ WorkerModel, UsersGroupsModel }: Constructor) {
+  constructor({ WorkerModel, UsersGroupsModel, GroupModel }: Constructor) {
     this.#WorkerModel = WorkerModel;
     this.#UsersGroupsModel = UsersGroupsModel;
+    this.#GroupModel = GroupModel;
   }
 
   public async getAll(
@@ -84,6 +88,26 @@ class Worker {
     const groupIds: string[] = groups.map((group) => group.groupId);
 
     return Worker.modelToEntity(worker, groupIds);
+  }
+
+  async getGroupIdsByTenant(
+    groupIds: string[],
+    tenantId: string,
+  ): Promise<string[]> {
+    const groups = await this.#GroupModel
+      .query()
+      .select('id')
+      .where({ tenantId });
+
+    const groupIdsByTenant = groups
+      .map((group) => group.id)
+      .filter((id) => {
+        for (const groupId of groupIds) {
+          return groupId === id;
+        }
+      });
+
+    return groupIdsByTenant;
   }
 
   public async create(worker: WorkerEntity): Promise<WorkerEntity> {

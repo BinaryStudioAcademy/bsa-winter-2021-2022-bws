@@ -76,6 +76,7 @@ class Worker {
     password,
     token,
     groupIds,
+    tenantId,
   }: EAMWorkerCreateRequestDto): Promise<EAMWorkerCreateResponseDto> {
     const workerByName = await this.#workerRepository.getByName(name);
 
@@ -103,12 +104,25 @@ class Worker {
       passwordSalt,
     );
 
+    const groupIdsByTenant = await this.#workerRepository.getGroupIdsByTenant(
+      groupIds,
+      tenantId,
+    );
+
+    if (groupIdsByTenant.length === 0) {
+      throw new InvalidCredentialsError({
+        status: HttpCode.DENIED,
+        message:
+          'That group does not exist. Please select any group or create a new one first',
+      });
+    }
+
     const worker = WorkerEntity.createNew({
       name,
       passwordHash: passwordHash,
       passwordSalt: passwordSalt,
       tenantId: master.tenantId,
-      groupIds,
+      groupIds: groupIdsByTenant,
     });
 
     return await this.#workerRepository.create(worker);
