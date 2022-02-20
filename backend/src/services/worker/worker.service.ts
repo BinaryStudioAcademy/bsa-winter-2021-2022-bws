@@ -74,9 +74,9 @@ class Worker {
   public async create({
     name,
     password,
-    token,
     groupIds,
     tenantId,
+    token,
   }: EAMWorkerCreateRequestDto): Promise<EAMWorkerCreateResponseDto> {
     const workerByName = await this.#workerRepository.getByName(name);
 
