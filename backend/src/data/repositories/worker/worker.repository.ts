@@ -102,7 +102,7 @@ class Worker {
     const groupIdsByTenant = groups
       .map((group) => group.id)
       .filter((id) => {
-        groupIds.some((groupId) => groupId === id);
+        return groupIds.some((groupId) => groupId === id);
       });
 
     return groupIdsByTenant;

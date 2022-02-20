@@ -111,9 +111,9 @@ class Worker {
       master.tenantId,
     );
 
-    const hasGroups = groupIdsByTenant.length > 0;
+    const hasGroups = Boolean(groupIdsByTenant.length);
 
-    if (!hasGroups) {
+    if (hasGroups) {
       throw new InvalidWorkerGroupError();
     }
 
