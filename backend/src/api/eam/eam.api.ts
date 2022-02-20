@@ -46,7 +46,6 @@ const initEamApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
             name: req.body.name,
             password: req.body.password,
             groupIds: req.body.groupIds,
-            tenantId: req.body.tenantId,
             token,
           }),
         )

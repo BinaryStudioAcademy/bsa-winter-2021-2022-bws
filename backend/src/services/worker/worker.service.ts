@@ -75,7 +75,6 @@ class Worker {
     name,
     password,
     groupIds,
-    tenantId,
     token,
   }: EAMWorkerCreateRequestDto): Promise<EAMWorkerCreateResponseDto> {
     const workerByName = await this.#workerRepository.getByName(name);
@@ -106,7 +105,7 @@ class Worker {
 
     const groupIdsByTenant = await this.#workerRepository.getGroupIdsByTenant(
       groupIds,
-      tenantId,
+      master.tenantId,
     );
 
     if (groupIdsByTenant.length === 0) {
