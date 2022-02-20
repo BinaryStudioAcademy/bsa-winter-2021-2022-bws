@@ -1,7 +1,10 @@
 import { FastifyPluginAsync, FastifyRequest } from 'fastify';
 import { space as spaceServ } from '~/services/services';
 import { HttpCode, HttpMethod, BSApiPath } from '~/common/enums/enums';
-import { BSSpaceCreateRequestDto } from '~/common/types/types';
+import {
+  BSSpaceCreateRequestDto,
+  BSSpaceGetRequestParamsDto,
+} from '~/common/types/types';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 import { bsSpaceCreate as bsSpaceCreateValidationSchema } from '~/validation-schemas/validation-schemas';
 
@@ -16,7 +19,7 @@ const initBsApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
 
   fastify.route({
     method: HttpMethod.POST,
-    url: BSApiPath.ROOT,
+    url: BSApiPath.SPACES,
     schema: {
       body: bsSpaceCreateValidationSchema,
     },
@@ -40,6 +43,24 @@ const initBsApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
           }),
         )
         .status(HttpCode.CREATED);
+    },
+  });
+
+  fastify.route({
+    method: HttpMethod.GET,
+    url: BSApiPath.SPACES,
+    async handler(
+      req: FastifyRequest<{ Querystring: BSSpaceGetRequestParamsDto }>,
+      rep,
+    ) {
+      const [, token] = req.headers?.authorization?.split(' ') ?? [];
+
+      const spaces = await spaceService.getSpacesByTenant({
+        query: req.query,
+        token,
+      });
+
+      return rep.send(spaces).status(HttpCode.OK);
     },
   });
 };

@@ -32,8 +32,20 @@ export {
   type EAMTenantByIdResponseDto,
 } from './eam-tenant/eam-tenant';
 export {
+  type SCInstanceCreateRequestDto,
+  type SCInstanceCreateResponseDto,
+  type ScInstanceOperationSystemEntity,
+} from './sc-instance/sc-instance';
+export {
   type EAMPermissionGetAllItemResponseDto,
   type EAMPermissionGetAllResponseDto,
 } from './eam-permission/eam-permission';
-export { type BSSpaceCreateRequestDto } from './bs-space/bs-space';
+export {
+  type BSSpaceCreateRequestDto,
+  type BSSpaceCreateResponseDto,
+  type BSSpaceGetRequestParamsDto,
+  type BSSpaceGetResponseItemDto,
+  type BSSpaceGetResponseDto,
+  type BSSpaceGetFilter,
+} from './bs-space/bs-space';
 export { type TokenPayload } from './token/token';

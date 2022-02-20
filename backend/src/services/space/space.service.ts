@@ -1,6 +1,11 @@
 import { space as spaceRep } from '~/data/repositories/repositories';
 import { Space as SpaceEntity } from './space.entity';
-import { TokenPayload } from '~/common/types/types';
+import {
+  BSSpaceCreateResponseDto,
+  BSSpaceGetRequestParamsDto,
+  BSSpaceGetResponseDto,
+  TokenPayload,
+} from '~/common/types/types';
 import { ExceptionMessage, HttpCode, UserRole } from '~/common/enums/enums';
 import { s3 as s3Serv, token as tokenServ } from '~/services/services';
 import { InvalidCredentialsError } from '~/exceptions/invalid-credentials-error/invalid-credentials-error';
@@ -22,14 +27,36 @@ class Space {
     this.#s3Service = s3Service;
   }
 
+  public async getSpacesByTenant({
+    query,
+    token,
+  }: {
+    query: BSSpaceGetRequestParamsDto;
+    token: string;
+  }): Promise<BSSpaceGetResponseDto> {
+    const user: TokenPayload = await this.#tokenService.decode(token);
+
+    const tenantId = user.tenantId;
+
+    const filter = {
+      from: query.from,
+      count: query.count,
+      tenantId,
+    };
+
+    const spaces = await this.#spaceRepository.getByTenantId(filter);
+
+    return { items: spaces };
+  }
+
   public async create({
     name,
     token,
   }: {
     name: string;
     token: string;
-  }): Promise<SpaceEntity> {
-    const user: TokenPayload = await tokenServ.decode(token);
+  }): Promise<BSSpaceCreateResponseDto> {
+    const user: TokenPayload = await this.#tokenService.decode(token);
 
     if (user.userRole !== UserRole.WORKER) {
       throw new InvalidCredentialsError({

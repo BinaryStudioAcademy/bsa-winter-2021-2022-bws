@@ -23,6 +23,18 @@ const getColumns = (
       Header: GroupsTableHeader.GROUP_NAME,
       accessor: GroupsTableAccessor.GROUP_NAME,
     },
+    {
+      Header: GroupsTableHeader.USERS,
+      accessor: GroupsTableAccessor.USERS,
+    },
+    {
+      Header: GroupsTableHeader.PERMISSIONS,
+      accessor: GroupsTableAccessor.PERMISSIONS,
+    },
+    {
+      Header: GroupsTableHeader.CREATION_TIME,
+      accessor: GroupsTableAccessor.CREATION_TIME,
+    },
   ];
 };
 

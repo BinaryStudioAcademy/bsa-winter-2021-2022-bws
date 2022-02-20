@@ -45,4 +45,12 @@ export {
   type EAMWorkerSignInRequestDto,
   type EAMWorkerSignInResponseDto,
 } from './eam-worker/eam-worker';
+export {
+  type BSSpaceCreateRequestDto,
+  type BSSpaceCreateResponseDto,
+  type BSSpaceCreateFormDto,
+  type BSSpaceGetResponseItemDto,
+  type BSSpaceGetResponseDto,
+  type BSSpaceGetRequestParamsDto,
+} from './bs-space/bs-space';
 export { type ServiceMenuItem } from './ui/ui';

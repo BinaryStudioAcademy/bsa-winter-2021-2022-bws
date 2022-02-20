@@ -6,6 +6,7 @@ export {
   EAMApiPath,
   GroupsApiPath,
   WorkersApiPath,
+  BSApiPath,
 } from './api/api';
 export { AppRoute, ENV, DataStatus, StorageKey } from './app/app';
 export { HttpHeader, HttpMethod } from './http/http';
@@ -19,4 +20,5 @@ export {
   WorkersTableHeader,
   WorkersTableAccessor,
 } from './eam/eam';
+export { SpacesTableHeader, SpacesTableAccessor } from './bs/bs';
 export { UserRole } from './roles/roles';

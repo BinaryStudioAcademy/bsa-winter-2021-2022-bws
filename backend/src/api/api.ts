@@ -6,6 +6,7 @@ import {
   group,
   worker,
   auth,
+  instance,
   space,
 } from '~/services/services';
 import { initMastersApi } from './masters/masters.api';
@@ -15,6 +16,7 @@ import { initAuthApi } from './auth/auth.api';
 import { authorization as authorizationPlugin } from '~/plugins/plugins';
 import { WHITE_ROUTES } from '~/common/constants/constants';
 import { initEamApi } from './eam/eam.api';
+import { initScApi } from './sc/sc.api';
 
 const initApi: FastifyPluginAsync = async (fastify) => {
   fastify.register(authorizationPlugin, {
@@ -47,6 +49,12 @@ const initApi: FastifyPluginAsync = async (fastify) => {
       tenant,
     },
     prefix: ApiPath.TENANTS,
+  });
+  fastify.register(initScApi, {
+    services: {
+      instance,
+    },
+    prefix: ApiPath.SC,
   });
   fastify.register(initBsApi, {
     services: {

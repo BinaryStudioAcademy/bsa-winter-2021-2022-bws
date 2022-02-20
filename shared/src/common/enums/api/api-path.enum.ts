@@ -3,6 +3,7 @@ enum ApiPath {
   MASTERS = '/masters',
   TENANTS = '/tenants',
   EAM = '/eam',
+  SC = '/sc',
   BS = '/bs',
 }
 

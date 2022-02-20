@@ -21,6 +21,7 @@
     "build": "npm run build:ts"
   },
   "dependencies": {
+    "@aws-sdk/client-ec2": "3.51.0",
     "@aws-sdk/client-s3": "3.51.0",
     "bcrypt": "5.0.1",
     "bws-shared": "file:../shared/build",

@@ -11,15 +11,15 @@ class Encrypt {
     this.#saltRounds = salt;
   }
 
-  createSalt = (): Promise<string> => {
+  public createSalt = (): Promise<string> => {
     return genSalt(this.#saltRounds);
   };
 
-  createHash = (data: string, salt: string): Promise<string> => {
+  public createHash = (data: string, salt: string): Promise<string> => {
     return hash(data, salt);
   };
 
-  compare = async (
+  public compare = async (
     data: string,
     salt: string,
     passwordHash: string,

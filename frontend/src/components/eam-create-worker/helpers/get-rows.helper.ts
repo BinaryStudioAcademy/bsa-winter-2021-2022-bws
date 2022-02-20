@@ -7,11 +7,15 @@ type Row = {
 
 const getRows = (groups: EAMGroupGetByTenantResponseItemDto[]): Row[] => {
   return groups.map((item: EAMGroupGetByTenantResponseItemDto) => {
-    const { name, id } = item;
+    const { id, name, users, createdAt } = item;
+
+    const userName = users.map((item) => item.name).join(', ');
 
     return {
+      [GroupsTableAccessor.ID]: id,
       [GroupsTableAccessor.GROUP_NAME]: name,
-      id,
+      [GroupsTableAccessor.USERS]: userName,
+      [GroupsTableAccessor.CREATION_TIME]: createdAt,
     };
   });
 };
