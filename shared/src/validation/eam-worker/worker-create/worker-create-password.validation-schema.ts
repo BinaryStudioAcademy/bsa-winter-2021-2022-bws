@@ -7,16 +7,16 @@ import {
 } from '~/common/enums/enums';
 
 const EamWorkerCreate = Joi.object({
-  [getNameOf<EAMWorkerCreateRequestDto>('password')]: Joi.string()
+  [getNameOf<EAMWorkerCreateRequestDto>('name')]: Joi.string()
     .trim()
+    .min(EAMWorkerValidationRule.NAME_MIN_LENGTH)
+    .max(EAMWorkerValidationRule.NAME_MAX_LENGTH)
+    .regex(EAMWorkerValidationRule.NAME_REGEX)
     .required()
-    .regex(EAMWorkerValidationRule.PASSWORD_PATTERN)
-    .ruleset.min(EAMWorkerValidationRule.PASSWORD_MIN_LENGTH)
-    .max(EAMWorkerValidationRule.PASSWORD_MAX_LENGTH)
-    .rule({ message: EAMWorkerValidationMessage.PASSWORD_LENGTH })
     .messages({
-      'string.empty': EAMWorkerValidationMessage.PASSWORD_REQUIRE,
-      'string.pattern.base': EAMWorkerValidationMessage.PASSWORD_LENGTH,
+      'string.empty': EAMWorkerValidationMessage.NAME_REQUIRE,
+      'string.min': EAMWorkerValidationMessage.NAME_MIN_LENGTH,
+      'string.pattern.base': EAMWorkerValidationMessage.NAME_REGEX,
     }),
 });
 
