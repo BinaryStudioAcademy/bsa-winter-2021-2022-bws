@@ -6,7 +6,7 @@ import {
   EAMWorkerValidationRule,
 } from '~/common/enums/enums';
 
-const EamWorkerCreate = Joi.object({
+const eamWorkerCreate = Joi.object({
   [getNameOf<EAMWorkerCreateRequestDto>('name')]: Joi.string()
     .trim()
     .min(EAMWorkerValidationRule.NAME_MIN_LENGTH)
@@ -20,4 +20,4 @@ const EamWorkerCreate = Joi.object({
     }),
 });
 
-export { EamWorkerCreate };
+export { eamWorkerCreate };
