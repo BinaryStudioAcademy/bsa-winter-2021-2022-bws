@@ -90,20 +90,13 @@ class Worker {
     return Worker.modelToEntity(worker, groupIds);
   }
 
-  async getGroupIdsByTenant(
-    groupIds: string[],
-    tenantId: string,
-  ): Promise<string[]> {
+  async getGroupIdsByTenant(tenantId: string): Promise<string[]> {
     const groups = await this.#GroupModel
       .query()
       .select('id')
       .where({ tenantId });
 
-    const groupIdsByTenant = groups
-      .map((group) => group.id)
-      .filter((id) => {
-        return groupIds.some((groupId) => groupId === id);
-      });
+    const groupIdsByTenant: string[] = groups.map((group) => group.id);
 
     return groupIdsByTenant;
   }

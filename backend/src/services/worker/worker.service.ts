@@ -107,11 +107,14 @@ class Worker {
     );
 
     const groupIdsByTenant = await this.#workerRepository.getGroupIdsByTenant(
-      groupIds,
       master.tenantId,
     );
 
-    const hasGroups = Boolean(groupIdsByTenant.length);
+    const filteredGroups = groupIdsByTenant.filter((id) => {
+      return groupIds.some((groupId) => groupId === id);
+    });
+
+    const hasGroups = Boolean(filteredGroups.length);
 
     if (hasGroups) {
       throw new InvalidWorkerGroupError();
