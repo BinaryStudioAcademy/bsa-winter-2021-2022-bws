@@ -19,5 +19,4 @@ const eamWorkerCreate = Joi.object({
       'string.pattern.base': EAMWorkerValidationMessageBackend.PASSWORD_LENGTH,
     }),
 });
-
 export { eamWorkerCreate };
