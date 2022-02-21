@@ -95,7 +95,7 @@ const EAMConfigurateGroup: FC = () => {
               <PermissionsTable
                 selectedPermissions={selectedPermissions.selectedItems}
                 handleIsCheckedPermissionId={selectedPermissions.handleCheck}
-                handleRemovePermissionId={selectedPermissions.handleAdd}
+                handleRemovePermissionId={selectedPermissions.handleRemove}
                 handleAddPermissionId={selectedPermissions.handleAdd}
               />
             </li>

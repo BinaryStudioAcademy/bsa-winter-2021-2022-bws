@@ -34,7 +34,7 @@ const PermissionsTable: FC<Props> = ({
   );
   return (
     <div className={styles.wrapper}>
-      <h3 className={styles.inputGroupTitle}>Attach permissions policies</h3>
+      <h3 className={styles.groupTitle}>Attach permissions policies</h3>
       <Table className={styles.table} columns={columns} data={data} />
     </div>
   );

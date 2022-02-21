@@ -16,7 +16,7 @@ class Permission {
     const permissions = await this.#PermissionModel
       .query()
       .select()
-      .orderBy('createdAt', 'desc');
+      .orderBy('name', 'asc');
 
     return permissions;
   }

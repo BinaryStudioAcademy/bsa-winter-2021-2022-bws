@@ -21,6 +21,10 @@ const getColumns = (
       Header: PermissionsTableHeader.PERMISSIONS_NAME,
       accessor: PermissionsTableAccessor.PERMISSION_NAME,
     },
+    {
+      Header: PermissionsTableHeader.CREATION_TIME,
+      accessor: PermissionsTableAccessor.CREATION_TIME,
+    },
   ];
 };
 

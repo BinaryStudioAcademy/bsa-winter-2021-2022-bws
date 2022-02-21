@@ -4,7 +4,13 @@
   padding: 0;
 }
 
-.inputGroupTitle {
+.table td:first-child {
+  width: 26px;
+  margin: 0;
+  padding: 0;
+}
+
+.groupTitle {
   margin: 0 0 16px;
   color: var(--color-white);
   font-size: 14px;
