@@ -1,11 +1,20 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { DataStatus } from 'common/enums/enums';
-import { signUp, loadCurrentUser, signIn, logOut } from './actions';
-import { EAMMasterByIdResponseDto } from 'common/types/types';
+import {
+  signUp,
+  loadCurrentUser,
+  signInMaster,
+  signInWorker,
+  logOut,
+} from './actions';
+import {
+  EAMMasterByIdResponseDto,
+  EAMWorkerByIdResponseDto,
+} from 'common/types/types';
 
 type State = {
   dataStatus: DataStatus;
-  user: EAMMasterByIdResponseDto | null;
+  user: EAMMasterByIdResponseDto | EAMWorkerByIdResponseDto | null;
 };
 
 const initialState: State = {
@@ -24,7 +33,11 @@ const reducer = createReducer(initialState, (builder) => {
   builder.addCase(signUp.rejected, (state) => {
     state.dataStatus = DataStatus.REJECTED;
   });
-  builder.addCase(signIn.fulfilled, (state, action) => {
+  builder.addCase(signInMaster.fulfilled, (state, action) => {
+    state.dataStatus = DataStatus.FULFILLED;
+    state.user = action.payload;
+  });
+  builder.addCase(signInWorker.fulfilled, (state, action) => {
     state.dataStatus = DataStatus.FULFILLED;
     state.user = action.payload;
   });

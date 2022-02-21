@@ -1,0 +1,43 @@
+.title {
+  margin-bottom: 10px;
+  color: var(--color-white);
+  font-weight: 600;
+  font-size: 24px;
+}
+
+.subtitle {
+  margin-bottom: 14px;
+  color: var(--color-text);
+  font-weight: 500;
+  font-size: 12px;
+  font-style: normal;
+}
+
+.button {
+  margin: 0 0 10px;
+  padding: 0;
+  color: var(--color-orange);
+  font-weight: 500;
+  font-size: 12px;
+  font-style: normal;
+  text-align: left;
+  text-decoration: none;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.link {
+  color: var(--color-orange);
+  text-decoration: none;
+}
+
+.link:active {
+  color: var(--color-orange);
+}
+
+.signInForm,
+.signInFormContent {
+  display: flex;
+  flex-direction: column;
+}

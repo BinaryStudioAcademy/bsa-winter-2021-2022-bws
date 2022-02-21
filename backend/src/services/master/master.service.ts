@@ -3,14 +3,13 @@ import {
   EAMMasterSignUpResponseDto,
   EAMMasterSignInRequestDto,
   EAMMasterSignInResponseDto,
-  TokenPayload,
   EAMMasterByIdResponseDto,
 } from '~/common/types/types';
 import { master as masterRep } from '~/data/repositories/repositories';
 import { Master as MasterEntity } from './master.entity';
 import { InvalidCredentialsError } from '~/exceptions/exceptions';
 import { HttpCode } from '~/common/enums/http/http';
-import { ExceptionMessage } from '~/common/enums/enums';
+import { ExceptionMessage, UserRole } from '~/common/enums/enums';
 import {
   token as tokenServ,
   encrypt as encryptServ,
@@ -55,29 +54,31 @@ class Master {
       id: master.id,
       email: master.email,
       tenantId: master.tenantId,
+      permissions: master.permissions,
     };
   }
 
   public async login(id: string): Promise<EAMMasterSignUpResponseDto> {
-    const { email, tenantId } = (await this.#masterRepository.getById(
-      id,
-    )) as MasterEntity;
+    const { email, tenantId, permissions } =
+      (await this.#masterRepository.getById(id)) as MasterEntity;
     return {
       user: {
         email,
         id,
         tenantId,
+        permissions,
       },
       token: this.#tokenService.create({
         userId: id,
+        userRole: UserRole.MASTER,
+        tenantId,
       }),
     };
   }
 
-  public async getCurrentUser(
-    token: string,
+  public async getUserById(
+    userId: string,
   ): Promise<EAMMasterSignUpResponseDto> {
-    const { userId } = this.#tokenService.decode<TokenPayload>(token);
     return this.login(userId);
   }
 

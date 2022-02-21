@@ -2,15 +2,20 @@ import { worker as workerRep } from '~/data/repositories/repositories';
 import {
   EAMWorkerCreateRequestDto,
   EAMWorkerCreateResponseDto,
+  EAMWorkerSignInRequestDto,
+  EAMWorkerSignInResponseDto,
   EAMWorkerGetAllResponseDto,
+  EAMWorkerGetByTenantRequestParamsDto,
   TokenPayload,
 } from '~/common/types/types';
 import { Worker as WorkerEntity } from './worker.entity';
 import { HttpCode } from '~/common/enums/http/http';
+import { ExceptionMessage, UserRole } from '~/common/enums/enums';
 import {
   encrypt as encryptServ,
-  token as tokenServ,
   master as masterServ,
+  token as tokenServ,
+  tenant as tenantServ,
 } from '~/services/services';
 import { InvalidCredentialsError } from '~/exceptions/invalid-credentials-error/invalid-credentials-error';
 
@@ -19,6 +24,7 @@ type Constructor = {
   encryptService: typeof encryptServ;
   tokenService: typeof tokenServ;
   masterService: typeof masterServ;
+  tenantService: typeof tenantServ;
 };
 
 class Worker {
@@ -26,17 +32,44 @@ class Worker {
   #encryptService: typeof encryptServ;
   #tokenService: typeof tokenServ;
   #masterService: typeof masterServ;
+  #tenantService: typeof tenantServ;
 
   constructor({
     workerRepository,
     encryptService,
     tokenService,
     masterService,
+    tenantService,
   }: Constructor) {
     this.#workerRepository = workerRepository;
     this.#encryptService = encryptService;
     this.#tokenService = tokenService;
     this.#masterService = masterService;
+    this.#tenantService = tenantService;
+  }
+
+  public async login(id: string): Promise<EAMWorkerSignInResponseDto> {
+    const { name, tenantId } = (await this.#workerRepository.getById(
+      id,
+    )) as WorkerEntity;
+    return {
+      user: {
+        id,
+        name,
+        tenantId,
+      },
+      token: this.#tokenService.create({
+        userId: id,
+        userRole: UserRole.WORKER,
+        tenantId,
+      }),
+    };
+  }
+
+  public async getUserById(
+    userId: string,
+  ): Promise<EAMWorkerSignInResponseDto> {
+    return this.login(userId);
   }
 
   public async create({
@@ -82,15 +115,50 @@ class Worker {
     return await this.#workerRepository.create(worker);
   }
 
-  async getAll(): Promise<EAMWorkerGetAllResponseDto> {
-    const workers = await this.#workerRepository.getAll();
+  public async verifyLoginCredentials(
+    verifyWorkerDto: EAMWorkerSignInRequestDto,
+  ): Promise<EAMWorkerSignInResponseDto> {
+    const worker = await this.#workerRepository.getByName(
+      verifyWorkerDto.workerName,
+    );
 
-    return {
-      items: workers.map((m) => ({
-        id: m.id,
-        name: m.name,
-      })),
-    };
+    if (!worker) {
+      throw new InvalidCredentialsError({
+        status: HttpCode.UNAUTHORIZED,
+        message: ExceptionMessage.WORKER_NAME,
+      });
+    }
+
+    const tenant = await this.#tenantService.getTenantById(worker.tenantId);
+
+    if (verifyWorkerDto.tenantName !== tenant?.name) {
+      throw new InvalidCredentialsError({
+        status: HttpCode.UNAUTHORIZED,
+        message: ExceptionMessage.INVALID_CREDENTIALS,
+      });
+    }
+
+    const isEqualPassword = await this.#encryptService.compare(
+      verifyWorkerDto.password,
+      worker.passwordSalt,
+      worker.passwordHash,
+    );
+
+    if (!isEqualPassword) {
+      throw new InvalidCredentialsError({
+        status: HttpCode.UNAUTHORIZED,
+        message: ExceptionMessage.INVALID_CREDENTIALS,
+      });
+    }
+
+    return this.login(worker.id);
+  }
+
+  async getAll(
+    param: EAMWorkerGetByTenantRequestParamsDto,
+  ): Promise<EAMWorkerGetAllResponseDto> {
+    const workers = await this.#workerRepository.getAll(param);
+    return { items: workers };
   }
 }
 

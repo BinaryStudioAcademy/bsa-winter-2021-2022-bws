@@ -1,15 +1,9 @@
 import { FastifyPluginAsync, FastifyRequest } from 'fastify';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 import { master as masterServ } from '~/services/services';
-import {
-  eamMasterSignUp as masterSignUpValidationSchema,
-  eamMasterSignIn as masterSignInValidationSchema,
-} from '~/validation-schemas/validation-schemas';
+import { eamMasterSignUp as masterSignUpValidationSchema } from '~/validation-schemas/validation-schemas';
 import { HttpCode, HttpMethod, MastersApiPath } from '~/common/enums/enums';
-import {
-  EAMMasterSignUpRequestDto,
-  EAMMasterSignInRequestDto,
-} from '~/common/types/types';
+import { EAMMasterSignUpRequestDto } from '~/common/types/types';
 
 type Options = {
   services: {
@@ -41,43 +35,6 @@ const initMastersApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     ) {
       const user = await masterService.create(req.body);
       return rep.send(user).status(HttpCode.CREATED);
-    },
-  });
-  fastify.route({
-    method: HttpMethod.GET,
-    url: MastersApiPath.USER,
-    async handler(req, rep) {
-      const [, token] = req.headers?.authorization?.split(' ') ?? [];
-
-      return rep
-        .send(await masterService.getCurrentUser(token))
-        .status(HttpCode.OK);
-    },
-  });
-
-  fastify.route({
-    method: HttpMethod.POST,
-    url: MastersApiPath.SIGN_IN,
-    schema: {
-      body: masterSignInValidationSchema,
-    },
-    validatorCompiler({
-      schema,
-    }: FastifyRouteSchemaDef<typeof masterSignInValidationSchema>) {
-      return (
-        data: EAMMasterSignInRequestDto,
-      ): ReturnType<typeof masterSignInValidationSchema['validate']> => {
-        return schema.validate(data);
-      };
-    },
-    async handler(
-      req: FastifyRequest<{ Body: EAMMasterSignInRequestDto }>,
-      rep,
-    ) {
-      const signInUserPayload = await masterService.verifyLoginCredentials(
-        req.body,
-      );
-      return rep.send(signInUserPayload).status(HttpCode.OK);
     },
   });
 };

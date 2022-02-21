@@ -3,6 +3,8 @@ import {
   EAMMasterSignUpRequestDto,
   EAMMasterSignInRequestDto,
   EAMMasterByIdResponseDto,
+  EAMWorkerSignInRequestDto,
+  EAMWorkerByIdResponseDto,
   AsyncThunkConfig,
 } from 'common/types/types';
 import { ActionType } from './common';
@@ -19,13 +21,26 @@ const signUp = createAsyncThunk<
   return user;
 });
 
-const signIn = createAsyncThunk<
+const signInMaster = createAsyncThunk<
   EAMMasterByIdResponseDto,
   EAMMasterSignInRequestDto,
   AsyncThunkConfig
->(ActionType.SIGN_IN, async (registerPayload, { extra }) => {
+>(ActionType.SIGN_IN_MASTER, async (registerPayload, { extra }) => {
   const { authApi, storage } = extra;
-  const { user, token } = await authApi.signIn(registerPayload);
+  const { user, token } = await authApi.signInMaster(registerPayload);
+
+  storage.setItem(StorageKey.TOKEN, token);
+
+  return user;
+});
+
+const signInWorker = createAsyncThunk<
+  EAMWorkerByIdResponseDto,
+  EAMWorkerSignInRequestDto,
+  AsyncThunkConfig
+>(ActionType.SIGN_IN_WORKER, async (registerPayload, { extra }) => {
+  const { authApi, storage } = extra;
+  const { user, token } = await authApi.signInWorker(registerPayload);
 
   storage.setItem(StorageKey.TOKEN, token);
 
@@ -33,7 +48,7 @@ const signIn = createAsyncThunk<
 });
 
 const loadCurrentUser = createAsyncThunk<
-  EAMMasterByIdResponseDto,
+  EAMMasterByIdResponseDto | EAMWorkerByIdResponseDto,
   void,
   AsyncThunkConfig
 >(ActionType.LOAD_CURRENT_USER, async (_payload, { extra }) => {
@@ -53,4 +68,4 @@ const logOut = createAsyncThunk<void, void, AsyncThunkConfig>(
   },
 );
 
-export { signUp, signIn, loadCurrentUser, logOut };
+export { signUp, signInMaster, signInWorker, loadCurrentUser, logOut };

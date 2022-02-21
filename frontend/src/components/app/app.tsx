@@ -8,16 +8,21 @@ import {
 } from 'components/common/common';
 import { useAppDispatch, useAppSelector, useEffect } from 'hooks/hooks';
 import { auth as authActions, app as appActions } from 'store/actions';
-import { AppRoute, StorageKey } from 'common/enums/enums';
+import { AppRoute, DataStatus, StorageKey } from 'common/enums/enums';
 import { Auth } from 'components/auth/auth';
 import { Dashboard } from 'components/dashboard/dashboard';
 import { storage } from 'services/services';
 import { EAM } from 'components/eam/eam';
 import { EAMWorkerCreate } from 'components/eam-create-worker/eam-create-worker';
+import { EAMConfigurateGroup } from 'components/eam-configurate-group/eam-configurate-group';
+import { NotFound } from 'components/not-found-page/not-found-page';
+import { BS } from 'components/bs/bs';
+import { BSCreateSpace } from 'components/bs-create-space/bs-create-space';
 
 const App: FC = () => {
-  const { user } = useAppSelector(({ auth }) => ({
+  const { user, authStatus } = useAppSelector(({ auth }) => ({
     user: auth.user,
+    authStatus: auth.dataStatus,
   }));
   const dispatch = useAppDispatch();
   const hasToken = Boolean(storage.getItem(StorageKey.TOKEN));
@@ -36,7 +41,7 @@ const App: FC = () => {
     dispatch(appActions.getTenant({ id: user.tenantId }));
   }, [user, dispatch]);
 
-  if (!hasUser && hasToken) {
+  if (!hasUser && hasToken && authStatus !== DataStatus.REJECTED) {
     return <Loader />;
   }
 
@@ -50,12 +55,28 @@ const App: FC = () => {
           element={<AuthorizedRoute component={<Dashboard />} />}
         />
         <Route
+          path={AppRoute.EAM_CONFIGURATE_GROUP}
+          element={<AuthorizedRoute component={<EAMConfigurateGroup />} />}
+        />
+        <Route
           path={AppRoute.EAM}
           element={<AuthorizedRoute component={<EAM />} />}
         />
         <Route
           path={AppRoute.EAM_CREATE_WORKER}
           element={<AuthorizedRoute component={<EAMWorkerCreate />} />}
+        />
+        <Route
+          path={AppRoute.BS}
+          element={<AuthorizedRoute component={<BS />} />}
+        />
+        <Route
+          path={AppRoute.BS_CREATE_SPACE}
+          element={<AuthorizedRoute component={<BSCreateSpace />} />}
+        />
+        <Route
+          path={AppRoute.NOT_FOUND}
+          element={<AuthorizedRoute component={<NotFound />} />}
         />
       </Routes>
       <Toaster />

@@ -1,15 +1,22 @@
-import { Master as MasterM } from '~/data/models/models';
+import {
+  Master as MasterM,
+  Permission as PermissionM,
+} from '~/data/models/models';
 import { Master as MasterEntity } from '~/services/master/master.entity';
+import { EAMMasterPermissionsItem } from '~/common/types/types';
 
 type Constructor = {
   MasterModel: typeof MasterM;
+  PermissionModel: typeof PermissionM;
 };
 
 class Master {
   #MasterModel: typeof MasterM;
+  #PermissionModel: typeof PermissionM;
 
-  constructor({ MasterModel }: Constructor) {
+  constructor({ MasterModel, PermissionModel }: Constructor) {
     this.#MasterModel = MasterModel;
+    this.#PermissionModel = PermissionModel;
   }
 
   async getByEmail(email: string): Promise<MasterEntity | null> {
@@ -23,7 +30,13 @@ class Master {
       return null;
     }
 
-    return Master.modelToEntity(master);
+    const permissions: EAMMasterPermissionsItem[] =
+      await this.#PermissionModel.query();
+    const permissionName: string[] = permissions.map(
+      (permission) => permission.name,
+    );
+
+    return Master.modelToEntity(master, permissionName);
   }
 
   async getById(id: string): Promise<MasterEntity | null> {
@@ -37,7 +50,13 @@ class Master {
       return null;
     }
 
-    return Master.modelToEntity(master);
+    const permissions: EAMMasterPermissionsItem[] =
+      await this.#PermissionModel.query();
+    const permissionName: string[] = permissions.map(
+      (permission) => permission.name,
+    );
+
+    return Master.modelToEntity(master, permissionName);
   }
 
   async create(master: MasterEntity): Promise<MasterM> {
@@ -54,7 +73,10 @@ class Master {
     });
   }
 
-  public static modelToEntity(model: MasterM): MasterEntity {
+  public static modelToEntity(
+    model: MasterM,
+    permissions: string[],
+  ): MasterEntity {
     const { id, name, email, passwordHash, passwordSalt, tenantId } = model;
 
     return MasterEntity.initialize({
@@ -65,6 +87,7 @@ class Master {
       passwordSalt,
       createdAt: new Date(model.createdAt),
       tenantId,
+      permissions,
     });
   }
 }

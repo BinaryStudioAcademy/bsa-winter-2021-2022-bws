@@ -2,16 +2,27 @@ import { FC } from 'react';
 import {
   EAMMasterSignUpRequestDto,
   EAMMasterSignInRequestDto,
+  EAMWorkerSignInRequestDto,
 } from 'common/types/types';
 import { auth as authActions } from 'store/actions';
-import { AppRoute } from 'common/enums/enums';
-import { useLocation, useAppDispatch, useAppSelector } from 'hooks/hooks';
-import { SignInForm, SignUpForm } from './components/components';
-import styles from './auth.module.scss';
+import { AppRoute, UserRole } from 'common/enums/enums';
+import {
+  useLocation,
+  useAppDispatch,
+  useAppSelector,
+  useState,
+} from 'hooks/hooks';
+import {
+  SignInMasterForm,
+  SignInWorkerForm,
+  SignUpForm,
+} from './components/components';
+import styles from './styles.module.scss';
 import logo from 'assets/img/logo.svg';
 import { Navigate } from 'components/common/common';
 
 const Auth: FC = () => {
+  const [loginUserType, setLoginUserType] = useState<UserRole>(UserRole.WORKER);
   const { user } = useAppSelector(({ auth }) => ({
     user: auth.user,
   }));
@@ -24,18 +35,46 @@ const Auth: FC = () => {
   const { pathname } = useLocation();
   const dispatch = useAppDispatch();
 
-  const handleSignInSubmit = (payload: EAMMasterSignInRequestDto): void => {
-    dispatch(authActions.signIn(payload));
+  const handleMasterSignInSubmit = (
+    payload: EAMMasterSignInRequestDto,
+  ): void => {
+    dispatch(authActions.signInMaster(payload));
+  };
+
+  const handleWorkerSignInSubmit = (
+    payload: EAMWorkerSignInRequestDto,
+  ): void => {
+    dispatch(authActions.signInWorker(payload));
   };
 
   const handleSignUpSubmit = (payload: EAMMasterSignUpRequestDto): void => {
     dispatch(authActions.signUp(payload));
   };
 
+  const handleChangeForm = (userRole: UserRole): void =>
+    setLoginUserType(userRole);
+
   const getScreen = (screen: string): React.ReactElement | null => {
     switch (screen) {
       case AppRoute.SIGN_IN: {
-        return <SignInForm onSubmit={handleSignInSubmit} />;
+        switch (loginUserType) {
+          case UserRole.WORKER: {
+            return (
+              <SignInWorkerForm
+                onSubmit={handleWorkerSignInSubmit}
+                onChangeForm={handleChangeForm}
+              />
+            );
+          }
+          default: {
+            return (
+              <SignInMasterForm
+                onSubmit={handleMasterSignInSubmit}
+                onChangeForm={handleChangeForm}
+              />
+            );
+          }
+        }
       }
       case AppRoute.SIGN_UP: {
         return <SignUpForm onSubmit={handleSignUpSubmit} />;

@@ -12,12 +12,13 @@
 
 .tableHat {
   display: flex;
-  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 20px;
-  vertical-align: center;
 }
 
 .tableTitle {
+  margin: 0;
   color: var(--color-white);
   font-weight: bold;
   font-size: 20px;
@@ -28,13 +29,12 @@
 
 .tableHeaderCell,
 .tableCell {
-  padding: 13px 100px 13px 13px;
+  padding: 13px;
   font-weight: lighter;
   font-size: 16px;
   font-style: normal;
   line-height: 20px;
   text-align: left;
-  vertical-align: center;
 }
 
 .tableHeaderRow {
@@ -52,7 +52,6 @@
 
 .tableRow:hover {
   background-color: var(--color-background);
-  cursor: pointer;
   transition-duration: 500ms;
 }
 

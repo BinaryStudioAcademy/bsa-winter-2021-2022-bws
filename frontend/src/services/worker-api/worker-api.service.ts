@@ -1,8 +1,8 @@
 import {
-  ContentType,
-  HttpMethod,
-  EAMApiPath,
   ApiPath,
+  ContentType,
+  EAMApiPath,
+  HttpMethod,
 } from 'common/enums/enums';
 import {
   EAMWorkerCreateRequestDto,

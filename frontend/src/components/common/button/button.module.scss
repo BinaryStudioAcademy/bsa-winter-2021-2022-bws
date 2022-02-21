@@ -8,47 +8,42 @@
   font-size: 16px;
   text-align: center;
   text-decoration: none;
-  border: 2px solid;
+  background-color: transparent;
+  border: 2px solid transparent;
   border-radius: 50px;
+  cursor: pointer;
   transition-duration: 0.4s;
 }
 
-.btn:hover {
-  color: var(--color-orange);
-  cursor: pointer;
-}
-
-.btnStyleFilled {
-  background-color: var(--color-orange);
-}
-
-.btnStyleOutlined {
-  color: var(--color-orange);
-  background-color: var(--color-boltgun);
-}
-
-.btnStyleOutlined:hover {
+.btnStyleFilled.btnColorOrange {
   color: var(--color-white);
   background-color: var(--color-orange);
-}
-
-.btnStyleFilled:hover {
-  background-color: var(--color-boltgun);
-}
-
-.btnColorOrange {
-  color: var(--color-white);
   border-color: var(--color-orange);
 }
 
-.btnColorGray {
+.btnStyleFilled.btnColorOrange:hover {
+  color: var(--color-orange);
+  background-color: transparent;
+}
+
+.btnStyleFilled.btnColorGray {
   color: var(--color-text-gray);
   background-color: var(--color-boltgun);
   border-color: var(--color-boltgun);
 }
 
-.btnColorGray:hover {
+.btnStyleFilled.btnColorGray:hover {
   color: var(--color-text-light);
   background-color: var(--color-orange);
   border-color: var(--color-orange);
+}
+
+.btnStyleOutlined.btnColorOrange {
+  color: var(--color-orange);
+  border-color: var(--color-orange);
+}
+
+.btnStyleOutlined.btnColorOrange:hover {
+  color: var(--color-white);
+  background-color: var(--color-orange);
 }

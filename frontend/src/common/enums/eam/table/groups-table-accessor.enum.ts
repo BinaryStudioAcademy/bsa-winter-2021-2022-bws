@@ -1,4 +1,5 @@
 enum GroupsTableAccessor {
+  ID = 'id',
   GROUP_NAME = 'name',
   USERS = 'usersCount',
   PERMISSIONS = 'permissions',

@@ -1,18 +1,25 @@
 import { FastifyPluginAsync, FastifyRequest } from 'fastify';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
-import { group as groupServ, worker as workerServ } from '~/services/services';
+import {
+  group as groupServ,
+  worker as workerServ,
+  permission as permissionServ,
+} from '~/services/services';
 import {
   HttpCode,
   HttpMethod,
   EAMApiPath,
   GroupsApiPath,
+  WorkersApiPath,
 } from '~/common/enums/enums';
 import {
   EAMGroupCreateRequestDto,
   EAMGroupGetByTenantRequestParamsDto,
+  EAMWorkerGetByTenantRequestParamsDto,
   EAMWorkerCreateRequestDto,
 } from '~/common/types/types';
-import { EamWorkerCreate as workerValidationSchema } from '~/validation-schemas/validation-schemas';
+import { eamWorkerCreate as workerValidationSchema } from '~/validation-schemas/validation-schemas';
+import { eamGroupCreate as groupCreateValidationSchema } from '~/validation-schemas/validation-schemas';
 
 type Options = {
   services: {
@@ -55,13 +62,25 @@ const initEamApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
             token,
           }),
         )
-        .status(HttpCode.OK);
+        .status(HttpCode.CREATED);
     },
   });
 
   fastify.route({
     method: HttpMethod.POST,
     url: EAMApiPath.GROUPS,
+    schema: {
+      body: groupCreateValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof groupCreateValidationSchema>) {
+      return (
+        data: EAMGroupCreateRequestDto,
+      ): ReturnType<typeof groupCreateValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
     async handler(
       req: FastifyRequest<{ Body: EAMGroupCreateRequestDto }>,
       rep,
@@ -73,9 +92,14 @@ const initEamApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
 
   fastify.route({
     method: HttpMethod.GET,
-    url: EAMApiPath.WORKERS,
-    async handler(req, rep) {
-      const workers = await workerService.getAll();
+    url: `${EAMApiPath.WORKERS}${WorkersApiPath.ROOT}`,
+    async handler(
+      req: FastifyRequest<{
+        Querystring: EAMWorkerGetByTenantRequestParamsDto;
+      }>,
+      rep,
+    ) {
+      const workers = await workerService.getAll(req.query);
       return rep.send(workers).status(HttpCode.OK);
     },
   });
@@ -89,6 +113,15 @@ const initEamApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     ) {
       const groups = await groupService.getGroupsByTenant(req.query);
       return rep.send(groups).status(HttpCode.OK);
+    },
+  });
+
+  fastify.route({
+    method: HttpMethod.GET,
+    url: `${EAMApiPath.PERMISSION}`,
+    async handler(req, rep) {
+      const permission = await permissionServ.getAll();
+      return rep.send(permission).status(HttpCode.OK);
     },
   });
 };

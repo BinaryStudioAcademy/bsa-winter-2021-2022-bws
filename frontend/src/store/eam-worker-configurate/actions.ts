@@ -3,6 +3,8 @@ import {
   EAMWorkerCreateRequestDto,
   EAMWorkerCreateResponseDto,
   AsyncThunkConfig,
+  EAMGroupGetByTenantRequestParamsDto,
+  EAMGroupGetByTenantResponseDto,
 } from 'common/types/types';
 import { ActionType } from './common';
 import { getRandomId } from 'helpers/helpers';
@@ -20,7 +22,6 @@ const workerCreate = createAsyncThunk<
     const worker = await workerApi.createWorker({
       ...payload,
       password: getRandomId(),
-      groupIds: [],
     });
 
     navigation.push(AppRoute.EAM);
@@ -31,4 +32,13 @@ const workerCreate = createAsyncThunk<
   },
 );
 
-export { workerCreate };
+const getGroups = createAsyncThunk<
+  EAMGroupGetByTenantResponseDto,
+  EAMGroupGetByTenantRequestParamsDto,
+  AsyncThunkConfig
+>(ActionType.GET_GROUPS, async (filter, { extra }) => {
+  const { eamApi } = extra;
+  return eamApi.loadGroups(filter);
+});
+
+export { workerCreate, getGroups };

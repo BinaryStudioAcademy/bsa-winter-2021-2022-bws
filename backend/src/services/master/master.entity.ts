@@ -8,6 +8,7 @@ class Master {
   public passwordSalt: string;
   public createdAt: Date;
   public tenantId: string;
+  public permissions: string[];
 
   private constructor({
     id,
@@ -17,6 +18,7 @@ class Master {
     passwordSalt,
     createdAt,
     tenantId,
+    permissions,
   }: {
     id: string;
     name: string;
@@ -25,6 +27,7 @@ class Master {
     passwordSalt: string;
     createdAt: Date;
     tenantId: string;
+    permissions?: string[];
   }) {
     this.id = id;
     this.name = name;
@@ -33,6 +36,7 @@ class Master {
     this.passwordSalt = passwordSalt;
     this.createdAt = createdAt;
     this.tenantId = tenantId;
+    this.permissions = permissions as string[];
   }
 
   public static initialize({
@@ -43,6 +47,7 @@ class Master {
     passwordSalt,
     createdAt,
     tenantId,
+    permissions,
   }: {
     id: string;
     name: string;
@@ -51,6 +56,7 @@ class Master {
     passwordSalt: string;
     createdAt: Date;
     tenantId: string;
+    permissions: string[];
   }): Master {
     return new Master({
       id,
@@ -60,6 +66,7 @@ class Master {
       passwordSalt,
       createdAt,
       tenantId,
+      permissions,
     });
   }
 

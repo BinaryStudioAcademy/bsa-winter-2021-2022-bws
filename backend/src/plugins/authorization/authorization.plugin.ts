@@ -1,20 +1,19 @@
+import fp from 'fastify-plugin';
 import { FastifyPluginAsync } from 'fastify';
 import { ControllerHook, ExceptionMessage } from '~/common/enums/enums';
-import { TokenPayload } from '~/common/types/types';
 import { InvalidCredentialsError } from '~/exceptions/exceptions';
-import { master as masterServ, token as tokenServ } from '~/services/services';
+import { auth as authServ } from '~/services/services';
 
 type Options = {
   whiteRoutes: string[];
   services: {
-    master: typeof masterServ;
-    token: typeof tokenServ;
+    auth: typeof authServ;
   };
 };
 
-const authorization: FastifyPluginAsync<Options> = async (fastify, opts) => {
+const authorization: FastifyPluginAsync<Options> = fp(async (fastify, opts) => {
   const { whiteRoutes, services } = opts;
-  const { master, token: tokenService } = services;
+  const { auth } = services;
 
   fastify.addHook(ControllerHook.ON_REQUEST, async (request) => {
     const isWhiteRoute = whiteRoutes.some(
@@ -25,16 +24,14 @@ const authorization: FastifyPluginAsync<Options> = async (fastify, opts) => {
     }
 
     const [, token] = request.headers?.authorization?.split(' ') ?? [];
-    const { userId } = tokenService.decode<TokenPayload>(token);
-
-    const authorizedUser = await master.getMasterById(userId);
-    if (!authorizedUser) {
+    if (typeof token !== 'string') {
       throw new InvalidCredentialsError({
-        message: ExceptionMessage.INVALID_TOKEN,
+        message: ExceptionMessage.UNAUTHORIZED_USER,
       });
     }
 
-    fastify.decorateRequest('user', authorizedUser);
+    await auth.getCurrentUser(token);
   });
-};
+});
+
 export { authorization };

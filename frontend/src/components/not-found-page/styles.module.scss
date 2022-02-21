@@ -1,0 +1,27 @@
+.wrapper {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 35px 40px;
+  background-image: url("/assets/img/decorate.svg");
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  background-size: cover;
+}
+
+.title {
+  display: flex;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+  color: var(--color-white);
+  font-size: 28px;
+  line-height: 32px;
+}
+
+.link {
+  color: var(--color-orange);
+  text-decoration: none;
+}

@@ -5,7 +5,7 @@ type Props = {
   label: string;
   isChecked?: boolean;
   isDisabled?: boolean;
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
 
 const Checkbox: FC<Props> = ({

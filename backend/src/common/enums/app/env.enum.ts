@@ -17,6 +17,9 @@ const {
   DB_POOL_MIN,
   DB_POOL_MAX,
   DB_DIALECT,
+  AWS_REGION,
+  AWS_ACCESS_KEY,
+  AWS_SECRET_KEY,
 } = process.env;
 
 const ENV = {
@@ -39,6 +42,11 @@ const ENV = {
     POOL_MIN: Number(DB_POOL_MIN),
     POOL_MAX: Number(DB_POOL_MAX),
     DIALECT: DB_DIALECT,
+  },
+  AWS: {
+    REGION: AWS_REGION as string,
+    ACCESS_KEY: AWS_ACCESS_KEY as string,
+    SECRET_KEY: AWS_SECRET_KEY as string,
   },
   API: {
     V1_PREFIX: '/api/v1',
