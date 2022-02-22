@@ -1,5 +1,4 @@
 import { FastifyPluginAsync, FastifyRequest } from 'fastify';
-import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 import {
   group as groupServ,
   worker as workerServ,
@@ -18,8 +17,8 @@ import {
   EAMWorkerGetByTenantRequestParamsDto,
   EAMWorkerCreateRequestDto,
 } from '~/common/types/types';
-import { eamWorkerCreate as workerValidationSchema } from '~/validation-schemas/validation-schemas';
 import { eamGroupCreate as groupCreateValidationSchema } from '~/validation-schemas/validation-schemas';
+import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 
 type Options = {
   services: {
@@ -35,18 +34,6 @@ const initEamApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
   fastify.route({
     method: HttpMethod.POST,
     url: EAMApiPath.WORKERS,
-    schema: {
-      body: workerValidationSchema,
-    },
-    validatorCompiler({
-      schema,
-    }: FastifyRouteSchemaDef<typeof workerValidationSchema>) {
-      return (
-        data: EAMWorkerCreateRequestDto,
-      ): ReturnType<typeof workerValidationSchema['validate']> => {
-        return schema.validate(data);
-      };
-    },
     async handler(
       req: FastifyRequest<{ Body: EAMWorkerCreateRequestDto }>,
       rep,

@@ -15,7 +15,7 @@ import {
 import { getNameOf } from 'helpers/helpers';
 import { Input, Button, Table } from 'components/common/common';
 import { EAMWorkerCreateRequestDto } from 'common/types/types';
-import { eamWorkerCreate as CreateWorkerValidationSchema } from 'validation-schemas/validation-schemas';
+import { eamWorkerCreateFrontend as CreateWorkerValidationSchema } from 'validation-schemas/validation-schemas';
 import styles from './styles.module.scss';
 import { EAMWorkerConfigurate as EAMWorkerConfigurateActions } from 'store/actions';
 import { DEFAULT_PAYLOAD } from './common/constants';

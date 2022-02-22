@@ -15,8 +15,6 @@ export { HttpCode, HttpHeader, HttpMethod } from './http/http';
 export {
   EAMWorkerValidationMessage,
   EAMWorkerValidationRule,
-  EAMWorkerValidationMessageBackend,
-  EAMWorkerValidationRuleBackend,
   EAMMasterValidationMessage,
   EAMMasterValidationRule,
   EAMGroupValidationRule,

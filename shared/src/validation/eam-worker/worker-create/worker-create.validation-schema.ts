@@ -6,7 +6,7 @@ import {
   EAMWorkerValidationRule,
 } from '~/common/enums/enums';
 
-const eamWorkerCreate = Joi.object({
+const eamWorkerCreateFrontend = Joi.object({
   [getNameOf<EAMWorkerCreateRequestDto>('name')]: Joi.string()
     .trim()
     .min(EAMWorkerValidationRule.NAME_MIN_LENGTH)
@@ -18,6 +18,11 @@ const eamWorkerCreate = Joi.object({
       'string.min': EAMWorkerValidationMessage.NAME_MIN_LENGTH,
       'string.pattern.base': EAMWorkerValidationMessage.NAME_REGEX,
     }),
+  [getNameOf<EAMWorkerCreateRequestDto>('groupIds')]: Joi.array()
+    .required()
+    .messages({
+      'array.empty': EAMWorkerValidationMessage.GROUPIDS_REQUIRE,
+    }),
 });
 
-export { eamWorkerCreate };
+export { eamWorkerCreateFrontend };
