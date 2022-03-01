@@ -5,6 +5,7 @@ import { getNameOf } from 'helpers/helpers';
 import { EAMWorkerSignInRequestDto } from 'common/types/types';
 import { Button, Input, PasswordInput } from 'components/common/common';
 import { DEFAULT_WORKER_LOGIN_PAYLOAD } from './common/constants';
+import { eamWorkerSignIn as workerSignInValidationSchema } from 'validation-schemas/validation-schemas';
 import styles from './styles.module.scss';
 
 type Props = {
@@ -16,6 +17,7 @@ const SignInWorkerForm: FC<Props> = ({ onSubmit, onChangeForm }) => {
   const { control, errors, handleSubmit } =
     useAppForm<EAMWorkerSignInRequestDto>({
       defaultValues: DEFAULT_WORKER_LOGIN_PAYLOAD,
+      validationSchema: workerSignInValidationSchema,
     });
 
   const handleOnChangeForm = (): void => {
