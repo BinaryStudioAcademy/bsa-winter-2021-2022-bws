@@ -11,9 +11,13 @@ import {
   operationSystem,
   keyPair,
   slcFunction,
+  bsObject,
 } from '~/services/services';
 import { WHITE_ROUTES } from '~/common/constants/constants';
-import { authorization as authorizationPlugin } from '~/plugins/plugins';
+import {
+  authorization as authorizationPlugin,
+  file as filePlugin,
+} from '~/plugins/plugins';
 import { initMastersApi } from './masters/masters.api';
 import { initTenantsApi } from './tenants/tenants.api';
 import { initBsApi } from '~/api/bs/bs.api';
@@ -29,6 +33,7 @@ const initApi: FastifyPluginAsync = async (fastify) => {
     },
     whiteRoutes: WHITE_ROUTES,
   });
+  fastify.register(filePlugin);
   fastify.register(initAuthApi, {
     services: {
       auth,
@@ -65,6 +70,7 @@ const initApi: FastifyPluginAsync = async (fastify) => {
   fastify.register(initBsApi, {
     services: {
       space,
+      bsObject,
     },
     prefix: ApiPath.BS,
   });
