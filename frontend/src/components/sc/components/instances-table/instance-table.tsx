@@ -3,12 +3,19 @@ import { useAppSelector, useMemo } from 'hooks/hooks';
 import { Table } from 'components/common/common';
 import { getRows, getColumns } from './helpers/helpers';
 
-const InstancesTable: FC = ({ children }) => {
+type Props = {
+  onDeleteInstance: (id: string) => void;
+};
+
+const InstancesTable: FC<Props> = ({ children, onDeleteInstance }) => {
   const { instances } = useAppSelector(({ sc }) => ({
     instances: sc.instances,
   }));
 
-  const data = useMemo(() => getRows(instances), [instances]);
+  const data = useMemo(
+    () => getRows({ instances, onDeleteInstance }),
+    [instances, onDeleteInstance],
+  );
 
   const columns = useMemo(() => getColumns(), []);
 

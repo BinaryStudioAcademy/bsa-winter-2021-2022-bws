@@ -1,7 +1,10 @@
 import { FastifyPluginAsync, FastifyRequest } from 'fastify';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 import { auth as authServ } from '~/services/services';
-import { eamMasterSignIn as masterSignInValidationSchema } from '~/validation-schemas/validation-schemas';
+import {
+  eamMasterSignIn as masterSignInValidationSchema,
+  eamWorkerSignIn as workerSignInValidationSchema,
+} from '~/validation-schemas/validation-schemas';
 import {
   HttpCode,
   HttpMethod,
@@ -65,6 +68,18 @@ const initAuthApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
   fastify.route({
     method: HttpMethod.POST,
     url: AuthApiPath.WORKER,
+    schema: {
+      body: workerSignInValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof workerSignInValidationSchema>) {
+      return (
+        data: EAMWorkerSignInRequestDto,
+      ): ReturnType<typeof workerSignInValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
     async handler(
       req: FastifyRequest<{ Body: EAMWorkerSignInRequestDto }>,
       rep,

@@ -37,6 +37,7 @@ export {
   type SCInstanceGetByTenantRequestParamsDto,
   type SCInstanceGetByTenantResponseItemDto,
   type SCInstanceGetByTenantResponseDto,
+  type SCInstanceDeleteRequestDto,
 } from './sc-instance/sc-instance';
 export { type SCOperationSystemGetAllResponseDto } from './sc-operation-system/sc-operation-system';
 export {

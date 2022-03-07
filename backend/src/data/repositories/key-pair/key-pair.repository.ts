@@ -12,6 +12,10 @@ class KeyPair {
     this.#KeyPairModel = KeyPairModel;
   }
 
+  public async delete(id: string): Promise<number> {
+    return this.#KeyPairModel.query().deleteById(id).first();
+  }
+
   async getById(id: string): Promise<KeyPairEntity | null> {
     const keyPair = await this.#KeyPairModel
       .query()

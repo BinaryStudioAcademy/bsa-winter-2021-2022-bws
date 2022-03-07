@@ -1,6 +1,7 @@
 export {
   EamWorkerCreate,
   eamWorkerCreateBackend,
+  eamWorkerSignIn,
 } from './eam-worker/eam-worker';
 export {
   eamMasterSignUp,

@@ -8,7 +8,12 @@ import {
 } from 'components/common/common';
 import { useAppDispatch, useAppSelector, useEffect } from 'hooks/hooks';
 import { auth as authActions, app as appActions } from 'store/actions';
-import { AppRoute, DataStatus, StorageKey } from 'common/enums/enums';
+import {
+  AppRoute,
+  DataStatus,
+  StorageKey,
+  Permission,
+} from 'common/enums/enums';
 import { Auth } from 'components/auth/auth';
 import { Dashboard } from 'components/dashboard/dashboard';
 import { storage } from 'services/services';
@@ -64,7 +69,12 @@ const App: FC = () => {
         />
         <Route
           path={AppRoute.EAM}
-          element={<AuthorizedRoute component={<EAM />} />}
+          element={
+            <AuthorizedRoute
+              component={<EAM />}
+              permissions={[Permission.MANAGE_EAM]}
+            />
+          }
         />
         <Route
           path={AppRoute.EAM_CREATE_WORKER}
@@ -72,7 +82,12 @@ const App: FC = () => {
         />
         <Route
           path={AppRoute.BS}
-          element={<AuthorizedRoute component={<BS />} />}
+          element={
+            <AuthorizedRoute
+              component={<BS />}
+              permissions={[Permission.MANAGE_BS]}
+            />
+          }
         />
         <Route
           path={AppRoute.BS_CREATE_SPACE}
@@ -80,7 +95,12 @@ const App: FC = () => {
         />
         <Route
           path={AppRoute.SC}
-          element={<AuthorizedRoute component={<SC />} />}
+          element={
+            <AuthorizedRoute
+              component={<SC />}
+              permissions={[Permission.MANAGE_SC]}
+            />
+          }
         />
         <Route
           path={AppRoute.SC_CONFIGURATE_INSTANCE}
@@ -88,7 +108,12 @@ const App: FC = () => {
         />
         <Route
           path={AppRoute.SLC}
-          element={<AuthorizedRoute component={<SLC />} />}
+          element={
+            <AuthorizedRoute
+              component={<SLC />}
+              permissions={[Permission.MANAGE_SLC]}
+            />
+          }
         />
         <Route
           path={AppRoute.SLC_CONFIGURATE_FUNCTION}

@@ -1,6 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { NotificationTitle, NotificationMessage } from 'common/enums/enums';
-import { AppRoute } from 'common/enums/enums';
+import {
+  NotificationTitle,
+  NotificationMessage,
+  AppRoute,
+} from 'common/enums/enums';
 import {
   AsyncThunkConfig,
   BSSpaceCreateRequestDto,

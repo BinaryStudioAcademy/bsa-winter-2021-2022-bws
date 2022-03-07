@@ -1,4 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { NotificationTitle, NotificationMessage } from 'common/enums/enums';
 import {
   SCInstanceGetByTenantRequestParamsDto,
   SCInstanceGetByTenantResponseDto,
@@ -15,4 +16,20 @@ const loadInstances = createAsyncThunk<
   return scApi.loadInstances(params);
 });
 
-export { loadInstances };
+const deleteInstance = createAsyncThunk<string, string, AsyncThunkConfig>(
+  ActionType.DELETE_INSTANCE,
+  async (id, { extra }) => {
+    const { scApi, notification } = extra;
+
+    await scApi.deleteInstance(id);
+
+    notification.success(
+      NotificationTitle.SUCCESS,
+      NotificationMessage.SC_INSTANCE_DELETE,
+    );
+
+    return id;
+  },
+);
+
+export { loadInstances, deleteInstance };

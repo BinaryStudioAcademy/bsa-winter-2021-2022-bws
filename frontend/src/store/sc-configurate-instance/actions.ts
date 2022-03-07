@@ -1,5 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { NotificationTitle, NotificationMessage } from 'common/enums/enums';
+import {
+  NotificationTitle,
+  NotificationMessage,
+  AppRoute,
+} from 'common/enums/enums';
 import {
   SCOperationSystemGetAllResponseDto,
   SCInstanceCreateRequestDto,
@@ -7,7 +11,6 @@ import {
   AsyncThunkConfig,
 } from 'common/types/types';
 import { ActionType } from './common';
-import { AppRoute } from 'common/enums/enums';
 
 const loadOperationSystems = createAsyncThunk<
   SCOperationSystemGetAllResponseDto,
@@ -32,7 +35,7 @@ const createInstance = createAsyncThunk<
 
   notification.success(
     NotificationTitle.SUCCESS,
-    NotificationMessage.SL_INSTANCE_CREATE,
+    NotificationMessage.SC_INSTANCE_CREATE,
   );
 
   return instance;

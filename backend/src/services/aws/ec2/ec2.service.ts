@@ -7,6 +7,8 @@ import {
   waitUntilInstanceRunning,
   Reservation,
   Instance,
+  DeleteKeyPairCommand,
+  TerminateInstancesCommand,
 } from '@aws-sdk/client-ec2';
 import { InstanceDefaultParam } from '~/common/enums/enums';
 
@@ -40,6 +42,10 @@ class EC2 {
       name: key.KeyName as string,
       keyMaterial: key.KeyMaterial as string,
     };
+  }
+
+  public async deleteKeyPair(name: string): Promise<void> {
+    await this.#ec2Client.send(new DeleteKeyPairCommand({ KeyName: name }));
   }
 
   public async createInstance({
@@ -101,6 +107,12 @@ class EC2 {
       instanceId: instanceId as string,
       hostname: publicDnsName as string,
     };
+  }
+
+  public async deleteInstance(instanceId: string): Promise<void> {
+    await this.#ec2Client.send(
+      new TerminateInstancesCommand({ InstanceIds: [instanceId] }),
+    );
   }
 }
 

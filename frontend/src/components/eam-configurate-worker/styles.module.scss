@@ -70,9 +70,14 @@
 
 .buttonContainer {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   gap: 10px;
+}
+
+.buttons {
+  display: flex;
+  gap: 0 10px;
 }
 
 .button {
@@ -80,7 +85,6 @@
 }
 
 .saveBtn {
-  margin-right: 32%;
   color: var(--color-orange);
   font-weight: 500;
   font-size: 14px;

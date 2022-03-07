@@ -15,7 +15,7 @@ const EamWorkerCreate = Joi.object({
     .required()
     .messages({
       'string.empty': EAMWorkerValidationMessage.NAME_REQUIRE,
-      'string.min': EAMWorkerValidationMessage.NAME_MIN_LENGTH,
+      'string.min': EAMWorkerValidationMessage.NAME_LENGTH,
       'string.pattern.base': EAMWorkerValidationMessage.NAME_REGEX,
     }),
 });

@@ -1,1 +1,4 @@
-export { eamWorkerCreateBackend } from 'bws-shared/validation/eam-worker/eam-worker';
+export {
+  eamWorkerCreateBackend,
+  eamWorkerSignIn,
+} from 'bws-shared/validation/eam-worker/eam-worker';

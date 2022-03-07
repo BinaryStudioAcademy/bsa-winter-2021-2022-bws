@@ -1,4 +1,4 @@
-export { EamWorkerCreate } from './worker/worker';
+export { EamWorkerCreate, eamWorkerSignIn } from './worker/worker';
 export { eamGroupConfigurate } from './group/group';
 export {
   eamMasterSignUp,

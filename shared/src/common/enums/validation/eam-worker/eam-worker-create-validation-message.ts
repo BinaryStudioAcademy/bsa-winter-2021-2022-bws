@@ -1,8 +1,7 @@
 import { EAMWorkerValidationRule } from './eam-worker-create-validation-rule.enum';
 const EAMWorkerValidationMessage = {
   NAME_REQUIRE: 'Worker name is required',
-  NAME_MIN_LENGTH: `Worker name must have a minimum of ${EAMWorkerValidationRule.NAME_MIN_LENGTH} and a maximum of ${EAMWorkerValidationRule.NAME_MAX_LENGTH} characters`,
-  NAME_MAX_LENGTH: `Worker name must have a minimum of ${EAMWorkerValidationRule.NAME_MIN_LENGTH} and a maximum of ${EAMWorkerValidationRule.NAME_MAX_LENGTH} characters`,
+  NAME_LENGTH: `Worker name must have a minimum of ${EAMWorkerValidationRule.NAME_MIN_LENGTH} and a maximum of ${EAMWorkerValidationRule.NAME_MAX_LENGTH} characters`,
   NAME_REGEX: 'Worker name can contain latin letters, digits, hyphen or dot',
   TENANT_NAME_REQUIRE: 'Tenant name is required',
   TENANT_NAME_MIN_LENGTH: `Tenant name must have a minimum of ${EAMWorkerValidationRule.TENANT_NAME_MIN_LENGTH} and a maximum of ${EAMWorkerValidationRule.TENANT_NAME_MAX_LENGTH} characters`,

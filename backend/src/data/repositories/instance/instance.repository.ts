@@ -13,6 +13,24 @@ class Instance {
     this.#InstanceModel = InstanceModel;
   }
 
+  public async delete(id: string): Promise<number> {
+    return this.#InstanceModel.query().deleteById(id).first();
+  }
+
+  public async getById(id: string): Promise<InstanceEntity | null> {
+    const instance = await this.#InstanceModel
+      .query()
+      .select()
+      .where({ id })
+      .first();
+
+    if (!instance) {
+      return null;
+    }
+
+    return Instance.modelToEntity(instance);
+  }
+
   public async getByTenantId({
     filter,
     tenantId,

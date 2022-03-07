@@ -18,6 +18,10 @@ const SC: FC = () => {
     );
   }, [dispatch]);
 
+  const handleDeleteInstance = (id: string): void => {
+    dispatch(scActions.deleteInstance(id));
+  };
+
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>
@@ -25,7 +29,7 @@ const SC: FC = () => {
         Server Computing
       </h2>
       <div className={styles.tableWrapper}>
-        <InstancesTable>
+        <InstancesTable onDeleteInstance={handleDeleteInstance}>
           <Button
             className={styles.addInstanceBtn}
             to={AppRoute.SC_CONFIGURATE_INSTANCE}

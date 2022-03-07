@@ -17,8 +17,10 @@ import {
   EAMWorkerGetByTenantRequestParamsDto,
   EAMWorkerCreateRequestDto,
 } from '~/common/types/types';
-import { eamGroupCreate as groupCreateValidationSchema } from '~/validation-schemas/validation-schemas';
-import { eamWorkerCreateBackend as workerValidationSchema } from '~/validation-schemas/validation-schemas';
+import {
+  eamGroupCreate as groupCreateValidationSchema,
+  eamWorkerCreateBackend as workerValidationSchema,
+} from '~/validation-schemas/validation-schemas';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 
 type Options = {

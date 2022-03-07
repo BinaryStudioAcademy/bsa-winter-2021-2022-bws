@@ -1,6 +1,7 @@
 import {
   ApiPath,
   SCApiPath,
+  InstancesApiPath,
   HttpMethod,
   ContentType,
 } from 'common/enums/enums';
@@ -40,10 +41,13 @@ class SCApi {
   public async loadInstances(
     params: SCInstanceGetByTenantRequestParamsDto,
   ): Promise<SCInstanceGetByTenantResponseDto> {
-    return this.#http.load(joinItems(this.#apiPrefix, ApiPath.SC), {
-      method: HttpMethod.GET,
-      params,
-    });
+    return this.#http.load(
+      joinItems(this.#apiPrefix, ApiPath.SC, SCApiPath.ROOT),
+      {
+        method: HttpMethod.GET,
+        params,
+      },
+    );
   }
 
   public async createInstance(
@@ -55,6 +59,21 @@ class SCApi {
         method: HttpMethod.POST,
         contentType: ContentType.JSON,
         payload: JSON.stringify(payload),
+      },
+    );
+  }
+
+  public deleteInstance(id: string): Promise<boolean> {
+    return this.#http.load(
+      joinItems(
+        this.#apiPrefix,
+        ApiPath.SC,
+        SCApiPath.INSTANCES,
+        InstancesApiPath.ROOT,
+        id,
+      ),
+      {
+        method: HttpMethod.DELETE,
       },
     );
   }

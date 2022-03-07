@@ -7,7 +7,7 @@ const EAMWorkerValidationRule = {
   TENANT_NAME_PATTERN: /^[a-zA-Z]+$/,
   PASSWORD_MIN_LENGTH: 8,
   PASSWORD_MAX_LENGTH: 40,
-  PASSWORD_PATTERN: /^[a-zA-Z0-9\-.@!#$%&'*+-/=?^_`|]+$/,
+  PASSWORD_PATTERN: /^[a-zA-Z0-9.@!#$%&'*+=?^_`|/\-\\]+$/,
 } as const;
 
 export { EAMWorkerValidationRule };

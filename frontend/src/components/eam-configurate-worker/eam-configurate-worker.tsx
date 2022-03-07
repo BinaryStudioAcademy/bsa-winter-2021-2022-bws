@@ -128,15 +128,17 @@ const EAMConfigurateWorker: FC = () => {
                 Save csv
               </button>
             )}
-            <div className={styles.button}>
-              <Button
-                btnStyle={ButtonStyle.OUTLINED}
-                label="Cancel"
-                to={AppRoute.EAM}
-              />
-            </div>
-            <div className={styles.button}>
-              <Button type={ButtonType.SUBMIT} label="Create" />
+            <div className={styles.buttons}>
+              <div className={styles.button}>
+                <Button
+                  btnStyle={ButtonStyle.OUTLINED}
+                  label="Cancel"
+                  to={AppRoute.EAM}
+                />
+              </div>
+              <div className={styles.button}>
+                <Button type={ButtonType.SUBMIT} label="Create" />
+              </div>
             </div>
           </div>
         </form>

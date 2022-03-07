@@ -28,6 +28,10 @@ class KeyPair {
 
     return id;
   }
+
+  public async delete(id: string): Promise<void> {
+    await this.#keyPairRepository.delete(id);
+  }
 }
 
 export { KeyPair };

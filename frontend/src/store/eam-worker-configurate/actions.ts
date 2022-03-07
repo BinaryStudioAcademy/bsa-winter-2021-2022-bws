@@ -1,5 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { NotificationTitle, NotificationMessage } from 'common/enums/enums';
+import {
+  NotificationTitle,
+  NotificationMessage,
+  EAMCreateWorkerCSVColumn,
+} from 'common/enums/enums';
 import {
   EAMWorkerCreateRequestDto,
   AsyncThunkConfig,
@@ -8,7 +12,6 @@ import {
 } from 'common/types/types';
 import { ActionType } from './common';
 import { getRandomId } from 'helpers/helpers';
-import { EAMCreateWorkerCSVColumn } from 'common/enums/enums';
 
 const workerCreate = createAsyncThunk<
   string[][],
