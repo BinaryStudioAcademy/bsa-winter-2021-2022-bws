@@ -25,6 +25,10 @@ const eamWorkerSignIn = Joi.object({
     .max(EAMWorkerValidationRule.NAME_MAX_LENGTH)
     .rule({ message: EAMWorkerValidationMessage.NAME_LENGTH })
     .regex(EAMWorkerValidationRule.NAME_REGEX)
+    .ruleset.regex(EAMWorkerValidationRule.NAME_REGEX_FIRST_AND_LAST_CHARTER)
+    .rule({
+      message: EAMWorkerValidationMessage.NAME_REGEX_FIRST_AND_LAST_CHARTER,
+    })
     .required()
     .messages({
       'string.empty': EAMWorkerValidationMessage.NAME_REQUIRE,
