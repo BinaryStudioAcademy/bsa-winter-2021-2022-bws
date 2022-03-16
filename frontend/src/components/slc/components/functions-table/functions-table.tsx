@@ -20,7 +20,12 @@ const FunctionsTable: FC<Props> = ({ children, onFunctionDelete }) => {
   const columns = useMemo(() => getColumns(), []);
 
   return (
-    <Table columns={columns} data={data} title="Functions">
+    <Table
+      columns={columns}
+      data={data}
+      title="Functions"
+      placeholder="No functions to display"
+    >
       {children}
     </Table>
   );

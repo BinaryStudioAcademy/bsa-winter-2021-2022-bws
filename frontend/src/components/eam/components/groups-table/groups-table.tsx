@@ -17,7 +17,12 @@ const GroupsTable: FC<Props> = ({ children, onGroupDelete }) => {
   const columns = useMemo(() => getColumns(), []);
 
   return (
-    <Table columns={columns} data={data} title="Groups">
+    <Table
+      columns={columns}
+      data={data}
+      title="Groups"
+      placeholder="No groups to display"
+    >
       {children}
     </Table>
   );

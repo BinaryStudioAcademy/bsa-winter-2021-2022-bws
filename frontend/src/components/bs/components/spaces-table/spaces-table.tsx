@@ -17,7 +17,12 @@ const SpacesTable: FC<Props> = ({ children, onSpaceDelete }) => {
   const columns = useMemo(() => getColumns(), []);
 
   return (
-    <Table columns={columns} data={data} title="Spaces">
+    <Table
+      columns={columns}
+      data={data}
+      title="Spaces"
+      placeholder="No spaces to display"
+    >
       {children}
     </Table>
   );

@@ -25,7 +25,12 @@ const InstancesTable: FC<Props> = ({
   const columns = useMemo(() => getColumns(), []);
 
   return (
-    <Table columns={columns} data={data} title="Instances">
+    <Table
+      columns={columns}
+      data={data}
+      title="Instances"
+      placeholder="No instances to display"
+    >
       {children}
     </Table>
   );
