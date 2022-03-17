@@ -8,21 +8,6 @@ import { bs as bsActions } from 'store/actions';
 
 const BS: FC = () => {
   const dispatch = useAppDispatch();
-  const changeHandler = (e: React.FormEvent<HTMLInputElement>) => {
-    const formData = new FormData();
-    const files = e.currentTarget.files;
-    if (files) {
-      formData.append('file', files[0]);
-    }
-    const spaceId = '5148d1ab-3929-4403-8922-f5d86cddbc11';
-    fetch(`http://localhost:3001/api/v1/bs/spaces/${spaceId}/objects`, {
-      method: 'POST',
-      headers: {
-        authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-      body: formData,
-    }).then((response) => response.json());
-  };
 
   useEffect(() => {
     dispatch(
@@ -52,7 +37,6 @@ const BS: FC = () => {
         BS - <br />
         Binary Storage
       </h2>
-      <input type="file" onChange={changeHandler} />
       <div className={styles.tableWrapper}>
         <SpacesTable onSpaceDelete={handleSpaceDelete}>
           <div className={styles.buttonsBlock}>
