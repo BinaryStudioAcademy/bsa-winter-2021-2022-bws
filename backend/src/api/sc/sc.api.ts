@@ -2,12 +2,14 @@ import { FastifyPluginAsync, FastifyRequest } from 'fastify';
 import {
   instance as InstanceServ,
   operationSystem as OperationSystemServ,
+  keyPair as KeyPairServ,
 } from '~/services/services';
 import {
   HttpCode,
   HttpMethod,
   SCApiPath,
   InstancesApiPath,
+  SshKeysApiPath,
 } from '~/common/enums/enums';
 import {
   SCInstanceCreateRequestDto,
@@ -15,6 +17,7 @@ import {
   SCInstanceDeleteParamsDto,
   SCInstanceUpdateParamsDto,
   SCInstanceUpdateRequestDto,
+  SCSshKeyGetByIdParamsDto,
 } from '~/common/types/types';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 import {
@@ -26,12 +29,16 @@ type Options = {
   services: {
     instance: typeof InstanceServ;
     operationSystem: typeof OperationSystemServ;
+    keyPair: typeof KeyPairServ;
   };
 };
 
 const initScApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
-  const { instance: instanceService, operationSystem: operationSystemService } =
-    opts.services;
+  const {
+    instance: instanceService,
+    operationSystem: operationSystemService,
+    keyPair: keyPairService,
+  } = opts.services;
 
   fastify.route({
     method: HttpMethod.GET,
@@ -39,6 +46,20 @@ const initScApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     async handler(req, rep) {
       const operationSystems = await operationSystemService.getAll();
       return rep.send(operationSystems).status(HttpCode.OK);
+    },
+  });
+
+  fastify.route({
+    method: HttpMethod.GET,
+    url: `${SCApiPath.SSH_KEYS}${SshKeysApiPath.$ID}`,
+    async handler(
+      req: FastifyRequest<{
+        Params: SCSshKeyGetByIdParamsDto;
+      }>,
+      rep,
+    ) {
+      const sshKey = await keyPairService.getSshKeyById(req.params.id);
+      return rep.send(sshKey).status(HttpCode.OK);
     },
   });
 

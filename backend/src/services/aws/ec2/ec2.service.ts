@@ -102,17 +102,17 @@ class EC2 {
       },
     );
 
-    const dataWithDNS = await this.#ec2Client.send(
+    const dataWithPublicIpAddress = await this.#ec2Client.send(
       new DescribeInstancesCommand({ InstanceIds: [instanceId as string] }),
     );
 
-    const [reservation] = dataWithDNS.Reservations as Reservation[];
-    const [instanceWithDNS] = reservation.Instances as Instance[];
-    const { PublicDnsName: publicDnsName } = instanceWithDNS;
+    const [reservation] = dataWithPublicIpAddress.Reservations as Reservation[];
+    const [instanceIpAddress] = reservation.Instances as Instance[];
+    const { PublicIpAddress: publicIpAddress } = instanceIpAddress;
 
     return {
       instanceId: instanceId as string,
-      hostname: publicDnsName as string,
+      hostname: publicIpAddress as string,
     };
   }
 

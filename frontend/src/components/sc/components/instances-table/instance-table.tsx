@@ -4,23 +4,33 @@ import { Table } from 'components/common/common';
 import { getRows, getColumns } from './helpers/helpers';
 
 type Props = {
-  onDeleteInstance: (id: string) => void;
+  onInstanceDelete: (id: string) => void;
+  onKeyClick: (id: string) => void;
 };
 
-const InstancesTable: FC<Props> = ({ children, onDeleteInstance }) => {
+const InstancesTable: FC<Props> = ({
+  children,
+  onInstanceDelete,
+  onKeyClick,
+}) => {
   const { instances } = useAppSelector(({ sc }) => ({
     instances: sc.instances,
   }));
 
   const data = useMemo(
-    () => getRows({ instances, onDeleteInstance }),
-    [instances, onDeleteInstance],
+    () => getRows({ instances, onInstanceDelete, onKeyClick }),
+    [instances, onInstanceDelete],
   );
 
   const columns = useMemo(() => getColumns(), []);
 
   return (
-    <Table columns={columns} data={data} title="Instances">
+    <Table
+      columns={columns}
+      data={data}
+      title="Instances"
+      placeholder="No instances to display"
+    >
       {children}
     </Table>
   );

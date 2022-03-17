@@ -11,7 +11,7 @@ import {
 import { ActionType } from './common';
 import { NotificationMessage, NotificationTitle } from 'common/enums/enums';
 
-const getWorkers = createAsyncThunk<
+const loadWorkers = createAsyncThunk<
   EAMWorkerGetAllResponseDto,
   EAMWorkerGetByTenantRequestParamsDto,
   AsyncThunkConfig
@@ -59,4 +59,4 @@ const deleteGroup = createAsyncThunk<string, string, AsyncThunkConfig>(
   },
 );
 
-export { getWorkers, loadGroups, updateTenant, deleteGroup };
+export { loadWorkers, loadGroups, updateTenant, deleteGroup };

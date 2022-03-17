@@ -2,6 +2,7 @@ import {
   ApiPath,
   SCApiPath,
   InstancesApiPath,
+  SshKeysApiPath,
   HttpMethod,
   ContentType,
 } from 'common/enums/enums';
@@ -14,6 +15,7 @@ import {
   SCInstanceUpdateResponseDto,
   SCInstanceGetByTenantRequestParamsDto,
   SCInstanceGetByTenantResponseDto,
+  SCSshKeyGetByIdResponseDto,
 } from 'common/types/types';
 import { Http } from 'services/http/http.service';
 import { joinItems } from 'helpers/helpers';
@@ -30,6 +32,21 @@ class SCApi {
   constructor({ http, apiPrefix }: Constructor) {
     this.#http = http;
     this.#apiPrefix = apiPrefix;
+  }
+
+  public async loadSshKey(id: string): Promise<SCSshKeyGetByIdResponseDto> {
+    return this.#http.load(
+      joinItems(
+        this.#apiPrefix,
+        ApiPath.SC,
+        SCApiPath.SSH_KEYS,
+        SshKeysApiPath.ROOT,
+        id,
+      ),
+      {
+        method: HttpMethod.GET,
+      },
+    );
   }
 
   public async loadOperationSystems(): Promise<SCOperationSystemGetAllResponseDto> {

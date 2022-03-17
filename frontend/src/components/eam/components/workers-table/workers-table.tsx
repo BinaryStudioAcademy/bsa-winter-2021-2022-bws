@@ -13,7 +13,12 @@ const WorkersTable: FC = ({ children }) => {
   const columns = useMemo(() => getColumns(), []);
 
   return (
-    <Table columns={columns} data={data} title="Workers">
+    <Table
+      columns={columns}
+      data={data}
+      title="Workers"
+      placeholder="No workers to display"
+    >
       {children}
     </Table>
   );

@@ -30,6 +30,7 @@ const ExceptionMessage = {
   GROUP_DOES_NOT_EXIST: 'An error happened, reload page and try again',
   GROUP_EXISTS: 'Group with this name already exists',
   INSTANCE_NOT_FOUND: 'Instance not found',
+  SSH_KEY_NOT_FOUND: 'Ssh key not found',
   NOTHING_TO_UPDATE: 'Nothing to update',
   WORKER_DELETE_WORKER: 'Worker is not able to delete another worker',
   SPACE_EXISTS: 'Space with this name already exists',

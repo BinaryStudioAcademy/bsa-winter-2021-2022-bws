@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import { FC } from 'react';
 import { useAppSelector, useMemo } from 'hooks/hooks';
 import { Table } from 'components/common/table/table';
 import { getRows, getColumns } from './helpers/helpers';
@@ -35,7 +35,12 @@ const PermissionsTable: FC<Props> = ({
   return (
     <div className={styles.wrapper}>
       <h3 className={styles.groupTitle}>Attach permissions policies</h3>
-      <Table className={styles.table} columns={columns} data={data} />
+      <Table
+        className={styles.table}
+        columns={columns}
+        data={data}
+        placeholder="No permissions to display"
+      />
     </div>
   );
 };

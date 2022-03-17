@@ -36,7 +36,7 @@ const UpdateInstanceForm: FC<Props> = ({ id }) => {
     }
   }, []);
 
-  const instanceName = instances.find((item) => item.instanceId === id)?.name;
+  const instanceName = instances.find((item) => item.id === id)?.name;
 
   const { control, errors, handleSubmit } =
     useAppForm<SCInstanceUpdateRequestDto>({

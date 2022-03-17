@@ -15,12 +15,20 @@ const getColumns = (): Column[] => {
       accessor: InstancesTableAccessor.NAME,
     },
     {
+      Header: InstancesTableHeader.INSTANCE_ID,
+      accessor: InstancesTableAccessor.INSTANCE_ID,
+    },
+    {
       Header: InstancesTableHeader.INSTANCE_STATE,
       accessor: InstancesTableAccessor.INSTANCE_STATE,
     },
     {
       Header: InstancesTableHeader.INSTANCE_TYPE,
       accessor: InstancesTableAccessor.INSTANCE_TYPE,
+    },
+    {
+      Header: InstancesTableHeader.PUBLIC_IPV4_ADDRESS,
+      accessor: InstancesTableAccessor.PUBLIC_IPV4_ADDRESS,
     },
     {
       Header: InstancesTableHeader.CREATED_AT,

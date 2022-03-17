@@ -48,6 +48,10 @@ export {
 } from './sc-instance/sc-instance';
 export { type SCOperationSystemGetAllResponseDto } from './sc-operation-system/sc-operation-system';
 export {
+  type SCSshKeyGetByIdParamsDto,
+  type SCSshKeyGetByIdResponseDto,
+} from './sc-ssh-key/sc-ssh-key';
+export {
   type EAMPermissionGetAllItemResponseDto,
   type EAMPermissionGetAllResponseDto,
 } from './eam-permission/eam-permission';

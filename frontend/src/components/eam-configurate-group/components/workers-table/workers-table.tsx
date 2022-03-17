@@ -33,7 +33,12 @@ const WorkersTable: FC<Props> = ({
       <h3 className={styles.inputGroupTitle}>
         Add workers to the Group - Optional
       </h3>
-      <Table className={styles.table} columns={columns} data={data} />
+      <Table
+        className={styles.table}
+        columns={columns}
+        data={data}
+        placeholder="No group to display"
+      />
     </div>
   );
 };

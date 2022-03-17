@@ -1,4 +1,6 @@
 .clientSideTable {
+  width: 100%;
+  table-layout: fixed;
   border-collapse: collapse;
 }
 
@@ -28,12 +30,14 @@
 }
 
 .tableHeaderCell,
-.tableCell {
+.tableCell,
+.placeholder {
   padding: 13px;
   font-weight: lighter;
   font-size: 16px;
   font-style: normal;
   line-height: 20px;
+  white-space: nowrap;
   text-align: left;
 }
 
@@ -56,5 +60,13 @@
 }
 
 .tableCell {
+  overflow: hidden;
   color: var(--color-white);
+  text-overflow: ellipsis;
+}
+
+.placeholder {
+  color: rgba(255 255 255 / 69%);
+  font-style: italic;
+  text-align: center;
 }

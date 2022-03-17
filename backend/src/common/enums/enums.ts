@@ -13,6 +13,7 @@ export {
   SLCFunctionApiPath,
   SpacesApiPath,
   InstancesApiPath,
+  SshKeysApiPath,
 } from './api/api';
 export { AppEnvironment, ENV, LogLevel } from './app/app';
 export { TableName } from './db/db';

@@ -2,6 +2,9 @@ import { keyPair as KeyPairRep } from '~/data/repositories/repositories';
 import { KeyPair as KeyPairEntity } from '../key-pair/key-pair.entity';
 import { ec2 as EC2Serv } from '~/services/services';
 import { getRandomId } from '~/helpers/helpers';
+import { SCError } from '~/exceptions/exceptions';
+import { HttpCode, ExceptionMessage } from '~/common/enums/enums';
+import { SCSshKeyGetByIdResponseDto } from '~/common/types/types';
 
 type Constructor = {
   keyPairRepository: typeof KeyPairRep;
@@ -15,6 +18,21 @@ class KeyPair {
   constructor({ keyPairRepository, ec2Service }: Constructor) {
     this.#keyPairRepository = keyPairRepository;
     this.#ec2Service = ec2Service;
+  }
+
+  public async getSshKeyById(id: string): Promise<SCSshKeyGetByIdResponseDto> {
+    const keyPairData = await this.#keyPairRepository.getById(id);
+    if (!keyPairData) {
+      throw new SCError({
+        status: HttpCode.DENIED,
+        message: ExceptionMessage.MASTER_INSTANCE_CREATE,
+      });
+    }
+
+    return {
+      id: keyPairData.id,
+      sshKey: keyPairData.sshPemFileContent,
+    };
   }
 
   public async create(): Promise<string> {

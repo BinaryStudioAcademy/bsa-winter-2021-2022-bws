@@ -7,6 +7,19 @@ import {
 } from 'common/types/types';
 import { ActionType } from './common';
 
+const loadSshKey = createAsyncThunk<void, string, AsyncThunkConfig>(
+  ActionType.GET_SSH_KEY,
+  async (id, { extra }) => {
+    const { scApi, notification } = extra;
+    const { sshKey } = await scApi.loadSshKey(id);
+    await navigator.clipboard.writeText(sshKey);
+    notification.success(
+      NotificationTitle.SUCCESS,
+      NotificationMessage.SC_SSH_KEY_COPY,
+    );
+  },
+);
+
 const loadInstances = createAsyncThunk<
   SCInstanceGetByTenantResponseDto,
   SCInstanceGetByTenantRequestParamsDto,
@@ -32,4 +45,4 @@ const deleteInstance = createAsyncThunk<string, string, AsyncThunkConfig>(
   },
 );
 
-export { loadInstances, deleteInstance };
+export { loadInstances, deleteInstance, loadSshKey };

@@ -1,1 +1,1 @@
-export { getFormattedISODate } from 'bws-shared/helpers/helpers';
+export { getFormattedISODate, getSubHours } from 'bws-shared/helpers/helpers';

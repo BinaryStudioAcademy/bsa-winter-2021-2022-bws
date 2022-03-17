@@ -66,13 +66,17 @@ class Instance {
     });
 
     return {
-      items: instances.map(({ name, id, createdAt, hostname }) => ({
-        name,
-        instanceId: id,
-        instanceType: InstanceDefaultParam.INSTANCE_TYPE as string,
-        createdAt,
-        publicDNS: hostname,
-      })),
+      items: instances.map(
+        ({ name, id, awsInstanceId, createdAt, hostname, keyPairId }) => ({
+          name,
+          id,
+          awsInstanceId,
+          instanceType: InstanceDefaultParam.INSTANCE_TYPE as string,
+          createdAt,
+          publicIpAddress: hostname,
+          keyPairId,
+        }),
+      ),
     };
   }
 

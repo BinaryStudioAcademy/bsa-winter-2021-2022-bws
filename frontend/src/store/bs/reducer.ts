@@ -2,6 +2,7 @@ import { BSSpaceGetResponseItemDto } from 'common/types/types';
 import { DataStatus } from 'common/enums/app/data-status.enum';
 import { createReducer } from '@reduxjs/toolkit';
 import { deleteSpace, loadSpaces } from './actions';
+import { logOut } from 'store/auth/actions';
 
 type State = {
   dataStatus: DataStatus;
@@ -33,6 +34,9 @@ const reducer = createReducer(initialState, (builder) => {
   });
   builder.addCase(deleteSpace.rejected, (state) => {
     state.dataStatus = DataStatus.REJECTED;
+  });
+  builder.addCase(logOut.fulfilled, (state) => {
+    Object.assign(state, initialState);
   });
 });
 

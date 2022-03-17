@@ -11,6 +11,8 @@ import styles from './styles.module.scss';
 import { Link } from '../link/link';
 import deleteIcon from 'assets/img/delete-icon.svg';
 import editIcon from 'assets/img/edit-icon.svg';
+import keyIcon from 'assets/img/key-icon.svg';
+import reloadIcon from 'assets/img/reload-icon.svg';
 
 type Props = {
   label: string;
@@ -44,6 +46,8 @@ const Button: FC<Props> = ({
   const iconNameToSrc = {
     [IconName.TRASH]: deleteIcon,
     [IconName.GEAR]: editIcon,
+    [IconName.KEY]: keyIcon,
+    [IconName.RELOAD]: reloadIcon,
   };
 
   return isLink ? (

@@ -9,6 +9,7 @@ import {
   instance,
   space,
   operationSystem,
+  keyPair,
   slcFunction,
 } from '~/services/services';
 import { WHITE_ROUTES } from '~/common/constants/constants';
@@ -57,6 +58,7 @@ const initApi: FastifyPluginAsync = async (fastify) => {
     services: {
       instance,
       operationSystem,
+      keyPair,
     },
     prefix: ApiPath.SC,
   });

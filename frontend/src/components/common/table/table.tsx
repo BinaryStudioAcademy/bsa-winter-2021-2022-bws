@@ -8,14 +8,26 @@ type Props = {
   data: unknown[];
   title?: string;
   className?: string;
+  placeholder?: string;
 };
 
-const Table: FC<Props> = ({ columns, data, title, children, className }) => {
+const Table: FC<Props> = ({
+  columns,
+  data,
+  title,
+  children,
+  className,
+  placeholder,
+}) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns: columns as Column<Record<string, string>>[],
       data: data as Record<string, string>[],
     });
+
+  const hasStrPlaceholder = Boolean(placeholder);
+  const hasData = data.length !== 0;
+  const hasPlaceholder = hasStrPlaceholder && !hasData;
 
   return (
     <div className={getValidClasses(styles.tableWrapper, className)}>
@@ -60,6 +72,9 @@ const Table: FC<Props> = ({ columns, data, title, children, className }) => {
           })}
         </tbody>
       </table>
+      {hasPlaceholder && (
+        <div className={styles.placeholder}>{placeholder}</div>
+      )}
     </div>
   );
 };

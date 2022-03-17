@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Button } from 'components/common/common';
-import { AppRoute } from 'common/enums/enums';
+import { Button, IconButton } from 'components/common/common';
+import { AppRoute, IconName } from 'common/enums/enums';
 import { useAppDispatch, useAppSelector, useEffect } from 'hooks/hooks';
 import { eam as eamActions } from 'store/actions';
 import { GroupsTable, WorkersTable, Tenant } from './components/components';
@@ -19,7 +19,7 @@ const EAM: FC = () => {
     }
 
     dispatch(
-      eamActions.getWorkers({
+      eamActions.loadWorkers({
         tenantId: tenantId as string,
         from: 0,
         count: 5,
@@ -39,6 +39,25 @@ const EAM: FC = () => {
     dispatch(eamActions.deleteGroup(id));
   };
 
+  const handleWorkersReload = (): void => {
+    dispatch(
+      eamActions.loadWorkers({
+        tenantId: tenantId as string,
+        from: 0,
+        count: 5,
+      }),
+    );
+  };
+  const handleGroupsReload = (): void => {
+    dispatch(
+      eamActions.loadGroups({
+        tenantId: tenantId as string,
+        from: 0,
+        count: 5,
+      }),
+    );
+  };
+
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>
@@ -48,19 +67,33 @@ const EAM: FC = () => {
       <Tenant />
       <div className={styles.tableWrapper}>
         <WorkersTable>
-          <Button
-            className={styles.addWorkerBtn}
-            to={AppRoute.EAM_CREATE_WORKER}
-            label="Add Worker"
-          />
+          <div className={styles.buttonsBlock}>
+            <IconButton
+              onClick={handleWorkersReload}
+              icon={IconName.RELOAD}
+              label="Reload"
+            />
+            <Button
+              className={styles.addWorkerBtn}
+              to={AppRoute.EAM_CREATE_WORKER}
+              label="Add Worker"
+            />
+          </div>
         </WorkersTable>
       </div>
       <GroupsTable onGroupDelete={handleGroupDelete}>
-        <Button
-          className={styles.addGroupBtn}
-          to={AppRoute.EAM_CONFIGURATE_GROUP}
-          label="Add Group"
-        />
+        <div className={styles.buttonsBlock}>
+          <IconButton
+            onClick={handleGroupsReload}
+            icon={IconName.RELOAD}
+            label="Reload"
+          />
+          <Button
+            className={styles.addGroupBtn}
+            to={AppRoute.EAM_CONFIGURATE_GROUP}
+            label="Add Group"
+          />
+        </div>
       </GroupsTable>
     </div>
   );

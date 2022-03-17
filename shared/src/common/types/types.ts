@@ -55,6 +55,10 @@ export {
   type SCOperationSystemGetAllItemResponseDto,
 } from './sc-operation-system/sc-operation-system';
 export {
+  type SCSshKeyGetByIdParamsDto,
+  type SCSshKeyGetByIdResponseDto,
+} from './sc-ssh-key/sc-ssh-key';
+export {
   type BSSpaceCreateRequestDto,
   type BSSpaceCreateResponseDto,
   type BSSpaceCreateFormDto,

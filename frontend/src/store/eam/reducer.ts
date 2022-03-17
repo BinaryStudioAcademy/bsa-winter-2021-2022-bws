@@ -1,6 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { DataStatus } from 'common/enums/enums';
-import { deleteGroup, getWorkers, loadGroups } from './actions';
+import { deleteGroup, loadWorkers, loadGroups } from './actions';
+import { logOut } from 'store/auth/actions';
 import {
   EAMGroupGetByTenantResponseItemDto,
   EAMWorkerGetAllItemResponseDto,
@@ -21,14 +22,14 @@ const initialState: State = {
 };
 
 const reducer = createReducer(initialState, (builder) => {
-  builder.addCase(getWorkers.pending, (state) => {
+  builder.addCase(loadWorkers.pending, (state) => {
     state.dataStatus = DataStatus.PENDING;
   });
-  builder.addCase(getWorkers.fulfilled, (state, action) => {
+  builder.addCase(loadWorkers.fulfilled, (state, action) => {
     state.dataStatus = DataStatus.FULFILLED;
     state.workers = action.payload.items;
   });
-  builder.addCase(getWorkers.rejected, (state) => {
+  builder.addCase(loadWorkers.rejected, (state) => {
     state.dataStatus = DataStatus.REJECTED;
   });
   builder.addCase(loadGroups.pending, (state) => {
@@ -50,6 +51,9 @@ const reducer = createReducer(initialState, (builder) => {
   });
   builder.addCase(deleteGroup.rejected, (state) => {
     state.dataStatus = DataStatus.REJECTED;
+  });
+  builder.addCase(logOut.fulfilled, (state) => {
+    Object.assign(state, initialState);
   });
 });
 
