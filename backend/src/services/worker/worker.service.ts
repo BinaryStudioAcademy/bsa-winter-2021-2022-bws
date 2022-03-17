@@ -85,16 +85,7 @@ class Worker {
     token,
     groupIds,
   }: EAMWorkerCreateRequestDto): Promise<EAMWorkerCreateResponseDto> {
-    const { userId } = this.#tokenService.decode<TokenPayload>(token);
-
-    const master = await this.#masterService.getMasterById(userId);
-
-    if (!master) {
-      throw new InvalidCredentialsError({
-        status: HttpCode.UNAUTHORIZED,
-        message: ExceptionMessage.MASTER_NOT_FOUND,
-      });
-    }
+    const { tenantId } = this.#tokenService.decode<TokenPayload>(token);
 
     const passwordSalt = await this.#encryptService.createSalt();
     const passwordHash = await this.#encryptService.createHash(
@@ -102,10 +93,7 @@ class Worker {
       passwordSalt,
     );
 
-    const workerByName = await this.#workerRepository.getByName(
-      name,
-      master.tenantId,
-    );
+    const workerByName = await this.#workerRepository.getByName(name, tenantId);
 
     if (workerByName) {
       throw new InvalidCredentialsError({
@@ -118,7 +106,7 @@ class Worker {
       name,
       passwordHash: passwordHash,
       passwordSalt: passwordSalt,
-      tenantId: master.tenantId,
+      tenantId,
       permissions: [],
       groupIds,
     });
