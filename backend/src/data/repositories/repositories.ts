@@ -11,6 +11,7 @@ import {
   Permission as PermissionModel,
   GroupsPermissions as GroupsPermissionsModel,
   SLCFunction as SLCFunctionModel,
+  BSObject as BSObjectModel,
 } from '~/data/models/models';
 import { Master } from './master/master.repository';
 import { Tenant } from './tenant/tenant.repository';
@@ -22,6 +23,7 @@ import { OperationSystem } from './operation-system/operation-system.repository'
 import { Space } from './space/space.repository';
 import { Permission } from './permission/permission.repository';
 import { SLCFunction } from './slc-function/slc-function.repository';
+import { BSObject } from './bs-object/bs-object.repository';
 
 const master = new Master({
   MasterModel,
@@ -69,6 +71,10 @@ const slcFunction = new SLCFunction({
   SLCFunctionModel,
 });
 
+const bsObject = new BSObject({
+  BSObjectModel,
+});
+
 export {
   master,
   group,
@@ -80,4 +86,5 @@ export {
   keyPair,
   operationSystem,
   slcFunction,
+  bsObject,
 };

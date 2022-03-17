@@ -6,6 +6,7 @@ import { initApi } from '~/api/api';
 import knexConfig from '../knexfile';
 import cors from 'fastify-cors';
 import { backgroundJob } from '~/services/services';
+import { upload } from './middlewares/middlewares';
 
 const app = Fastify({
   logger: {
@@ -18,6 +19,8 @@ Model.knex(Knex(knexConfig[ENV.APP.NODE_ENV]));
 app.register(cors, {
   origin: ENV.APP.FRONTEND_URL,
 });
+
+app.register(upload.contentParser);
 
 app.register(initApi, {
   prefix: ENV.API.V1_PREFIX,

@@ -11,6 +11,7 @@ import {
   permission as permissionRepository,
   space as spaceRepository,
   slcFunction as slcFunctionRepository,
+  bsObject as bsObjectRepository,
 } from '~/data/repositories/repositories';
 import { Master } from './master/master.service';
 import { Group } from './group/group.service';
@@ -22,6 +23,7 @@ import { Auth } from './auth/auth.service';
 import { EC2 } from './aws/ec2/ec2.service';
 import { KeyPair } from './key-pair/key-pair.service';
 import { OperationSystem } from './operation-system/operation-system.service';
+import { BSObject } from './bs-object/bs-object.service';
 import { Instance } from './instance/instance.service';
 import { Space } from './space/space.service';
 import { S3 } from './aws/s3/s3.service';
@@ -106,6 +108,7 @@ const space = new Space({
   spaceRepository,
   tokenService: token,
   s3Service: s3,
+  workerService: worker,
 });
 
 const lambda = new Lambda({
@@ -130,6 +133,13 @@ const backgroundJob = new BackgroundJob({
   instanceRepository,
   ec2Service: ec2,
 });
+const bsObject = new BSObject({
+  bsObjectRepository,
+  s3Service: s3,
+  workerService: worker,
+  tokenService: token,
+  spaceService: space,
+});
 
 export {
   master,
@@ -149,4 +159,5 @@ export {
   lambda,
   slcFunction,
   backgroundJob,
+  bsObject,
 };
