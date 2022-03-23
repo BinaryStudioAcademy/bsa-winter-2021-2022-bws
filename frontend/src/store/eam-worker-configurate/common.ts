@@ -3,6 +3,7 @@ enum ActionType {
   GET_GROUPS = 'eam-configurate-worker/get-groups',
   SAVE_CSV = 'eam-configurate-worker/save-csv',
   CLEANUP_CSV = 'eam-configurate-worker/cleanup-csv',
+  GET_PERMISSIONS = 'eam-configurate-worker/get-permission',
 }
 
 export { ActionType };

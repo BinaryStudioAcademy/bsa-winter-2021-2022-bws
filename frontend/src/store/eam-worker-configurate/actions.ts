@@ -9,6 +9,7 @@ import {
   AsyncThunkConfig,
   EAMGroupGetByTenantRequestParamsDto,
   EAMGroupGetByTenantResponseDto,
+  EAMPermissionGetAllResponseDto,
 } from 'common/types/types';
 import { ActionType } from './common';
 import { getRandomId } from 'helpers/helpers';
@@ -65,6 +66,15 @@ const getGroups = createAsyncThunk<
   return eamApi.loadGroups(filter);
 });
 
+const getPermission = createAsyncThunk<
+  EAMPermissionGetAllResponseDto,
+  void,
+  AsyncThunkConfig
+>(ActionType.GET_PERMISSIONS, async (_payload, { extra }) => {
+  const { eamApi } = extra;
+  return eamApi.getAllPermission();
+});
+
 const cleanupCSV = createAction(ActionType.CLEANUP_CSV);
 
-export { workerCreate, getGroups, saveCSV, cleanupCSV };
+export { workerCreate, getGroups, saveCSV, cleanupCSV, getPermission };

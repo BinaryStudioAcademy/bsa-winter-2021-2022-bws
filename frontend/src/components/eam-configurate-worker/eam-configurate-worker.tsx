@@ -13,21 +13,21 @@ import {
   useSelectedItems,
 } from 'hooks/hooks';
 import { getNameOf } from 'helpers/helpers';
-import { Button, Input, Table } from 'components/common/common';
+import { Button, Input } from 'components/common/common';
 import { EAMWorkerCreateRequestDto } from 'common/types/types';
 import { eamWorkerCreate as CreateWorkerValidationSchema } from 'validation-schemas/validation-schemas';
 import styles from './styles.module.scss';
 import { EAMWorkerConfigurate as EAMWorkerConfigurateActions } from 'store/actions';
 import { DEFAULT_PAYLOAD } from './common/constants';
-import { getColumns, getRows } from './helpers/helpers';
+import { PermissionsTable, GroupTable } from './components/components';
 
 const EAMConfigurateWorker: FC = () => {
   const dispatch = useAppDispatch();
   const selectedGroups = useSelectedItems<string>([]);
-  const { tenantId, groups, csvColumns } = useAppSelector(
+  const selectedPermissions = useSelectedItems<string>([]);
+  const { tenantId, csvColumns } = useAppSelector(
     ({ app, EAMWorkerConfigurate }) => ({
       tenantId: app.tenant?.id,
-      groups: EAMWorkerConfigurate.groups,
       csvColumns: EAMWorkerConfigurate.csvColumns,
     }),
   );
@@ -42,6 +42,7 @@ const EAMConfigurateWorker: FC = () => {
         }),
       );
     }
+    dispatch(EAMWorkerConfigurateActions.getPermission());
 
     return (): void => {
       dispatch(EAMWorkerConfigurateActions.cleanupCSV());
@@ -75,14 +76,6 @@ const EAMConfigurateWorker: FC = () => {
 
   const hasCsvColumns = Boolean(csvColumns.length);
 
-  const columns = getColumns(
-    selectedGroups.handleAdd,
-    selectedGroups.handleRemove,
-    selectedGroups.handleCheck,
-  );
-
-  const data = getRows(groups);
-
   return (
     <div className={styles.wrapper}>
       <h2 className={styles.title}>
@@ -107,13 +100,19 @@ const EAMConfigurateWorker: FC = () => {
               </div>
             </li>
             <li>
-              <h3 className={styles.inputGroupTitle}>Add worker to group </h3>
-              <Table
-                className={styles.table}
-                title="Groups"
-                columns={columns}
-                data={data}
-                placeholder="No groups to display"
+              <GroupTable
+                handleAddGroupId={selectedGroups.handleAdd}
+                handleRemoveGroupId={selectedGroups.handleRemove}
+                handleIsCheckedGroupId={selectedGroups.handleCheck}
+                selectedGroup={selectedGroups.selectedItems}
+              />
+            </li>
+            <li>
+              <PermissionsTable
+                handleAddPermissionId={selectedPermissions.handleAdd}
+                handleRemovePermissionId={selectedPermissions.handleRemove}
+                handleIsCheckedPermissionId={selectedPermissions.handleCheck}
+                selectedPermissions={selectedPermissions.selectedItems}
               />
             </li>
           </ul>
