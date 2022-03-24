@@ -1,29 +1,18 @@
 import { createReducer } from '@reduxjs/toolkit';
-import {
-  workerCreate,
-  getGroups,
-  saveCSV,
-  cleanupCSV,
-  getPermission,
-} from './actions';
+import { workerCreate, getGroups, saveCSV, cleanupCSV } from './actions';
 import { DataStatus } from 'common/enums/enums';
-import {
-  EAMGroupGetByTenantResponseItemDto,
-  EAMPermissionGetAllItemResponseDto,
-} from 'common/types/types';
+import { EAMGroupGetByTenantResponseItemDto } from 'common/types/types';
 
 type State = {
   dataStatus: DataStatus;
   groups: EAMGroupGetByTenantResponseItemDto[];
   csvColumns: string[][];
-  permissions: EAMPermissionGetAllItemResponseDto[];
 };
 
 const initialState: State = {
   dataStatus: DataStatus.IDLE,
   groups: [],
   csvColumns: [],
-  permissions: [],
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -42,9 +31,6 @@ const reducer = createReducer(initialState, (builder) => {
 
   builder.addCase(cleanupCSV, (state) => {
     state.csvColumns = [];
-  });
-  builder.addCase(getPermission.fulfilled, (state, action) => {
-    state.permissions = action.payload.items;
   });
 });
 

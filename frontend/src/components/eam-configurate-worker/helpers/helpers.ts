@@ -1,1 +1,1 @@
-export { ActionCell } from './cells/cells';
+export { ActionCell, PermissionsCell } from './cells/cells';

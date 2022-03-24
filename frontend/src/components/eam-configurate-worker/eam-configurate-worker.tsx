@@ -19,12 +19,11 @@ import { eamWorkerCreate as CreateWorkerValidationSchema } from 'validation-sche
 import styles from './styles.module.scss';
 import { EAMWorkerConfigurate as EAMWorkerConfigurateActions } from 'store/actions';
 import { DEFAULT_PAYLOAD } from './common/constants';
-import { PermissionsTable, GroupTable } from './components/components';
+import { GroupTable } from './components/components';
 
 const EAMConfigurateWorker: FC = () => {
   const dispatch = useAppDispatch();
   const selectedGroups = useSelectedItems<string>([]);
-  const selectedPermissions = useSelectedItems<string>([]);
   const { tenantId, csvColumns } = useAppSelector(
     ({ app, EAMWorkerConfigurate }) => ({
       tenantId: app.tenant?.id,
@@ -42,7 +41,6 @@ const EAMConfigurateWorker: FC = () => {
         }),
       );
     }
-    dispatch(EAMWorkerConfigurateActions.getPermission());
 
     return (): void => {
       dispatch(EAMWorkerConfigurateActions.cleanupCSV());
@@ -105,14 +103,6 @@ const EAMConfigurateWorker: FC = () => {
                 handleRemoveGroupId={selectedGroups.handleRemove}
                 handleIsCheckedGroupId={selectedGroups.handleCheck}
                 selectedGroup={selectedGroups.selectedItems}
-              />
-            </li>
-            <li>
-              <PermissionsTable
-                handleAddPermissionId={selectedPermissions.handleAdd}
-                handleRemovePermissionId={selectedPermissions.handleRemove}
-                handleIsCheckedPermissionId={selectedPermissions.handleCheck}
-                selectedPermissions={selectedPermissions.selectedItems}
               />
             </li>
           </ul>
