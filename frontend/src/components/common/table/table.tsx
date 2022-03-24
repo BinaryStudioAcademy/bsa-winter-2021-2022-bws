@@ -14,6 +14,7 @@ type Props = {
   title?: string;
   className?: string;
   placeholder?: string;
+  dataTestid?: string;
 };
 
 const Table: FC<Props> = ({
@@ -23,6 +24,7 @@ const Table: FC<Props> = ({
   children,
   className,
   placeholder,
+  dataTestid,
 }) => {
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable(
@@ -39,7 +41,10 @@ const Table: FC<Props> = ({
   const hasPlaceholder = hasStrPlaceholder && !hasData;
 
   return (
-    <div className={getValidClasses(styles.tableWrapper, className)}>
+    <div
+      className={getValidClasses(styles.tableWrapper, className)}
+      data-testid={dataTestid}
+    >
       {title && (
         <header className={styles.tableHat}>
           <h3 className={styles.tableTitle}>{title}</h3>

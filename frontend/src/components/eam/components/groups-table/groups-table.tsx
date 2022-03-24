@@ -22,6 +22,7 @@ const GroupsTable: FC<Props> = ({ children, onGroupDelete }) => {
       data={data}
       title="Groups"
       placeholder="No groups to display"
+      dataTestid="eam-group-table"
     >
       {children}
     </Table>
