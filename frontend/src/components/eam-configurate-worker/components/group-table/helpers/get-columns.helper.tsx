@@ -4,7 +4,7 @@ import { Column } from 'react-table';
 const getColumns = (): Column[] => {
   return [
     {
-      Header: GroupsTableHeader.ACTIONS,
+      Header: '',
       accessor: GroupsTableAccessor.ACTIONS,
       minWidth: 30,
       width: 50,

@@ -3,7 +3,6 @@ enum GroupsTableHeader {
   WORKERS = 'Workers',
   PERMISSIONS = 'Permissions',
   CREATION_TIME = 'Created',
-  ACTIONS = 'Actions',
 }
 
 export { GroupsTableHeader };
