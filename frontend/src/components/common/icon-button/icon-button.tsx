@@ -8,11 +8,13 @@ type Props = {
   label: string;
   onClick?: () => void;
   to?: AppRoute;
+  title?: string;
 };
 
-const IconButton: FC<Props> = ({ icon, label, onClick, to }) => {
+const IconButton: FC<Props> = ({ icon, label, onClick, to, title }) => {
   return (
     <Button
+      title={title}
       icon={icon}
       label={label}
       onClick={onClick}

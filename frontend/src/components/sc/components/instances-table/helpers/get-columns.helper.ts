@@ -10,7 +10,7 @@ const getColumns = (): Column[] => {
       Header: InstancesTableHeader.NAME,
       accessor: InstancesTableAccessor.NAME,
       minWidth: 200,
-      width: 250,
+      width: 230,
     },
     {
       Header: InstancesTableHeader.INSTANCE_ID,
@@ -51,8 +51,8 @@ const getColumns = (): Column[] => {
     {
       Header: InstancesTableHeader.ACTIONS,
       accessor: InstancesTableAccessor.ACTIONS,
-      minWidth: 130,
-      width: 130,
+      minWidth: 150,
+      width: 150,
     },
   ];
 };

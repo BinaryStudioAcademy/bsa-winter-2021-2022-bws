@@ -47,6 +47,10 @@
   padding: 0;
 }
 
+.table td:not(:first-child) {
+  line-height: 1.6;
+}
+
 .inputGroups {
   margin: 0;
   padding: 0 0 30px;

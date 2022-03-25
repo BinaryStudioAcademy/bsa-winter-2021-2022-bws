@@ -51,6 +51,7 @@ const SC: FC = () => {
               onClick={handleReload}
               icon={IconName.RELOAD}
               label="Reload"
+              title="Refresh"
             />
             <Button
               className={styles.addInstanceBtn}

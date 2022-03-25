@@ -1,5 +1,4 @@
 .clientSideTable {
-  width: 100%;
   table-layout: fixed;
   border-collapse: collapse;
 }
@@ -86,6 +85,7 @@
 }
 
 .placeholder {
+  display: block;
   color: rgba(255 255 255 / 69%);
   font-style: italic;
   text-align: center;

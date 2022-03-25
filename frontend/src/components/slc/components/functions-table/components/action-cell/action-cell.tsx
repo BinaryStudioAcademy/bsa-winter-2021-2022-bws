@@ -12,9 +12,19 @@ const ActionCell = (
     onFunctionDelete(id);
   };
   return (
-    <div className={styles.actionsWrapper}>
-      <IconButton icon={IconName.GEAR} label="Edit" to={url as AppRoute} />
-      <IconButton icon={IconName.TRASH} label="Delete" onClick={handleDelete} />
+    <div className={styles.wrapper}>
+      <IconButton
+        title="Edit"
+        icon={IconName.GEAR}
+        label="Edit"
+        to={url as AppRoute}
+      />
+      <IconButton
+        title="Delete"
+        icon={IconName.TRASH}
+        label="Delete"
+        onClick={handleDelete}
+      />
     </div>
   );
 };

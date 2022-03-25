@@ -12,6 +12,7 @@ import { Link } from '../link/link';
 import { iconNameToSrc } from 'common/maps/maps';
 
 type Props = {
+  title?: string;
   label: string;
   to?: AppRoute | string;
   icon?: IconName;
@@ -24,6 +25,7 @@ type Props = {
 };
 
 const Button: FC<Props> = ({
+  title,
   label,
   to,
   onClick,
@@ -48,6 +50,7 @@ const Button: FC<Props> = ({
     </Link>
   ) : (
     <button
+      title={title}
       className={icon ? className : fullClassName}
       onClick={onClick}
       type={type}

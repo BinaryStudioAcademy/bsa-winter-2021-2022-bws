@@ -1,5 +1,18 @@
 .button {
+  position: relative;
   background: inherit;
   border: none;
   cursor: pointer;
+}
+
+.button::before {
+  position: absolute;
+  display: none;
+  color: var(--color-black);
+  background-color: var(--color-white);
+  border: 1px solid var(--color-text);
+}
+
+.button:hover::before {
+  display: block;
 }

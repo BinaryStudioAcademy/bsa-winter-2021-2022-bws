@@ -1,12 +1,17 @@
 import { FastifyPluginAsync, FastifyRequest } from 'fastify';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
-import { slcFunction as slcFunctionServ } from '~/services/services';
+import {
+  slcFunction as slcFunctionServ,
+  token as tokenServ,
+} from '~/services/services';
 import { slcFunctionCreate as slcFunctionCreateValidationSchema } from '~/validation-schemas/validation-schemas';
 import {
+  ExceptionMessage,
   HttpCode,
   HttpMethod,
   SLCApiPath,
   SLCFunctionApiPath,
+  UserRole,
 } from '~/common/enums/enums';
 import {
   SLCFunctionCreateRequestDto,
@@ -17,16 +22,20 @@ import {
   SLCFunctionLoadParamsDto,
   SLCFunctionRunParamsDto,
   SLCFunctionRunRequestDto,
+  TokenPayload,
 } from '~/common/types/types';
+import { SLCError } from '~/exceptions/exceptions';
 
 type Options = {
   services: {
     slcFunction: typeof slcFunctionServ;
+    token: typeof tokenServ;
   };
 };
 
 const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
-  const { slcFunction: slcFunctionService } = opts.services;
+  const { slcFunction: slcFunctionService, token: tokenService } =
+    opts.services;
 
   fastify.route({
     method: HttpMethod.POST,
@@ -68,6 +77,17 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
       }>,
       rep,
     ) {
+      const { userRole } = tokenService.decode<TokenPayload>(
+        req.user?.token as string,
+      );
+
+      if (userRole !== UserRole.WORKER) {
+        throw new SLCError({
+          status: HttpCode.DENIED,
+          message: ExceptionMessage.MASTER_FUNCTION_RUN,
+        });
+      }
+
       return rep
         .send(
           await slcFunctionService.runById({

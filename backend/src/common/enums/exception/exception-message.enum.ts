@@ -18,6 +18,7 @@ const ExceptionMessage = {
   MASTER_FUNCTION_CREATE: 'Master is not able to create function.',
   MASTER_FUNCTION_DELETE: 'Master is not able to delete function.',
   MASTER_FUNCTION_UPDATE: 'Master is not able to edit function.',
+  MASTER_FUNCTION_RUN: 'Master is not able to run function.',
   MASTER_SPACE_CREATE: 'Master is not able to create space.',
   MASTER_SPACE_DELETE: 'Master is not able to delete space',
   MASTER_OBJECT_UPLOAD: 'Master is not able to upload object',

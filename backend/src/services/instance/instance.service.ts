@@ -154,7 +154,12 @@ class Instance {
     }
 
     (async (): Promise<void> => {
-      await this.#ec2Service.waitUntilRunning(awsInstanceId);
+      try {
+        await this.#ec2Service.waitUntilRunning(awsInstanceId);
+      } catch {
+        return;
+      }
+
       await this.update(id as string, {
         hostname: await this.#ec2Service.getPublicIpAddress(awsInstanceId),
         state: InstanceState.ACTIVE,

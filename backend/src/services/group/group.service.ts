@@ -39,7 +39,10 @@ class Group {
       tenantId,
     );
     if (groupByName) {
-      throw new EAMError();
+      throw new EAMError({
+        status: HttpCode.BAD_REQUEST,
+        message: ExceptionMessage.GROUP_EXISTS,
+      });
     }
 
     const group = GroupEntity.createNew({

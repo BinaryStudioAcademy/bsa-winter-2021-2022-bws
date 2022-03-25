@@ -47,3 +47,5 @@ export {
   NotificationMessage,
   NotificationType,
 } from './notification/notification';
+export { InstanceState } from './instance-states/instance-states';
+export { KeydownKey } from './event/event';

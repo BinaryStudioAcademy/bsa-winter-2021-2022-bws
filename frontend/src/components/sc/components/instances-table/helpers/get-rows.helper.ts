@@ -1,16 +1,17 @@
 import { InstancesTableAccessor } from 'common/enums/enums';
 import { SCInstanceGetByTenantResponseItemDto } from 'common/types/types';
 import { getDistanceToDateNow } from 'helpers/helpers';
-import { ActionCell } from '../components/components';
+import { ActionCell, StateCell } from '../components/components';
 
 type Row = {
   [InstancesTableAccessor.NAME]: string;
   [InstancesTableAccessor.INSTANCE_ID]: string;
-  [InstancesTableAccessor.INSTANCE_STATE]: string;
+  [InstancesTableAccessor.INSTANCE_STATE]: JSX.Element;
   [InstancesTableAccessor.INSTANCE_TYPE]: string;
   [InstancesTableAccessor.OS]: string;
   [InstancesTableAccessor.CREATED_AT]: string;
   [InstancesTableAccessor.PUBLIC_IPV4_ADDRESS]: string;
+  [InstancesTableAccessor.ACTIONS]: JSX.Element;
 };
 
 const getRows = ({
@@ -38,7 +39,7 @@ const getRows = ({
     return {
       [InstancesTableAccessor.NAME]: name,
       [InstancesTableAccessor.INSTANCE_ID]: awsInstanceId,
-      [InstancesTableAccessor.INSTANCE_STATE]: state,
+      [InstancesTableAccessor.INSTANCE_STATE]: StateCell(state),
       [InstancesTableAccessor.INSTANCE_TYPE]: instanceType,
       [InstancesTableAccessor.OS]: operationSystem.name.split('-').join(' '),
       [InstancesTableAccessor.PUBLIC_IPV4_ADDRESS]: publicIpAddress ?? '-',

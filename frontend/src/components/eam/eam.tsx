@@ -72,6 +72,7 @@ const EAM: FC = () => {
               onClick={handleWorkersReload}
               icon={IconName.RELOAD}
               label="Reload"
+              title="Refresh"
             />
             <Button
               className={styles.addWorkerBtn}
@@ -87,6 +88,7 @@ const EAM: FC = () => {
             onClick={handleGroupsReload}
             icon={IconName.RELOAD}
             label="Reload"
+            title="Refresh"
           />
           <Button
             className={styles.addGroupBtn}

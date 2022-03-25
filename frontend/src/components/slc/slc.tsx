@@ -40,6 +40,7 @@ const SLC: FC = () => {
         <FunctionsTable onFunctionDelete={handleFunctionDelete}>
           <div className={styles.buttonsBlock}>
             <IconButton
+              title="Refresh"
               onClick={handleFunctionReload}
               icon={IconName.RELOAD}
               label="Reload"

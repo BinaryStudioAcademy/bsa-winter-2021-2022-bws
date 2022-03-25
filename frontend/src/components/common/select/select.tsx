@@ -17,9 +17,17 @@ type Props = {
   errors: FormControlErrors;
   label: string;
   options: Option[];
+  placeholder?: string;
 };
 
-const Select: FC<Props> = ({ label, options, name, control, errors }) => {
+const Select: FC<Props> = ({
+  label,
+  options,
+  name,
+  control,
+  errors,
+  placeholder,
+}) => {
   const { field } = useFormControl({ name, control });
 
   const handleSelectChange = (newValue?: Option | null): void => {
@@ -31,6 +39,7 @@ const Select: FC<Props> = ({ label, options, name, control, errors }) => {
       <span>{label}</span>
       <ReactSelect
         {...field}
+        placeholder={placeholder}
         styles={selectStyles}
         options={options}
         value={field.value.label}

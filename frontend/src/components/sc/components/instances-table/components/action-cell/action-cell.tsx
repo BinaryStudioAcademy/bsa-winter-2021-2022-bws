@@ -23,15 +23,26 @@ const ActionCell = ({
 
   return (
     <div className={styles.wrapper}>
-      <IconButton icon={IconName.KEY} label="Delete" onClick={handleCopyKey} />
       <IconButton
+        title="Copy ssh key"
+        icon={IconName.KEY}
+        label="Delete"
+        onClick={handleCopyKey}
+      />
+      <IconButton
+        title="Edit"
         icon={IconName.GEAR}
         label="Edit"
         to={
           `${AppRoute.SC_CONFIGURATE_INSTANCE}/${id}` as AppRoute.SC_CONFIGURATE_INSTANCE_$ID
         }
       />
-      <IconButton icon={IconName.TRASH} label="Delete" onClick={handleDelete} />
+      <IconButton
+        title="Delete"
+        icon={IconName.TRASH}
+        label="Delete"
+        onClick={handleDelete}
+      />
     </div>
   );
 };
