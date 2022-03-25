@@ -28,7 +28,7 @@ const getColumns = (): Column[] => {
       width: 200,
     },
     {
-      Header: GroupsTableHeader.ACTIONS,
+      Header: '',
       accessor: GroupsTableAccessor.ACTIONS,
       minWidth: 100,
       width: 150,
