@@ -4,7 +4,10 @@ import {
   slcFunction as slcFunctionServ,
   token as tokenServ,
 } from '~/services/services';
-import { slcFunctionCreate as slcFunctionCreateValidationSchema } from '~/validation-schemas/validation-schemas';
+import {
+  slcFunctionCreate as slcFunctionCreateValidationSchema,
+  UUID as UUIDValidationSchema,
+} from '~/validation-schemas/validation-schemas';
 import {
   HttpCode,
   HttpMethod,
@@ -124,6 +127,18 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     method: HttpMethod.GET,
     url: `${SLCApiPath.SLC_FUNCTIONS}${SLCFunctionApiPath.$ID}`,
     preHandler: checkHasPermissionsHook(Permission.MANAGE_SLC),
+    schema: {
+      params: UUIDValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof UUIDValidationSchema>) {
+      return (
+        data: SLCFunctionLoadParamsDto,
+      ): ReturnType<typeof UUIDValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
     async handler(
       req: FastifyRequest<{
         Params: SLCFunctionLoadParamsDto;

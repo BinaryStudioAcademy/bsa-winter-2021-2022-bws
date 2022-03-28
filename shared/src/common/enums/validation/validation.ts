@@ -26,3 +26,4 @@ export {
   SLCFunctionValidationMessage,
   SLCFunctionValidationRule,
 } from './slc-function/slc-function';
+export { UUIDValidationMessage, UUIDValidationRule } from './uuid/uuid';
