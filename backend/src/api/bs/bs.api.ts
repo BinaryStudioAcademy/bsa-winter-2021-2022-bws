@@ -24,7 +24,10 @@ import {
   BSObjectGetRequestParamsDto,
 } from '~/common/types/types';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
-import { bsSpaceCreate as bsSpaceCreateValidationSchema } from '~/validation-schemas/validation-schemas';
+import {
+  bsSpaceCreate as bsSpaceCreateValidationSchema,
+  UUID as UUIDValidationSchema,
+} from '~/validation-schemas/validation-schemas';
 import {
   upload as uploadHook,
   checkHasPermissions as checkHasPermissionsHook,
@@ -98,6 +101,18 @@ const initBsApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     method: HttpMethod.DELETE,
     url: `${BSApiPath.SPACES}${SpacesApiPath.$ID}`,
     preHandler: checkHasPermissionsHook(Permission.MANAGE_BS),
+    schema: {
+      params: UUIDValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof UUIDValidationSchema>) {
+      return (
+        data: BSSpaceDeleteParamsDto,
+      ): ReturnType<typeof UUIDValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
     async handler(
       req: FastifyRequest<{ Params: BSSpaceDeleteParamsDto }>,
       rep: FastifyReply,

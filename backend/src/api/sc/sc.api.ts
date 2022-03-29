@@ -24,6 +24,7 @@ import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 import {
   scInstanceCreate as scInstanceCreateValidationSchema,
   scInstanceUpdate as scInstanceUpdateValidationSchema,
+  UUID as UUIDValidationSchema,
 } from '~/validation-schemas/validation-schemas';
 import { checkHasPermissions as checkHasPermissionsHook } from '~/hooks/hooks';
 
@@ -56,6 +57,18 @@ const initScApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     method: HttpMethod.GET,
     url: `${SCApiPath.SSH_KEYS}${SshKeysApiPath.$ID}`,
     preHandler: checkHasPermissionsHook(Permission.MANAGE_SC),
+    schema: {
+      params: UUIDValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof UUIDValidationSchema>) {
+      return (
+        data: SCSshKeyGetByIdParamsDto,
+      ): ReturnType<typeof UUIDValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
     async handler(
       req: FastifyRequest<{
         Params: SCSshKeyGetByIdParamsDto;
@@ -89,6 +102,18 @@ const initScApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     method: HttpMethod.DELETE,
     url: `${SCApiPath.INSTANCES}${InstancesApiPath.$ID}`,
     preHandler: checkHasPermissionsHook(Permission.MANAGE_SC),
+    schema: {
+      params: UUIDValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof UUIDValidationSchema>) {
+      return (
+        data: SCInstanceDeleteParamsDto,
+      ): ReturnType<typeof UUIDValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
     async handler(
       req: FastifyRequest<{
         Params: SCInstanceDeleteParamsDto;
@@ -106,6 +131,7 @@ const initScApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     preHandler: checkHasPermissionsHook(Permission.MANAGE_SC),
     schema: {
       body: scInstanceUpdateValidationSchema,
+      params: UUIDValidationSchema,
     },
     validatorCompiler({
       schema,

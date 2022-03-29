@@ -77,6 +77,18 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     method: HttpMethod.POST,
     url: `${SLCApiPath.SLC_FUNCTIONS}${SLCFunctionApiPath.$ID}`,
     preHandler: checkHasPermissionsHook(Permission.MANAGE_SLC),
+    schema: {
+      params: UUIDValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof UUIDValidationSchema>) {
+      return (
+        data: SLCFunctionLoadParamsDto,
+      ): ReturnType<typeof UUIDValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
     async handler(
       req: FastifyRequest<{
         Params: SLCFunctionRunParamsDto;
@@ -159,6 +171,18 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     method: HttpMethod.DELETE,
     url: `${SLCApiPath.SLC_FUNCTIONS}${SLCFunctionApiPath.$ID}`,
     preHandler: checkHasPermissionsHook(Permission.MANAGE_SLC),
+    schema: {
+      params: UUIDValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof UUIDValidationSchema>) {
+      return (
+        data: SLCFunctionLoadParamsDto,
+      ): ReturnType<typeof UUIDValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
     async handler(
       req: FastifyRequest<{ Params: SLCFunctionDeleteParamsDto }>,
       rep: FastifyReply,
@@ -185,6 +209,18 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     method: HttpMethod.PUT,
     url: `${SLCApiPath.SLC_FUNCTIONS}${SLCFunctionApiPath.$ID}`,
     preHandler: checkHasPermissionsHook(Permission.MANAGE_SLC),
+    schema: {
+      params: UUIDValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof UUIDValidationSchema>) {
+      return (
+        data: SLCFunctionLoadParamsDto,
+      ): ReturnType<typeof UUIDValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
     async handler(
       req: FastifyRequest<{
         Params: SLCFunctionUpdateParamsDto;
