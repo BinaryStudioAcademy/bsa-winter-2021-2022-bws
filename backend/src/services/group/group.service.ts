@@ -104,7 +104,6 @@ class Group {
 
       group.setName(name);
     }
-
     group.setWorkersIds(workersIds);
     group.setPermissionsIds(permissionsIds);
 
@@ -116,8 +115,7 @@ class Group {
   public async getGroupById(
     id: string,
   ): Promise<EamGroupGetByIdResponseDto | null> {
-    const group = await this.#groupRepository.getGroupById(id);
-    return group;
+    return this.#groupRepository.getGroupById(id);
   }
 }
 

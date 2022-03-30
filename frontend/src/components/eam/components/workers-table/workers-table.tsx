@@ -11,6 +11,7 @@ import { eam as eamActions } from 'store/actions';
 import { DataStatus, Pagination } from 'common/enums/enums';
 
 type Props = {
+  onWorkerDelete: (id: string) => void;
   pagination?: {
     perPage: number;
     countItems: number;
@@ -19,7 +20,7 @@ type Props = {
   };
 };
 
-const WorkersTable: FC<Props> = ({ children }) => {
+const WorkersTable: FC<Props> = ({ children, onWorkerDelete }) => {
   const dispatch = useAppDispatch();
 
   const { workers, countItems, tenantId, workersDataStatus } = useAppSelector(
@@ -50,7 +51,7 @@ const WorkersTable: FC<Props> = ({ children }) => {
     from: Pagination.INITIAL_FROM_COUNT,
   });
 
-  const data = useMemo(() => getRows(workers), [workers]);
+  const data = useMemo(() => getRows({ workers, onWorkerDelete }), [workers]);
 
   const columns = useMemo(() => getColumns(), []);
 

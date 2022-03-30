@@ -22,6 +22,7 @@ import {
   BSObjectUploadParamsDto,
   TokenPayload,
   BSObjectGetRequestParamsDto,
+  BSObjectDeleteParamsDto,
 } from '~/common/types/types';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 import {
@@ -187,12 +188,13 @@ const initBsApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
   fastify.route({
     method: HttpMethod.GET,
     url: `${BSApiPath.SPACES}${SpacesApiPath.$ID_OBJECTS}`,
+    preHandler: checkHasPermissionsHook(Permission.MANAGE_BS),
     async handler(
       req: FastifyRequest<{
         Querystring: BSObjectGetRequestParamsDto;
         Params: { id: string };
       }>,
-      rep,
+      rep: FastifyReply,
     ) {
       const objects = await bsObjectService.getObjects({
         spaceId: req.params.id,
@@ -202,6 +204,31 @@ const initBsApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
       });
 
       return rep.send(objects).status(HttpCode.OK);
+    },
+  });
+
+  fastify.route({
+    method: HttpMethod.DELETE,
+    url: `${BSApiPath.SPACES}${SpacesApiPath.$SPACEID_OBJECTS_$OBJECTID}`,
+    preHandler: checkHasPermissionsHook(Permission.MANAGE_BS),
+    async handler(
+      req: FastifyRequest<{ Params: BSObjectDeleteParamsDto }>,
+      rep: FastifyReply,
+    ) {
+      const { spaceId, objectId } = req.params;
+      const token = req.user?.token as string;
+      const { userRole, tenantId } = tokenService.decode<TokenPayload>(token);
+
+      if (userRole !== UserRole.WORKER) {
+        throw new BsError({
+          status: HttpCode.DENIED,
+          message: ExceptionMessage.MASTER_OBJECT_DELETE,
+        });
+      }
+
+      await bsObjectService.deleteObject(spaceId, objectId, tenantId);
+
+      return rep.send(true).status(HttpCode.OK);
     },
   });
 };

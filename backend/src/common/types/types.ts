@@ -97,6 +97,7 @@ export {
   type BSObjectGetFilter,
   type BSObjectGetResponseItemDto,
   type BSObjectGetResponseDto,
+  type BSObjectDeleteParamsDto,
 } from './bs-object/bs-object';
 export { type UploadPayload } from './bs-object/bs-object-upload-payload.type';
 export { type GetObjectCommandOutput } from './bs-object/bs-get-object-command-output.type';

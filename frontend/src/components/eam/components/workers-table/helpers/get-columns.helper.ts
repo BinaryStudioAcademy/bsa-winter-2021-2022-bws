@@ -34,7 +34,7 @@ const getColumns = (): Column[] => {
       Header: WorkersTableHeader.ACTIONS,
       accessor: WorkersTableAccessor.ACTIONS,
       minWidth: 100,
-      width: 100,
+      width: 150,
       disableSortBy: true,
     },
   ];

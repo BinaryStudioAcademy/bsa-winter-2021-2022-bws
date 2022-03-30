@@ -20,11 +20,11 @@ const workerCreate = createAsyncThunk<
 >(
   ActionType.CREATE_WORKER,
   async (payload: EAMWorkerCreateRequestDto, { extra }) => {
-    const { workerApi, notification } = extra;
+    const { eamApi, notification } = extra;
 
     const password = getRandomId();
 
-    await workerApi.createWorker({
+    await eamApi.createWorker({
       ...payload,
       password,
     });

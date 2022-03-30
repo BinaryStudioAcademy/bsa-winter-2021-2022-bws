@@ -42,6 +42,20 @@ class BSObject {
     return object ? BSObject.modelToEntity(object) : null;
   }
 
+  async getByIdAndTenant(
+    id: string,
+    tenantId: string,
+  ): Promise<BSObjectEntity | null> {
+    const object = await this.#BSObjectModel
+      .query()
+      .join(TableName.WORKERS, 'uploadedBy', '=', `${TableName.WORKERS}.id`)
+      .select()
+      .where({ 'objects.id': id })
+      .andWhere({ tenantId })
+      .first();
+    return object ? BSObject.modelToEntity(object) : null;
+  }
+
   async getObjects(
     filter: BSObjectGetFilter,
   ): Promise<BSObjectGetResponseItemDto[]> {
@@ -61,6 +75,10 @@ class BSObject {
       .orderBy('createdAt', 'desc')
       .limit(limit)
       .offset(offset);
+  }
+
+  public async deleteById(id: string): Promise<void> {
+    await this.#BSObjectModel.query().delete().where({ id });
   }
 
   public async getCount(spaceId: string): Promise<number> {

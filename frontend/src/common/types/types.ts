@@ -72,6 +72,7 @@ export {
   type BSObjectGetRequestParamsDto,
   type BSObjectGetResponseItemDto,
   type BSObjectGetResponseDto,
+  type BSObjectDeleteParamsDto,
 } from './bs-object/bs-object';
 export {
   type SCInstanceCreateRequestDto,

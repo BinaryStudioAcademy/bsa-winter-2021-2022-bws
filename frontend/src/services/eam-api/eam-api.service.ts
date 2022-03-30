@@ -15,6 +15,8 @@ import {
   EamGroupGetByIdResponseDto,
   EAMWorkerGetAllResponseDto,
   EAMWorkerGetByTenantRequestParamsDto,
+  EAMWorkerCreateRequestDto,
+  EAMWorkerCreateResponseDto,
 } from 'common/types/types';
 import { joinItems } from 'helpers/helpers';
 import { Http } from 'services/http/http.service';
@@ -71,12 +73,12 @@ class EAMApi {
       joinItems(
         this.#apiPrefix,
         ApiPath.EAM,
-        EAMApiPath.GROUP,
+        EAMApiPath.GROUPS,
         GroupsApiPath.ROOT,
+        id,
       ),
       {
         method: HttpMethod.PUT,
-        params: { id },
         contentType: ContentType.JSON,
         payload: JSON.stringify(payload),
       },
@@ -90,12 +92,12 @@ class EAMApi {
       joinItems(
         this.#apiPrefix,
         ApiPath.EAM,
-        EAMApiPath.GROUP,
+        EAMApiPath.GROUPS,
         GroupsApiPath.ROOT,
+        params.id,
       ),
       {
         method: HttpMethod.GET,
-        params,
       },
     );
   }
@@ -107,6 +109,21 @@ class EAMApi {
         ApiPath.EAM,
         EAMApiPath.GROUPS,
         GroupsApiPath.ROOT,
+        id,
+      ),
+      {
+        method: HttpMethod.DELETE,
+      },
+    );
+  }
+
+  public deleteWorker(id: string): Promise<boolean> {
+    return this.#http.load(
+      joinItems(
+        this.#apiPrefix,
+        ApiPath.EAM,
+        EAMApiPath.WORKERS,
+        WorkersApiPath.ROOT,
         id,
       ),
       {
@@ -137,6 +154,19 @@ class EAMApi {
       joinItems(this.#apiPrefix, ApiPath.EAM, EAMApiPath.PERMISSION),
       {
         method: HttpMethod.GET,
+      },
+    );
+  }
+
+  public createWorker(
+    payload: EAMWorkerCreateRequestDto,
+  ): Promise<EAMWorkerCreateResponseDto> {
+    return this.#http.load(
+      joinItems(this.#apiPrefix, ApiPath.EAM, EAMApiPath.WORKERS),
+      {
+        method: HttpMethod.POST,
+        contentType: ContentType.JSON,
+        payload: JSON.stringify(payload),
       },
     );
   }

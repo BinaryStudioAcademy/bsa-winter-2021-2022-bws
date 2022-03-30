@@ -1,7 +1,6 @@
 export {
   ApiPath,
   AuthApiPath,
-  MastersApiPath,
   TenantsApiPath,
   EAMApiPath,
   GroupsApiPath,

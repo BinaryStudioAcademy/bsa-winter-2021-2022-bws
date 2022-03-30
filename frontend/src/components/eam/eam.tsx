@@ -39,6 +39,10 @@ const EAM: FC = () => {
     dispatch(eamActions.deleteGroup(id));
   };
 
+  const handleWorkersDelete = (id: string): void => {
+    dispatch(eamActions.deleteWorker(id));
+  };
+
   const handleWorkersReload = (): void => {
     dispatch(
       eamActions.loadWorkers({
@@ -66,7 +70,7 @@ const EAM: FC = () => {
       </h2>
       <Tenant />
       <div className={styles.tableWrapper}>
-        <WorkersTable>
+        <WorkersTable onWorkerDelete={handleWorkersDelete}>
           <div className={styles.buttonsBlock}>
             <IconButton
               onClick={handleWorkersReload}

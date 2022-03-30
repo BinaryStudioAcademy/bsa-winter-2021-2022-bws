@@ -4,24 +4,13 @@ import styles from './styles.module.scss';
 
 const ActionCell = (
   id: string,
-  onObjectDownload: (objectId: string) => void,
-  onObjectDelete: (objectId: string) => void,
+  onWorkerDelete: (id: string) => void,
 ): JSX.Element => {
-  const handleDownload = (): void => {
-    onObjectDownload(id);
-  };
   const handleDelete = (): void => {
-    onObjectDelete(id);
+    onWorkerDelete(id);
   };
-
   return (
     <div className={styles.wrapper}>
-      <IconButton
-        title="Download"
-        icon={IconName.DOWNLOAD}
-        label="Download"
-        onClick={handleDownload}
-      />
       <IconButton
         title="Delete"
         icon={IconName.TRASH}

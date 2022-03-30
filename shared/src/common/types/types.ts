@@ -103,4 +103,5 @@ export {
   type BSObjectGetFilter,
   type BSObjectGetResponseItemDto,
   type BSObjectGetResponseDto,
+  type BSObjectDeleteParamsDto,
 } from '~/common/types/bs-object/bs-object';

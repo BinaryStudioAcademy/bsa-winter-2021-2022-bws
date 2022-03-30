@@ -7,6 +7,7 @@ import {
   ObjectsApiPath,
 } from 'common/enums/enums';
 import {
+  BSObjectDeleteParamsDto,
   BSObjectDownloadParamsDto,
   BSObjectGetRequestParamsDto,
   BSObjectGetResponseDto,
@@ -106,6 +107,24 @@ class BSApi {
       ),
       {
         method: HttpMethod.GET,
+      },
+    );
+  }
+
+  public deleteObject(params: BSObjectDeleteParamsDto): Promise<boolean> {
+    return this.#http.load(
+      joinItems(
+        this.#apiPrefix,
+        ApiPath.BS,
+        BSApiPath.SPACES,
+        SpacesApiPath.ROOT,
+        params.spaceId,
+        SpacesApiPath.OBJECTS,
+        ObjectsApiPath.ROOT,
+        params.objectId,
+      ),
+      {
+        method: HttpMethod.DELETE,
       },
     );
   }

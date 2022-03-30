@@ -13,6 +13,7 @@ import { BSSpace as BSSpaceActions } from 'store/actions';
 type Props = {
   spaceId: string;
   onObjectDownload: (objectId: string) => void;
+  onObjectDelete: (objectId: string) => void;
   pagination?: {
     perPage: number;
     countItems: number;
@@ -21,7 +22,12 @@ type Props = {
   };
 };
 
-const ObjectsTable: FC<Props> = ({ children, onObjectDownload, spaceId }) => {
+const ObjectsTable: FC<Props> = ({
+  children,
+  onObjectDelete,
+  onObjectDownload,
+  spaceId,
+}) => {
   const dispatch = useAppDispatch();
 
   const { objects, dataStatus, countItems } = useAppSelector(({ BSSpace }) => ({
@@ -50,7 +56,10 @@ const ObjectsTable: FC<Props> = ({ children, onObjectDownload, spaceId }) => {
     from: Pagination.INITIAL_FROM_COUNT,
   });
 
-  const data = useMemo(() => getRows({ objects, onObjectDownload }), [objects]);
+  const data = useMemo(
+    () => getRows({ objects, onObjectDownload, onObjectDelete }),
+    [objects],
+  );
 
   const columns = useMemo(() => getColumns(), []);
 

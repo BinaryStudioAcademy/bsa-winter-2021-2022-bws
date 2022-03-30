@@ -1,7 +1,12 @@
 import { BSObjectGetResponseItemDto } from 'common/types/types';
 import { DataStatus } from 'common/enums/app/data-status.enum';
 import { createReducer } from '@reduxjs/toolkit';
-import { downloadObject, loadObjects, uploadObject } from './actions';
+import {
+  deleteObject,
+  downloadObject,
+  loadObjects,
+  uploadObject,
+} from './actions';
 import { logOut } from 'store/auth/actions';
 
 type State = {
@@ -44,6 +49,18 @@ const reducer = createReducer(initialState, (builder) => {
     state.dataStatus = DataStatus.FULFILLED;
   });
   builder.addCase(uploadObject.rejected, (state) => {
+    state.dataStatus = DataStatus.REJECTED;
+  });
+  builder.addCase(deleteObject.pending, (state) => {
+    state.dataStatus = DataStatus.PENDING;
+  });
+  builder.addCase(deleteObject.fulfilled, (state, action) => {
+    state.dataStatus = DataStatus.FULFILLED;
+    state.objects = state.objects.filter(
+      (object) => object.id !== action.payload.objectId,
+    );
+  });
+  builder.addCase(deleteObject.rejected, (state) => {
     state.dataStatus = DataStatus.REJECTED;
   });
   builder.addCase(logOut.fulfilled, (state) => {

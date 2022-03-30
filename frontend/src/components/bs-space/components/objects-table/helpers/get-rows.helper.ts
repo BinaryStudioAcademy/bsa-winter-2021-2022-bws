@@ -13,9 +13,11 @@ type Row = {
 const getRows = ({
   objects,
   onObjectDownload,
+  onObjectDelete,
 }: {
   objects: BSObjectGetResponseItemDto[];
   onObjectDownload: (objectId: string) => void;
+  onObjectDelete: (objectId: string) => void;
 }): Row[] => {
   return objects.map((item) => {
     const { name, createdAt, sizeInBytes, id } = item;
@@ -24,7 +26,11 @@ const getRows = ({
       [ObjectsTableAccessor.OBJECT_NAME]: name,
       [ObjectsTableAccessor.CREATED_AT]: createdAt,
       [ObjectsTableAccessor.SIZE]: getPrettyBytes(sizeInBytes),
-      [ObjectsTableAccessor.ACTIONS]: ActionCell(id, onObjectDownload),
+      [ObjectsTableAccessor.ACTIONS]: ActionCell(
+        id,
+        onObjectDownload,
+        onObjectDelete,
+      ),
     };
   });
 };

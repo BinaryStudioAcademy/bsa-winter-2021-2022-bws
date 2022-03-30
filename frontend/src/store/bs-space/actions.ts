@@ -5,6 +5,7 @@ import {
   BSObjectGetRequestParamsDto,
   BSObjectGetResponseDto,
   BSObjectGetResponseItemDto,
+  BSObjectDeleteParamsDto,
 } from 'common/types/types';
 import { ActionType } from './common';
 import {
@@ -72,4 +73,21 @@ const uploadObject = createAsyncThunk<
   return response;
 });
 
-export { loadObjects, downloadObject, uploadObject };
+const deleteObject = createAsyncThunk<
+  BSObjectDeleteParamsDto,
+  BSObjectDeleteParamsDto,
+  AsyncThunkConfig
+>(ActionType.DELETE_OBJECT, async (params, { extra }) => {
+  const { bsApi, notification } = extra;
+
+  await bsApi.deleteObject(params);
+
+  notification.success(
+    NotificationTitle.SUCCESS,
+    NotificationMessage.BS_OBJECT_DELETE,
+  );
+
+  return params;
+});
+
+export { loadObjects, downloadObject, uploadObject, deleteObject };

@@ -5,3 +5,4 @@ export { type BSObjectGetRequestParamsDto } from './bs-object-get-request-params
 export { type BSObjectGetFilter } from './bs-object-get-filter.type';
 export { type BSObjectGetResponseItemDto } from './bs-object-get-responce-item-dto.type';
 export { type BSObjectGetResponseDto } from './bs-object-get-response-dto.type';
+export { type BSObjectDeleteParamsDto } from './bs-object-delete-params.dto.type';

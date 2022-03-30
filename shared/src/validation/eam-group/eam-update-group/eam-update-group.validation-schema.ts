@@ -20,12 +20,7 @@ const eamGroupUpdate = Joi.object({
   [getNameOf<EAMGroupCreateRequestDto>('tenantId')]: Joi.string()
     .trim()
     .required(),
-  [getNameOf<EAMGroupCreateRequestDto>('workersIds')]: Joi.array()
-    .required()
-    .min(EAMGroupValidationRule.PERMISSION_SELECTED_MIN)
-    .messages({
-      'array.min': EAMGroupValidationMessage.WORKERS_SELECTED_MIN,
-    }),
+  [getNameOf<EAMGroupCreateRequestDto>('workersIds')]: Joi.array().required(),
   [getNameOf<EAMGroupCreateRequestDto>('permissionsIds')]: Joi.array()
     .required()
     .min(EAMGroupValidationRule.PERMISSION_SELECTED_MIN)

@@ -102,11 +102,15 @@ const EAMConfigurateGroup: FC = () => {
         Entity Access Management
       </h2>
       <section className={styles.formWrapper}>
-        <h3 className={styles.formTitle}>Create Group</h3>
+        <h3 className={styles.formTitle}>
+          {hasGroup ? 'Edit' : 'Create'} group
+        </h3>
         <form onSubmit={handleSubmit(handleFormSubmit)}>
           <ul className={styles.inputGroups}>
             <li className={styles.inputGroup}>
-              <h3 className={styles.inputGroupTitle}>Name the group</h3>
+              <h3 className={styles.inputGroupTitle}>
+                {hasGroup ? 'Edit' : 'Name'} group name
+              </h3>
               <div className={styles.inputWrapper}>
                 <Input
                   type={InputType.TEXT}
@@ -124,6 +128,7 @@ const EAMConfigurateGroup: FC = () => {
                 handleIsCheckedId={selectedWorkers.handleCheck}
                 handleRemoveWorkerId={selectedWorkers.handleRemove}
                 handleAddWorkerId={selectedWorkers.handleAdd}
+                hasGroup={hasGroup}
               />
             </li>
             <li>
@@ -132,6 +137,7 @@ const EAMConfigurateGroup: FC = () => {
                 handleIsCheckedPermissionId={selectedPermissions.handleCheck}
                 handleRemovePermissionId={selectedPermissions.handleRemove}
                 handleAddPermissionId={selectedPermissions.handleAdd}
+                hasGroup={hasGroup}
               />
             </li>
           </ul>

@@ -1,7 +1,6 @@
 import {
   ApiPath,
   AuthApiPath,
-  MastersApiPath,
   ContentType,
   HttpMethod,
 } from 'common/enums/enums';
@@ -34,7 +33,7 @@ class AuthApi {
     payload: EAMMasterSignUpRequestDto,
   ): Promise<EAMMasterSignUpResponseDto> {
     return this.#http.load(
-      joinItems(this.#apiPrefix, ApiPath.MASTERS, MastersApiPath.SIGN_UP),
+      joinItems(this.#apiPrefix, ApiPath.AUTH, AuthApiPath.SIGN_UP),
       {
         method: HttpMethod.POST,
         contentType: ContentType.JSON,
@@ -73,7 +72,7 @@ class AuthApi {
     EAMMasterSignInResponseDto | EAMWorkerSignInResponseDto
   > {
     return this.#http.load(
-      joinItems(this.#apiPrefix, ApiPath.AUTH, MastersApiPath.ROOT),
+      joinItems(this.#apiPrefix, ApiPath.AUTH, AuthApiPath.ROOT),
       {
         method: HttpMethod.GET,
         contentType: ContentType.JSON,

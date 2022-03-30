@@ -12,7 +12,6 @@ import {
   EAMWorkerSignInResponseDto,
   EAMWorkerGetAllResponseDto,
   EAMWorkerGetByTenantRequestParamsDto,
-  TokenPayload,
 } from '~/common/types/types';
 import { Worker as WorkerEntity } from './worker.entity';
 import { HttpCode } from '~/common/enums/http/http';
@@ -112,11 +111,11 @@ class Worker {
   public async create({
     name,
     password,
-    token,
+    tenantId,
     groupIds,
-  }: EAMWorkerCreateRequestDto): Promise<EAMWorkerCreateResponseDto> {
-    const { tenantId } = this.#tokenService.decode<TokenPayload>(token);
-
+  }: EAMWorkerCreateRequestDto & {
+    tenantId: string;
+  }): Promise<EAMWorkerCreateResponseDto> {
     const passwordSalt = await this.#encryptService.createSalt();
     const passwordHash = await this.#encryptService.createHash(
       password,

@@ -10,7 +10,6 @@ import { SLCApi } from './slc-api/slc-api.service';
 import { Storage } from './storage/storage.service';
 import { Notification } from './notification/notification.service';
 import { Navigation } from './navigation/navigation.service';
-import { WorkerApi } from './worker-api/worker-api.service';
 import { Saver } from './saver/saver.service';
 
 const storage = new Storage({
@@ -57,18 +56,12 @@ const navigation = new Navigation({
   history: createBrowserHistory(),
 });
 
-const workerApi = new WorkerApi({
-  http,
-  apiPrefix: ENV.API_PATH,
-});
-
 export {
   authApi,
   tenantApi,
   storage,
   navigation,
   notification,
-  workerApi,
   eamApi,
   bsApi,
   scApi,

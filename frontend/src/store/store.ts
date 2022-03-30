@@ -9,7 +9,6 @@ import {
   slcApi,
   navigation,
   storage,
-  workerApi,
   notification,
   saver,
 } from 'services/services';
@@ -24,7 +23,6 @@ const extraArgument = {
   slcApi,
   navigation,
   storage,
-  workerApi,
   notification,
   saver,
 };

@@ -59,4 +59,20 @@ const deleteGroup = createAsyncThunk<string, string, AsyncThunkConfig>(
   },
 );
 
-export { loadWorkers, loadGroups, updateTenant, deleteGroup };
+const deleteWorker = createAsyncThunk<string, string, AsyncThunkConfig>(
+  ActionType.DELETE_WORKER,
+  async (id, { extra }) => {
+    const { eamApi, notification } = extra;
+
+    await eamApi.deleteWorker(id);
+
+    notification.success(
+      NotificationTitle.SUCCESS,
+      NotificationMessage.EAM_WORKER_DELETE,
+    );
+
+    return id;
+  },
+);
+
+export { loadWorkers, loadGroups, updateTenant, deleteGroup, deleteWorker };

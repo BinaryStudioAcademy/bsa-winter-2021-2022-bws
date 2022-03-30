@@ -9,6 +9,7 @@ type Props = {
   handleRemoveWorkerId: (id: string) => void;
   handleIsCheckedId: (id: string) => boolean;
   selectedWorkers: string[];
+  hasGroup: boolean;
 };
 
 const WorkersTable: FC<Props> = ({
@@ -16,6 +17,7 @@ const WorkersTable: FC<Props> = ({
   handleAddWorkerId,
   handleRemoveWorkerId,
   handleIsCheckedId,
+  hasGroup,
 }) => {
   const { workers } = useAppSelector(({ EAMGroupConfigurate }) => ({
     workers: EAMGroupConfigurate.workers,
@@ -37,7 +39,9 @@ const WorkersTable: FC<Props> = ({
   return (
     <div>
       <h3 className={styles.inputGroupTitle}>
-        Add workers to the Group - Optional
+        {hasGroup
+          ? 'Edit workers in the group'
+          : 'Add workers to the Group - Optional'}
       </h3>
       <Table
         className={styles.table}

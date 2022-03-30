@@ -22,6 +22,7 @@ const ExceptionMessage = {
   MASTER_FUNCTION_RUN: 'Master is not able to run function.',
   MASTER_SPACE_CREATE: 'Master is not able to create space.',
   MASTER_SPACE_DELETE: 'Master is not able to delete space',
+  MASTER_OBJECT_DELETE: 'Master is not able to delete object',
   MASTER_OBJECT_UPLOAD: 'Master is not able to upload object',
   MASTER_OBJECT_DOWNLOAD: 'Master is not able to download object',
   SPACE_NOT_FOUND: 'Space not found.',

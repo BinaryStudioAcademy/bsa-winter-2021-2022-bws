@@ -3,6 +3,8 @@ import {
   CreateBucketOutput,
   DeleteBucketCommand,
   DeleteBucketCommandOutput,
+  DeleteObjectCommand,
+  DeleteObjectCommandOutput,
   GetObjectCommand,
   GetObjectCommandOutput,
   PutObjectCommand,
@@ -84,6 +86,23 @@ class S3 {
       })
       .catch((err) => {
         return err;
+      });
+  }
+
+  public async deleteObject({
+    bucket,
+    key,
+  }: {
+    bucket: string;
+    key: string;
+  }): Promise<DeleteObjectCommandOutput> {
+    return this.#s3Client
+      .send(new DeleteObjectCommand({ Bucket: bucket, Key: key }))
+      .catch((err) => {
+        throw new BsError({
+          status: err.$response.statusCode,
+          message: err.message,
+        });
       });
   }
 }
