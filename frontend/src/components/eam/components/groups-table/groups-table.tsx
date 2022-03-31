@@ -50,7 +50,6 @@ const GroupsTable: FC<Props> = ({ onGroupDelete }) => {
     countItems,
     onLoad: handleLoad,
     from: Pagination.INITIAL_FROM_COUNT,
-    entities: groups.length,
   });
 
   const handleGroupsReload = (): void => {
