@@ -1,6 +1,13 @@
-import { EntityType } from 'common/enums/enums';
+import { EntityType, Pagination } from 'common/enums/enums';
 import { ConfirmDeletePopup } from 'components/common/common';
-import { useAppDispatch, useEffect, useParams, useState } from 'hooks/hooks';
+import {
+  useAppDispatch,
+  useAppSelector,
+  useEffect,
+  usePagination,
+  useParams,
+  useState,
+} from 'hooks/hooks';
 import { ObjectsTable } from './components/components';
 import React, { FC } from 'react';
 import styles from './styles.module.scss';
@@ -12,16 +19,32 @@ const BSSpace: FC = () => {
 
   const { id } = useParams();
 
-  useEffect(() => {
+  const { objects, countItems } = useAppSelector(({ BSSpace }) => ({
+    countItems: BSSpace.countItems,
+    objects: BSSpace.objects,
+  }));
+
+  const handleLoad = (from: number, count: number): void => {
     dispatch(
       BSSpaceActions.loadObjects({
         filter: {
-          from: 0,
-          count: 5,
+          from,
+          count,
         },
         id: id as string,
       }),
     );
+  };
+
+  const objectsPagination = usePagination({
+    perPageCount: Pagination.PER_PAGE,
+    countItems,
+    onLoad: handleLoad,
+    from: Pagination.INITIAL_FROM_COUNT,
+  });
+
+  useEffect(() => {
+    handleLoad(Pagination.INITIAL_FROM_COUNT, Pagination.PER_PAGE);
   }, [dispatch]);
 
   const handleObjectDownload = (objectId: string): void => {
@@ -37,14 +60,26 @@ const BSSpace: FC = () => {
 
   const handleCancelDelete = (): void => setCurrentObjectId(null);
 
-  const handleConfirmDelete = (): void => {
-    dispatch(
+  const handleConfirmDelete = async (): Promise<void> => {
+    await dispatch(
       BSSpaceActions.deleteObject({
         spaceId: id as string,
         objectId: currentObjectId as string,
       }),
     );
     setCurrentObjectId(null);
+
+    if (objects.length) {
+      return handleLoad(
+        (objectsPagination.currentPage - 1) * Pagination.PER_PAGE,
+        Pagination.PER_PAGE,
+      );
+    }
+
+    return handleLoad(
+      (objectsPagination.currentPage - 2) * Pagination.PER_PAGE,
+      Pagination.PER_PAGE,
+    );
   };
 
   return (
@@ -56,6 +91,7 @@ const BSSpace: FC = () => {
         </h2>
         <div className={styles.tableWrapper}>
           <ObjectsTable
+            pagination={objectsPagination}
             spaceId={id as string}
             onObjectDelete={handleObjectDelete}
             onObjectDownload={handleObjectDownload}

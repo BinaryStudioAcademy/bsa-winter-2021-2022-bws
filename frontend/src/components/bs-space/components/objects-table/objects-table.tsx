@@ -3,59 +3,34 @@ import {
   useAppSelector,
   useMemo,
   useAppDispatch,
-  usePagination,
   useParams,
 } from 'hooks/hooks';
 import { Table, IconButton } from 'components/common/common';
 import { getRows, getColumns } from './helpers/helpers';
-import { DataStatus, Pagination, IconName } from 'common/enums/enums';
+import { DataStatus, IconName } from 'common/enums/enums';
 import { BSSpace as BSSpaceActions } from 'store/actions';
 import styles from './styles.module.scss';
+import { UsePaginationtemsHook } from 'common/types/app/use-pagination-hook.type';
 
 type Props = {
   spaceId: string;
   onObjectDownload: (objectId: string) => void;
   onObjectDelete: (objectId: string) => void;
-  pagination?: {
-    perPage: number;
-    countItems: number;
-    handleLoad: (from: number) => void;
-    from: number;
-  };
+  pagination: UsePaginationtemsHook;
 };
 
 const ObjectsTable: FC<Props> = ({
   onObjectDelete,
   onObjectDownload,
-  spaceId,
+  pagination,
 }) => {
   const dispatch = useAppDispatch();
 
-  const { objects, dataStatus, countItems } = useAppSelector(({ BSSpace }) => ({
+  const { objects, dataStatus } = useAppSelector(({ BSSpace }) => ({
     objects: BSSpace.objects,
     dataStatus: BSSpace.dataStatus,
-    countItems: BSSpace.countItems,
   }));
   const isLoading = dataStatus === DataStatus.PENDING;
-
-  const handleLoad = (from: number, count: number): void => {
-    dispatch(
-      BSSpaceActions.loadObjects({
-        filter: {
-          from,
-          count,
-        },
-        id: spaceId,
-      }),
-    );
-  };
-
-  const objectsPagination = usePagination({
-    perPageCount: Pagination.PER_PAGE,
-    countItems,
-    onLoad: handleLoad,
-    from: Pagination.INITIAL_FROM_COUNT,
-  });
 
   const { id } = useParams();
 
@@ -69,7 +44,7 @@ const ObjectsTable: FC<Props> = ({
         id: id as string,
       }),
     );
-    objectsPagination.onReload();
+    pagination.onReload();
   };
 
   const data = useMemo(
@@ -101,7 +76,7 @@ const ObjectsTable: FC<Props> = ({
       title="Objects"
       placeholder="No objects to display"
       isLoading={isLoading}
-      pagination={objectsPagination}
+      pagination={pagination}
     >
       <div className={styles.buttonsBlock}>
         <IconButton
