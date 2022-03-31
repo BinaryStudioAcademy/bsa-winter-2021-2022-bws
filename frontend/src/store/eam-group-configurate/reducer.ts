@@ -12,12 +12,14 @@ import {
   EAMPermissionGetAllItemResponseDto,
   EamGroupGetByIdResponseDto,
 } from 'common/types/types';
+
 type State = {
   dataStatus: DataStatus;
   permissionsDateStatus: DataStatus;
   workers: EAMWorkerGetAllItemResponseDto[];
   permissions: EAMPermissionGetAllItemResponseDto[];
   group: EamGroupGetByIdResponseDto | null;
+  workersCountItems: number;
 };
 
 const initialState: State = {
@@ -26,6 +28,7 @@ const initialState: State = {
   workers: [],
   permissions: [],
   group: null,
+  workersCountItems: 0,
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -38,6 +41,7 @@ const reducer = createReducer(initialState, (builder) => {
   builder.addCase(loadWorkers.fulfilled, (state, action) => {
     state.dataStatus = DataStatus.FULFILLED;
     state.workers = action.payload.items;
+    state.workersCountItems = action.payload.countItems;
   });
   builder.addCase(getPermission.fulfilled, (state, action) => {
     state.permissionsDateStatus = DataStatus.FULFILLED;

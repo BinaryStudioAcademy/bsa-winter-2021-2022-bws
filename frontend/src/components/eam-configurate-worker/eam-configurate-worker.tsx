@@ -4,6 +4,7 @@ import {
   ButtonStyle,
   ButtonType,
   InputType,
+  Pagination,
 } from 'common/enums/enums';
 import {
   useAppDispatch,
@@ -11,6 +12,7 @@ import {
   useAppSelector,
   useEffect,
   useSelectedItems,
+  usePagination,
 } from 'hooks/hooks';
 import { getNameOf } from 'helpers/helpers';
 import { Button, Input, Table } from 'components/common/common';
@@ -21,14 +23,24 @@ import { EAMWorkerConfigurate as EAMWorkerConfigurateActions } from 'store/actio
 import { DEFAULT_PAYLOAD } from './common/constants';
 import { getColumns, getRows } from './helpers/helpers';
 
-const EAMConfigurateWorker: FC = () => {
+type Props = {
+  pagination?: {
+    perPage: number;
+    countItems: number;
+    handleLoad: (from: number) => void;
+    from: number;
+  };
+};
+
+const EAMConfigurateWorker: FC<Props> = () => {
   const dispatch = useAppDispatch();
   const selectedGroups = useSelectedItems<string>([]);
-  const { tenantId, groups, csvColumns } = useAppSelector(
+  const { tenantId, groups, csvColumns, countItems } = useAppSelector(
     ({ app, EAMWorkerConfigurate }) => ({
       tenantId: app.tenant?.id,
       groups: EAMWorkerConfigurate.groups,
       csvColumns: EAMWorkerConfigurate.csvColumns,
+      countItems: EAMWorkerConfigurate.countItems,
     }),
   );
 
@@ -38,7 +50,7 @@ const EAMConfigurateWorker: FC = () => {
         EAMWorkerConfigurateActions.getGroups({
           tenantId: tenantId as string,
           from: 0,
-          count: 100,
+          count: 5,
         }),
       );
     }
@@ -74,6 +86,23 @@ const EAMConfigurateWorker: FC = () => {
   };
 
   const hasCsvColumns = Boolean(csvColumns.length);
+
+  const handleLoad = (from: number, count: number): void => {
+    dispatch(
+      EAMWorkerConfigurateActions.getGroups({
+        tenantId: tenantId as string,
+        from: from,
+        count: count,
+      }),
+    );
+  };
+
+  const groupPagination = usePagination({
+    perPageCount: Pagination.PER_PAGE,
+    countItems,
+    onLoad: handleLoad,
+    from: Pagination.INITIAL_FROM_COUNT,
+  });
 
   const columns = getColumns(
     selectedGroups.handleAdd,
@@ -113,6 +142,7 @@ const EAMConfigurateWorker: FC = () => {
                 title="Groups"
                 columns={columns}
                 data={data}
+                pagination={groupPagination}
                 placeholder="No groups to display"
               />
             </li>

@@ -5,10 +5,11 @@ import {
   useAppDispatch,
   usePagination,
 } from 'hooks/hooks';
-import { Table } from 'components/common/common';
+import { Table, Button, IconButton } from 'components/common/common';
 import { getRows, getColumns } from './helpers/helpers';
-import { DataStatus, Pagination } from 'common/enums/enums';
+import { DataStatus, Pagination, AppRoute, IconName } from 'common/enums/enums';
 import { eam as eamActions } from 'store/actions';
+import styles from './styles.module.scss';
 
 type Props = {
   onGroupDelete: (id: string) => void;
@@ -20,7 +21,7 @@ type Props = {
   };
 };
 
-const GroupsTable: FC<Props> = ({ children, onGroupDelete }) => {
+const GroupsTable: FC<Props> = ({ onGroupDelete }) => {
   const dispatch = useAppDispatch();
 
   const { groups, groupsDataStatus, countItems, tenantId } = useAppSelector(
@@ -51,6 +52,17 @@ const GroupsTable: FC<Props> = ({ children, onGroupDelete }) => {
     from: Pagination.INITIAL_FROM_COUNT,
   });
 
+  const handleGroupsReload = (): void => {
+    dispatch(
+      eamActions.loadGroups({
+        tenantId: tenantId as string,
+        from: 0,
+        count: 5,
+      }),
+    );
+    groupPagination.onReload();
+  };
+
   const data = useMemo(() => getRows({ groups, onGroupDelete }), [groups]);
 
   const columns = useMemo(() => getColumns(), []);
@@ -65,7 +77,19 @@ const GroupsTable: FC<Props> = ({ children, onGroupDelete }) => {
       pagination={groupPagination}
       isLoading={isLoading}
     >
-      {children}
+      <div className={styles.buttonsBlock}>
+        <IconButton
+          onClick={handleGroupsReload}
+          icon={IconName.RELOAD}
+          label="Reload"
+          title="Refresh"
+        />
+        <Button
+          className={styles.addGroupBtn}
+          to={AppRoute.EAM_CONFIGURATE_GROUP}
+          label="Add Group"
+        />
+      </div>
     </Table>
   );
 };

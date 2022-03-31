@@ -8,7 +8,9 @@ import {
 import { Table } from 'components/common/table/table';
 import { getRows, getColumns } from './helpers/helpers';
 import { eam as eamActions } from 'store/actions';
-import { DataStatus, Pagination } from 'common/enums/enums';
+import { DataStatus, Pagination, IconName, AppRoute } from 'common/enums/enums';
+import { Button, IconButton } from 'components/common/common';
+import styles from './styles.module.scss';
 
 type Props = {
   onWorkerDelete: (id: string) => void;
@@ -20,7 +22,7 @@ type Props = {
   };
 };
 
-const WorkersTable: FC<Props> = ({ children, onWorkerDelete }) => {
+const WorkersTable: FC<Props> = ({ onWorkerDelete }) => {
   const dispatch = useAppDispatch();
 
   const { workers, countItems, tenantId, workersDataStatus } = useAppSelector(
@@ -51,6 +53,17 @@ const WorkersTable: FC<Props> = ({ children, onWorkerDelete }) => {
     from: Pagination.INITIAL_FROM_COUNT,
   });
 
+  const handleWorkersReload = (): void => {
+    dispatch(
+      eamActions.loadWorkers({
+        tenantId: tenantId as string,
+        from: 0,
+        count: 5,
+      }),
+    );
+    workersPagination.onReload();
+  };
+
   const data = useMemo(() => getRows({ workers, onWorkerDelete }), [workers]);
 
   const columns = useMemo(() => getColumns(), []);
@@ -64,7 +77,19 @@ const WorkersTable: FC<Props> = ({ children, onWorkerDelete }) => {
       pagination={workersPagination}
       isLoading={isLoading}
     >
-      {children}
+      <div className={styles.buttonsBlock}>
+        <IconButton
+          onClick={handleWorkersReload}
+          icon={IconName.RELOAD}
+          label="Reload"
+          title="Refresh"
+        />
+        <Button
+          className={styles.addWorkerBtn}
+          to={AppRoute.EAM_CREATE_WORKER}
+          label="Add Worker"
+        />
+      </div>
     </Table>
   );
 };

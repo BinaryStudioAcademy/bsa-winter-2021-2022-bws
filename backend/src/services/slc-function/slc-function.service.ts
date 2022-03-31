@@ -14,7 +14,6 @@ import { SLCError } from '~/exceptions/exceptions';
 import {
   HttpCode,
   ExceptionMessage,
-  UserRole,
   LambdaDefaultParam,
 } from '~/common/enums/enums';
 import { token as tokenServ, lambda as lambdaServ } from '~/services/services';
@@ -47,15 +46,8 @@ class SLCFunction {
     name: string;
     token: string;
   }): Promise<SLCFunctionCreateResponseDto> {
-    const { userId: createdBy, userRole } =
+    const { userId: createdBy } =
       this.#tokenService.decode<TokenPayload>(token);
-
-    if (userRole !== UserRole.WORKER) {
-      throw new SLCError({
-        status: HttpCode.DENIED,
-        message: ExceptionMessage.MASTER_FUNCTION_CREATE,
-      });
-    }
 
     const slcFunctionByName = await this.#slcFunctionRepository.getByName(name);
 
@@ -131,21 +123,10 @@ class SLCFunction {
   public async updateById({
     id,
     sourceCode,
-    token,
   }: {
     id: string;
     sourceCode: string;
-    token: string;
   }): Promise<SLCFunctionUpdateResponseDto> {
-    const { userRole } = this.#tokenService.decode<TokenPayload>(token);
-
-    if (userRole !== UserRole.WORKER) {
-      throw new SLCError({
-        status: HttpCode.DENIED,
-        message: ExceptionMessage.MASTER_FUNCTION_UPDATE,
-      });
-    }
-
     const slcFunction = await this.#slcFunctionRepository.getById(id);
 
     if (!slcFunction) {

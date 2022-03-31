@@ -7,7 +7,7 @@ import {
 } from '~/services/services';
 import { BSObject as BSObjectEntity } from './bs-object.entity';
 import { HttpCode } from '~/common/enums/http/http';
-import { ExceptionMessage, UserRole } from '~/common/enums/enums';
+import { ExceptionMessage } from '~/common/enums/enums';
 import { BsError } from '~/exceptions/exceptions';
 import {
   UploadPayload,
@@ -51,13 +51,6 @@ class BSObject {
     id,
   }: UploadPayload): Promise<BSObjectEntity> {
     const user: TokenPayload = await this.#tokenService.decode(token);
-
-    if (user.userRole !== UserRole.WORKER) {
-      throw new BsError({
-        status: HttpCode.DENIED,
-        message: ExceptionMessage.MASTER_OBJECT_UPLOAD,
-      });
-    }
 
     const space = await this.#spaceService.getSpaceById(id);
 
@@ -104,13 +97,6 @@ class BSObject {
     objectId: string;
   }): Promise<GetObjectCommandOutput> {
     const user: TokenPayload = await this.#tokenService.decode(token);
-
-    if (user.userRole !== UserRole.WORKER) {
-      throw new BsError({
-        status: HttpCode.DENIED,
-        message: ExceptionMessage.MASTER_OBJECT_DOWNLOAD,
-      });
-    }
 
     const space = await this.#spaceService.getSpaceById(spaceId);
 

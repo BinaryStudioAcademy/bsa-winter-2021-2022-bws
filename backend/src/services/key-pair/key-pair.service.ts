@@ -24,8 +24,8 @@ class KeyPair {
     const keyPairData = await this.#keyPairRepository.getById(id);
     if (!keyPairData) {
       throw new SCError({
-        status: HttpCode.DENIED,
-        message: ExceptionMessage.MASTER_INSTANCE_CREATE,
+        status: HttpCode.NOT_FOUND,
+        message: ExceptionMessage.KEY_PAIR_NOT_FOUND,
       });
     }
 

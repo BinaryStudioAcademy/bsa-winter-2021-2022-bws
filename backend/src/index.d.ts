@@ -7,6 +7,6 @@ import {
 declare module 'fastify' {
   interface FastifyRequest {
     file?: File;
-    user?: EAMMasterSignInResponseDto | EAMWorkerSignInResponseDto;
+    userData?: EAMMasterSignInResponseDto | EAMWorkerSignInResponseDto;
   }
 }

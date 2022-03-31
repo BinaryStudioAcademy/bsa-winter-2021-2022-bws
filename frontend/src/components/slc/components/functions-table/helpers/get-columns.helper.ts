@@ -42,7 +42,7 @@ const getColumns = (): Column[] => {
       Header: FunctionsTableHeader.ACTIONS,
       accessor: FunctionsTableAccessor.ACTIONS,
       minWidth: 100,
-      width: 100,
+      width: 150,
       disableSortBy: true,
     },
   ];

@@ -31,8 +31,10 @@ import {
   eamGroupUpdate as groupUpdateValidationSchema,
   UUID as UUIDValidationSchema,
 } from '~/validation-schemas/validation-schemas';
-import { checkHasPermissions as checkHasPermissionsHook } from '~/hooks/hooks';
-import { EAMError } from '~/exceptions/exceptions';
+import {
+  checkHasPermissions as checkHasPermissionsHook,
+  checkHasRole as checkHasRoleHook,
+} from '~/hooks/hooks';
 
 type Options = {
   services: {
@@ -71,7 +73,7 @@ const initEamApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
       req: FastifyRequest<{ Body: EAMWorkerCreateRequestDto }>,
       rep: FastifyReply,
     ) {
-      const token = req.user?.token as string;
+      const token = req.userData?.token as string;
       const { tenantId } = tokenService.decode<TokenPayload>(token);
 
       return rep
@@ -240,7 +242,10 @@ const initEamApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
   fastify.route({
     method: HttpMethod.DELETE,
     url: `${EAMApiPath.WORKERS}${WorkersApiPath.$ID}`,
-    preHandler: checkHasPermissionsHook(Permission.MANAGE_EAM),
+    preHandler: [
+      checkHasPermissionsHook(Permission.MANAGE_EAM),
+      checkHasRoleHook(UserRole.MASTER),
+    ],
     schema: {
       params: UUIDValidationSchema,
     },
@@ -253,20 +258,12 @@ const initEamApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
         return schema.validate(data);
       };
     },
+
     async handler(
       req: FastifyRequest<{ Params: EAMWorkerDeleteRequestDto }>,
       rep: FastifyReply,
     ) {
-      const { id } = req.params;
-      const { userRole } = tokenService.decode<TokenPayload>(
-        req.user?.token as string,
-      );
-
-      if (userRole !== UserRole.MASTER) {
-        throw new EAMError();
-      }
-
-      await workerService.deleteWorker(id);
+      await workerService.delete(req.params.id);
 
       return rep.send(true).status(HttpCode.OK);
     },

@@ -5,10 +5,11 @@ import {
   useAppDispatch,
   usePagination,
 } from 'hooks/hooks';
-import { Table } from 'components/common/common';
+import { Table, Button, IconButton } from 'components/common/common';
 import { getRows, getColumns } from './helpers/helpers';
-import { DataStatus, Pagination } from 'common/enums/enums';
+import { DataStatus, Pagination, AppRoute, IconName } from 'common/enums/enums';
 import { slc as slcActions } from 'store/actions';
+import styles from './styles.module.scss';
 
 type Props = {
   onFunctionDelete: (id: string) => void;
@@ -20,7 +21,7 @@ type Props = {
   };
 };
 
-const FunctionsTable: FC<Props> = ({ children, onFunctionDelete }) => {
+const FunctionsTable: FC<Props> = ({ onFunctionDelete }) => {
   const { functions, dataStatus, countItems } = useAppSelector(({ slc }) => ({
     functions: slc.functions,
     dataStatus: slc.dataStatus,
@@ -45,6 +46,16 @@ const FunctionsTable: FC<Props> = ({ children, onFunctionDelete }) => {
     from: Pagination.INITIAL_FROM_COUNT,
   });
 
+  const handleFunctionReload = (): void => {
+    dispatch(
+      slcActions.loadFunctions({
+        from: 0,
+        count: 5,
+      }),
+    );
+    functionPagination.onReload();
+  };
+
   const data = useMemo(
     () => getRows({ slcFunctions: functions, onFunctionDelete }),
     [functions],
@@ -61,7 +72,19 @@ const FunctionsTable: FC<Props> = ({ children, onFunctionDelete }) => {
       pagination={functionPagination}
       isLoading={isLoading}
     >
-      {children}
+      <div className={styles.buttonsBlock}>
+        <IconButton
+          title="Refresh"
+          onClick={handleFunctionReload}
+          icon={IconName.RELOAD}
+          label="Reload"
+        />
+        <Button
+          className={styles.addFunctionBtn}
+          to={AppRoute.SLC_CONFIGURATE_FUNCTION}
+          label="Create function"
+        />
+      </div>
     </Table>
   );
 };

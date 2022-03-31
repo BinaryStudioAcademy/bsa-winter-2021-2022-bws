@@ -1,0 +1,28 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  min-width: 700px;
+  max-width: 80%;
+  max-height: 80%;
+  padding: 40px 50px 20px;
+  overflow: auto;
+  background: var(--color-boltgun);
+  border-radius: 15px;
+}
+
+.title {
+  margin: 0 0 15px;
+  color: var(--color-text-light);
+  font-size: 20px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.button {
+  max-width: 100px;
+}

@@ -5,7 +5,7 @@ type Constructor = {
   message?: string;
 };
 
-const DEFAULT_MESSAGE = ExceptionMessage.WORKER_DELETE_WORKER;
+const DEFAULT_MESSAGE = ExceptionMessage.WORKER_NOT_FOUND;
 
 class EAMError extends Error {
   status: HttpCode;

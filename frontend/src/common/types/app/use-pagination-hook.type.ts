@@ -4,6 +4,7 @@ type UsePaginationtemsHook = {
   allPage: number;
   currentPage: number;
   countItems: number;
+  onReload: () => void;
 };
 
 export { type UsePaginationtemsHook };

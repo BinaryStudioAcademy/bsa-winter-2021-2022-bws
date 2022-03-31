@@ -5,10 +5,11 @@ import {
   useAppDispatch,
   usePagination,
 } from 'hooks/hooks';
-import { Table } from 'components/common/common';
+import { Table, Button, IconButton } from 'components/common/common';
 import { getRows, getColumns } from './helpers/helpers';
-import { DataStatus, Pagination } from 'common/enums/enums';
+import { DataStatus, Pagination, AppRoute, IconName } from 'common/enums/enums';
 import { bs as bsActions } from 'store/actions';
+import styles from './styles.module.scss';
 
 type Props = {
   onSpaceDelete: (id: string) => void;
@@ -20,7 +21,7 @@ type Props = {
   };
 };
 
-const SpacesTable: FC<Props> = ({ children, onSpaceDelete }) => {
+const SpacesTable: FC<Props> = ({ onSpaceDelete }) => {
   const dispatch = useAppDispatch();
 
   const { spaces, dataStatus, countItems } = useAppSelector(({ bs }) => ({
@@ -46,21 +47,45 @@ const SpacesTable: FC<Props> = ({ children, onSpaceDelete }) => {
     from: Pagination.INITIAL_FROM_COUNT,
   });
 
+  const handleSpacesReload = (): void => {
+    dispatch(
+      bsActions.loadSpaces({
+        from: 0,
+        count: 5,
+      }),
+    );
+    spacePagination.onReload();
+  };
+
   const data = useMemo(() => getRows({ spaces, onSpaceDelete }), [spaces]);
 
   const columns = useMemo(() => getColumns(), []);
 
   return (
-    <Table
-      columns={columns}
-      data={data}
-      title="Spaces"
-      placeholder="No spaces to display"
-      pagination={spacePagination}
-      isLoading={isLoading}
-    >
-      {children}
-    </Table>
+    <>
+      <Table
+        columns={columns}
+        data={data}
+        title="Spaces"
+        placeholder="No spaces to display"
+        pagination={spacePagination}
+        isLoading={isLoading}
+      >
+        <div className={styles.buttonsBlock}>
+          <IconButton
+            onClick={handleSpacesReload}
+            icon={IconName.RELOAD}
+            label="Reload"
+            title="Refresh"
+          />
+          <Button
+            className={styles.addSpaceBtn}
+            to={AppRoute.BS_CREATE_SPACE}
+            label="Add Space"
+          />
+        </div>
+      </Table>
+    </>
   );
 };
 

@@ -6,18 +6,12 @@ import {
   eamMasterSignIn as masterSignInValidationSchema,
   eamWorkerSignIn as workerSignInValidationSchema,
 } from '~/validation-schemas/validation-schemas';
-import {
-  HttpCode,
-  HttpMethod,
-  AuthApiPath,
-  ExceptionMessage,
-} from '~/common/enums/enums';
+import { HttpCode, HttpMethod, AuthApiPath } from '~/common/enums/enums';
 import {
   EAMMasterSignUpRequestDto,
   EAMMasterSignInRequestDto,
   EAMWorkerSignInRequestDto,
 } from '~/common/types/types';
-import { InvalidCredentialsError } from '~/exceptions/exceptions';
 
 type Options = {
   services: { master: typeof masterServ; auth: typeof authServ };
@@ -31,13 +25,7 @@ const initAuthApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     url: AuthApiPath.ROOT,
     async handler(req, rep) {
       const [, token] = req.headers?.authorization?.split(' ') ?? [];
-
-      const user = await authService.getCurrentUser(token).catch(() => {
-        throw new InvalidCredentialsError({
-          status: HttpCode.BAD_REQUEST,
-          message: ExceptionMessage.INVALID_TOKEN,
-        });
-      });
+      const user = await authService.getCurrentUser(token);
 
       return rep.send(user).status(HttpCode.OK);
     },

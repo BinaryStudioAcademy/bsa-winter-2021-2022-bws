@@ -5,10 +5,11 @@ import {
   useAppDispatch,
   usePagination,
 } from 'hooks/hooks';
-import { Table } from 'components/common/common';
+import { Table, Button, IconButton } from 'components/common/common';
 import { getRows, getColumns } from './helpers/helpers';
-import { DataStatus, Pagination } from 'common/enums/enums';
+import { DataStatus, Pagination, AppRoute, IconName } from 'common/enums/enums';
 import { sc as scActions } from 'store/actions';
+import styles from './styles.module.scss';
 
 type Props = {
   onInstanceDelete: (id: string) => void;
@@ -21,11 +22,7 @@ type Props = {
   };
 };
 
-const InstancesTable: FC<Props> = ({
-  children,
-  onInstanceDelete,
-  onKeyClick,
-}) => {
+const InstancesTable: FC<Props> = ({ onInstanceDelete, onKeyClick }) => {
   const dispatch = useAppDispatch();
   const { instances, dataStatus, countItems } = useAppSelector(({ sc }) => ({
     instances: sc.instances,
@@ -50,6 +47,16 @@ const InstancesTable: FC<Props> = ({
     from: Pagination.INITIAL_FROM_COUNT,
   });
 
+  const handleReload = (): void => {
+    dispatch(
+      scActions.loadInstances({
+        from: 0,
+        count: 5,
+      }),
+    );
+    spacePagination.onReload();
+  };
+
   const data = useMemo(
     () => getRows({ instances, onInstanceDelete, onKeyClick }),
     [instances, onInstanceDelete],
@@ -66,7 +73,19 @@ const InstancesTable: FC<Props> = ({
       pagination={spacePagination}
       isLoading={isLoading}
     >
-      {children}
+      <div className={styles.buttonsBlock}>
+        <IconButton
+          onClick={handleReload}
+          icon={IconName.RELOAD}
+          label="Reload"
+          title="Refresh"
+        />
+        <Button
+          className={styles.addInstanceBtn}
+          to={AppRoute.SC_CONFIGURATE_INSTANCE}
+          label="Add Instance"
+        />
+      </div>
     </Table>
   );
 };

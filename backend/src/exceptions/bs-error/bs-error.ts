@@ -5,7 +5,7 @@ type Constructor = {
   message?: string;
 };
 
-const DEFAULT_MESSAGE = ExceptionMessage.MASTER_SPACE_CREATE;
+const DEFAULT_MESSAGE = ExceptionMessage.SPACE_NOT_FOUND;
 
 class BsError extends Error {
   status: HttpCode;

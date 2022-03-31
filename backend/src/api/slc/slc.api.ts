@@ -1,9 +1,6 @@
 import { FastifyPluginAsync, FastifyReply, FastifyRequest } from 'fastify';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
-import {
-  slcFunction as slcFunctionServ,
-  token as tokenServ,
-} from '~/services/services';
+import { slcFunction as slcFunctionServ } from '~/services/services';
 import {
   slcFunctionCreate as slcFunctionCreateValidationSchema,
   UUID as UUIDValidationSchema,
@@ -15,7 +12,6 @@ import {
   SLCFunctionApiPath,
   UserRole,
   Permission,
-  ExceptionMessage,
 } from '~/common/enums/enums';
 import {
   SLCFunctionCreateRequestDto,
@@ -26,26 +22,28 @@ import {
   SLCFunctionLoadParamsDto,
   SLCFunctionRunParamsDto,
   SLCFunctionRunRequestDto,
-  TokenPayload,
 } from '~/common/types/types';
-import { SLCError } from '~/exceptions/exceptions';
-import { checkHasPermissions as checkHasPermissionsHook } from '~/hooks/hooks';
+import {
+  checkHasPermissions as checkHasPermissionsHook,
+  checkHasRole as checkHasRoleHook,
+} from '~/hooks/hooks';
 
 type Options = {
   services: {
     slcFunction: typeof slcFunctionServ;
-    token: typeof tokenServ;
   };
 };
 
 const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
-  const { slcFunction: slcFunctionService, token: tokenService } =
-    opts.services;
+  const { slcFunction: slcFunctionService } = opts.services;
 
   fastify.route({
     method: HttpMethod.POST,
     url: SLCApiPath.SLC_FUNCTIONS,
-    preHandler: checkHasPermissionsHook(Permission.MANAGE_SLC),
+    preHandler: [
+      checkHasPermissionsHook(Permission.MANAGE_SLC),
+      checkHasRoleHook(UserRole.WORKER),
+    ],
     schema: {
       body: slcFunctionCreateValidationSchema,
     },
@@ -66,7 +64,7 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
         .send(
           await slcFunctionService.create({
             name: req.body.name,
-            token: req.user?.token as string,
+            token: req.userData?.token as string,
           }),
         )
         .status(HttpCode.CREATED);
@@ -76,7 +74,10 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
   fastify.route({
     method: HttpMethod.POST,
     url: `${SLCApiPath.SLC_FUNCTIONS}${SLCFunctionApiPath.$ID}`,
-    preHandler: checkHasPermissionsHook(Permission.MANAGE_SLC),
+    preHandler: [
+      checkHasPermissionsHook(Permission.MANAGE_SLC),
+      checkHasRoleHook(UserRole.WORKER),
+    ],
     schema: {
       params: UUIDValidationSchema,
     },
@@ -89,6 +90,7 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
         return schema.validate(data);
       };
     },
+
     async handler(
       req: FastifyRequest<{
         Params: SLCFunctionRunParamsDto;
@@ -96,17 +98,6 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
       }>,
       rep: FastifyReply,
     ) {
-      const { userRole } = tokenService.decode<TokenPayload>(
-        req.user?.token as string,
-      );
-
-      if (userRole !== UserRole.WORKER) {
-        throw new SLCError({
-          status: HttpCode.DENIED,
-          message: ExceptionMessage.MASTER_FUNCTION_RUN,
-        });
-      }
-
       return rep
         .send(
           await slcFunctionService.runById({
@@ -128,7 +119,7 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     ) {
       const slcFunctions = await slcFunctionService.getSLCFunctionsByTenant({
         query: req.query,
-        token: req.user?.token as string,
+        token: req.userData?.token as string,
       });
 
       return rep.send(slcFunctions).status(HttpCode.OK);
@@ -170,7 +161,10 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
   fastify.route({
     method: HttpMethod.DELETE,
     url: `${SLCApiPath.SLC_FUNCTIONS}${SLCFunctionApiPath.$ID}`,
-    preHandler: checkHasPermissionsHook(Permission.MANAGE_SLC),
+    preHandler: [
+      checkHasPermissionsHook(Permission.MANAGE_SLC),
+      checkHasRoleHook(UserRole.WORKER),
+    ],
     schema: {
       params: UUIDValidationSchema,
     },
@@ -187,19 +181,7 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
       req: FastifyRequest<{ Params: SLCFunctionDeleteParamsDto }>,
       rep: FastifyReply,
     ) {
-      const { id } = req.params;
-      const { userRole } = tokenService.decode<TokenPayload>(
-        req.user?.token as string,
-      );
-
-      if (userRole !== UserRole.WORKER) {
-        throw new SLCError({
-          status: HttpCode.DENIED,
-          message: ExceptionMessage.MASTER_FUNCTION_DELETE,
-        });
-      }
-
-      await slcFunctionService.delete(id);
+      await slcFunctionService.delete(req.params.id);
 
       return rep.send(true).status(HttpCode.OK);
     },
@@ -208,7 +190,10 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
   fastify.route({
     method: HttpMethod.PUT,
     url: `${SLCApiPath.SLC_FUNCTIONS}${SLCFunctionApiPath.$ID}`,
-    preHandler: checkHasPermissionsHook(Permission.MANAGE_SLC),
+    preHandler: [
+      checkHasPermissionsHook(Permission.MANAGE_SLC),
+      checkHasRoleHook(UserRole.WORKER),
+    ],
     schema: {
       params: UUIDValidationSchema,
     },
@@ -233,7 +218,6 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
           await slcFunctionService.updateById({
             id: req.params.id,
             sourceCode: req.body.sourceCode,
-            token: req.user?.token as string,
           }),
         )
         .status(HttpCode.OK);

@@ -6,7 +6,7 @@ import {
   BSSpaceGetResponseDto,
   TokenPayload,
 } from '~/common/types/types';
-import { ExceptionMessage, HttpCode, UserRole } from '~/common/enums/enums';
+import { ExceptionMessage, HttpCode } from '~/common/enums/enums';
 import { s3 as s3Serv, token as tokenServ } from '~/services/services';
 import { BsError } from '~/exceptions/exceptions';
 
@@ -57,13 +57,6 @@ class Space {
     token: string;
   }): Promise<BSSpaceCreateResponseDto> {
     const user: TokenPayload = await this.#tokenService.decode(token);
-
-    if (user.userRole !== UserRole.WORKER) {
-      throw new BsError({
-        status: HttpCode.DENIED,
-        message: ExceptionMessage.MASTER_SPACE_CREATE,
-      });
-    }
 
     await this.#s3Service.creteBucket(name);
 

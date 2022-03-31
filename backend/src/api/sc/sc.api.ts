@@ -11,6 +11,7 @@ import {
   InstancesApiPath,
   SshKeysApiPath,
   Permission,
+  UserRole,
 } from '~/common/enums/enums';
 import {
   SCInstanceCreateRequestDto,
@@ -26,7 +27,10 @@ import {
   scInstanceUpdate as scInstanceUpdateValidationSchema,
   UUID as UUIDValidationSchema,
 } from '~/validation-schemas/validation-schemas';
-import { checkHasPermissions as checkHasPermissionsHook } from '~/hooks/hooks';
+import {
+  checkHasPermissions as checkHasPermissionsHook,
+  checkHasRole as checkHasRoleHook,
+} from '~/hooks/hooks';
 
 type Options = {
   services: {
@@ -56,7 +60,10 @@ const initScApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
   fastify.route({
     method: HttpMethod.GET,
     url: `${SCApiPath.SSH_KEYS}${SshKeysApiPath.$ID}`,
-    preHandler: checkHasPermissionsHook(Permission.MANAGE_SC),
+    preHandler: [
+      checkHasPermissionsHook(Permission.MANAGE_SC),
+      checkHasRoleHook(UserRole.WORKER),
+    ],
     schema: {
       params: UUIDValidationSchema,
     },
@@ -69,6 +76,7 @@ const initScApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
         return schema.validate(data);
       };
     },
+
     async handler(
       req: FastifyRequest<{
         Params: SCSshKeyGetByIdParamsDto;
@@ -92,7 +100,7 @@ const initScApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     ) {
       const instances = await instanceService.getByTenantId({
         requestParams: req.query,
-        token: req.user?.token as string,
+        token: req.userData?.token as string,
       });
       return rep.send(instances).status(HttpCode.OK);
     },
@@ -101,7 +109,10 @@ const initScApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
   fastify.route({
     method: HttpMethod.DELETE,
     url: `${SCApiPath.INSTANCES}${InstancesApiPath.$ID}`,
-    preHandler: checkHasPermissionsHook(Permission.MANAGE_SC),
+    preHandler: [
+      checkHasPermissionsHook(Permission.MANAGE_SC),
+      checkHasRoleHook(UserRole.WORKER),
+    ],
     schema: {
       params: UUIDValidationSchema,
     },
@@ -128,7 +139,10 @@ const initScApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
   fastify.route({
     method: HttpMethod.PUT,
     url: `${SCApiPath.INSTANCES}${InstancesApiPath.$ID}`,
-    preHandler: checkHasPermissionsHook(Permission.MANAGE_SC),
+    preHandler: [
+      checkHasPermissionsHook(Permission.MANAGE_SC),
+      checkHasRoleHook(UserRole.WORKER),
+    ],
     schema: {
       body: scInstanceUpdateValidationSchema,
       params: UUIDValidationSchema,
@@ -157,7 +171,10 @@ const initScApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
   fastify.route({
     method: HttpMethod.POST,
     url: SCApiPath.ROOT,
-    preHandler: checkHasPermissionsHook(Permission.MANAGE_SC),
+    preHandler: [
+      checkHasPermissionsHook(Permission.MANAGE_SC),
+      checkHasRoleHook(UserRole.WORKER),
+    ],
     schema: {
       body: scInstanceCreateValidationSchema,
     },
@@ -176,7 +193,7 @@ const initScApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     ) {
       const instance = await instanceService.create({
         instanceCredentials: req.body,
-        token: req.user?.token as string,
+        token: req.userData?.token as string,
       });
       return rep.send(instance).status(HttpCode.CREATED);
     },

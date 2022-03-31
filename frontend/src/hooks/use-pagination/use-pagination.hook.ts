@@ -1,6 +1,6 @@
 import { UsePaginationtemsHook } from 'common/types/types';
 import { Pagination } from 'common/enums/enums';
-import { useState } from 'hooks/hooks';
+import { useState, useEffect } from 'hooks/hooks';
 
 type UsePaginationArgs = {
   perPageCount: number;
@@ -40,12 +40,35 @@ const usePagination = (
     }
   };
 
+  const handleReload = (): void => {
+    setFrom(pagination.from ?? Pagination.INITIAL_FROM_COUNT);
+    setCurrentPage(pagination.currentPage ?? Pagination.INITIAL_CURRENT_PAGE);
+  };
+
+  useEffect(() => {
+    if (allPage > 0 && allPage < currentPage) {
+      setCurrentPage(currentPage - Pagination.INCREMENT);
+      pagination.onLoad(
+        from - pagination.perPageCount,
+        pagination.perPageCount,
+      );
+    }
+  }, [
+    allPage,
+    currentPage,
+    setCurrentPage,
+    pagination.onLoad,
+    from,
+    pagination.perPageCount,
+  ]);
+
   return {
     onBackPage: handleBackPage,
     onNextPage: handleNextPage,
     allPage,
     currentPage,
     countItems: pagination.countItems,
+    onReload: handleReload,
   };
 };
 

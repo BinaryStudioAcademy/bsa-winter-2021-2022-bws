@@ -1,5 +1,5 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { DataStatus } from 'common/enums/enums';
+import { DataStatus, Pagination } from 'common/enums/enums';
 import { deleteGroup, loadWorkers, loadGroups, deleteWorker } from './actions';
 import { logOut } from 'store/auth/actions';
 import {
@@ -56,6 +56,7 @@ const reducer = createReducer(initialState, (builder) => {
   builder.addCase(deleteGroup.fulfilled, (state, action) => {
     state.dataStatus = DataStatus.FULFILLED;
     state.groups = state.groups.filter((group) => group.id !== action.payload);
+    state.groupsCountAll = state.groupsCountAll - Pagination.INCREMENT;
   });
   builder.addCase(deleteGroup.rejected, (state) => {
     state.dataStatus = DataStatus.REJECTED;

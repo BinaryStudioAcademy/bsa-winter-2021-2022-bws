@@ -1,13 +1,16 @@
 import { FC } from 'react';
-import { AppRoute, IconName } from 'common/enums/enums';
-import { Button, IconButton } from 'components/common/common';
+import { EntityType } from 'common/enums/enums';
+import { ConfirmDeletePopup } from 'components/common/common';
 import styles from './styles.module.scss';
 import { FunctionsTable } from './components/components';
-import { useAppDispatch, useEffect } from 'hooks/hooks';
+import { useAppDispatch, useEffect, useState } from 'hooks/hooks';
 import { slc as slcActions } from 'store/actions';
 
 const SLC: FC = () => {
   const dispatch = useAppDispatch();
+  const [currentFunctionId, setCurrentFunctionId] = useState<string | null>(
+    null,
+  );
 
   useEffect(() => {
     dispatch(
@@ -18,42 +21,33 @@ const SLC: FC = () => {
     );
   }, [dispatch]);
 
-  const handleFunctionDelete = (id: string): void => {
-    dispatch(slcActions.deleteFunction(id));
-  };
-  const handleFunctionReload = (): void => {
-    dispatch(
-      slcActions.loadFunctions({
-        from: 0,
-        count: 5,
-      }),
-    );
+  const handleFunctionDelete = (id: string): void => setCurrentFunctionId(id);
+
+  const handleCancelDelete = (): void => setCurrentFunctionId(null);
+
+  const handleConfirmDelete = (): void => {
+    dispatch(slcActions.deleteFunction(currentFunctionId as string));
+    setCurrentFunctionId(null);
   };
 
   return (
-    <div className={styles.wrapper}>
-      <h2 className={styles.title}>
-        SLC - <br />
-        ServerLess Computing
-      </h2>
-      <div className={styles.tableWrapper}>
-        <FunctionsTable onFunctionDelete={handleFunctionDelete}>
-          <div className={styles.buttonsBlock}>
-            <IconButton
-              title="Refresh"
-              onClick={handleFunctionReload}
-              icon={IconName.RELOAD}
-              label="Reload"
-            />
-            <Button
-              className={styles.addFunctionBtn}
-              to={AppRoute.SLC_CONFIGURATE_FUNCTION}
-              label="Create function"
-            />
-          </div>
-        </FunctionsTable>
+    <>
+      <div className={styles.wrapper}>
+        <h2 className={styles.title}>
+          SLC - <br />
+          ServerLess Computing
+        </h2>
+        <div className={styles.tableWrapper}>
+          <FunctionsTable onFunctionDelete={handleFunctionDelete} />
+        </div>
       </div>
-    </div>
+      <ConfirmDeletePopup
+        isOpen={Boolean(currentFunctionId)}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        entityType={EntityType.FUNCTION}
+      />
+    </>
   );
 };
 

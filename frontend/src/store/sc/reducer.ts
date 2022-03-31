@@ -2,6 +2,7 @@ import { SCInstanceGetByTenantResponseItemDto } from 'common/types/types';
 import { DataStatus } from 'common/enums/app/data-status.enum';
 import { createReducer } from '@reduxjs/toolkit';
 import { deleteInstance, loadInstances } from './actions';
+import { Pagination } from 'common/enums/enums';
 import { logOut } from 'store/auth/actions';
 
 type State = {
@@ -36,6 +37,7 @@ const reducer = createReducer(initialState, (builder) => {
     state.instances = state.instances.filter(
       (item) => item.id !== action.payload,
     );
+    state.countItems = state.countItems - Pagination.INCREMENT;
   });
   builder.addCase(deleteInstance.rejected, (state) => {
     state.dataStatus = DataStatus.REJECTED;
