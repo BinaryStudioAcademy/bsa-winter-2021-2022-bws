@@ -5,11 +5,13 @@ import {
   useResizeColumns,
   useSortBy,
   useTable,
+  useGlobalFilter,
 } from 'react-table';
 import { getValidClasses } from 'helpers/helpers';
 import styles from './styles.module.scss';
 import { Pagination } from 'components/pagination/pagination';
 import { Loader } from 'components/common/common';
+import { GlobalFilter } from './components/components';
 
 type Props = {
   columns: Column[];
@@ -39,16 +41,24 @@ const Table: FC<Props> = ({
   dataTestid,
   isLoading,
 }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable(
-      {
-        columns: columns as Column<Record<string, string>>[],
-        data: data as Record<string, string>[],
-      },
-      useSortBy,
-      useBlockLayout,
-      useResizeColumns,
-    );
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    state,
+    setGlobalFilter,
+  } = useTable(
+    {
+      columns: columns as Column<Record<string, string>>[],
+      data: data as Record<string, string>[],
+    },
+    useGlobalFilter,
+    useSortBy,
+    useBlockLayout,
+    useResizeColumns,
+  );
 
   const hasStrPlaceholder = Boolean(placeholder);
   const hasData = data.length !== 0;
@@ -65,6 +75,10 @@ const Table: FC<Props> = ({
           {children}
         </header>
       )}
+      <GlobalFilter
+        globalFilter={state.globalFilter}
+        setGlobalFilter={setGlobalFilter}
+      />
       <div className={styles.tableContainer}>
         {isLoading ? (
           <Loader />
