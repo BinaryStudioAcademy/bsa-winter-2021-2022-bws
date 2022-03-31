@@ -18,7 +18,7 @@ const ConfirmDeletePopup: FC<Props> = ({
 }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <div className={styles.wrapper}>
+      <div className={styles.wrapper} data-testid="del-popup">
         <p className={styles.title}>
           {`Are you sure you want to delete this ${entityType}?`}
         </p>

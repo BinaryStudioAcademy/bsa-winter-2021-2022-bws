@@ -51,8 +51,9 @@ const Table: FC<Props> = ({
     );
 
   const hasStrPlaceholder = Boolean(placeholder);
-  const hasData = data.length !== 0;
+  const hasData = Boolean(data.length);
   const hasPlaceholder = hasStrPlaceholder && !hasData;
+  const hasCountItems = Boolean(pagination?.countItems);
 
   return (
     <div
@@ -122,17 +123,17 @@ const Table: FC<Props> = ({
             </tbody>
           </table>
         )}
-        {hasPlaceholder && (
+        {hasPlaceholder && !isLoading && (
           <div className={styles.placeholder}>{placeholder}</div>
         )}
       </div>
-      {pagination && (
+      {pagination && hasCountItems && (
         <Pagination
           countItems={pagination.countItems}
           currentPage={pagination.currentPage}
           allPage={pagination.allPage}
-          handleBackPage={pagination.onBackPage}
-          handleNextPage={pagination.onNextPage}
+          onBackPage={pagination.onBackPage}
+          onNextPage={pagination.onNextPage}
         />
       )}
     </div>
