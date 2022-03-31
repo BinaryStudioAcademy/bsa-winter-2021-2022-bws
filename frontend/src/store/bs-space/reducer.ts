@@ -24,6 +24,7 @@ const initialState: State = {
 const reducer = createReducer(initialState, (builder) => {
   builder.addCase(loadObjects.pending, (state) => {
     state.dataStatus = DataStatus.PENDING;
+    state.objects = [];
   });
   builder.addCase(loadObjects.fulfilled, (state, action) => {
     state.dataStatus = DataStatus.FULFILLED;

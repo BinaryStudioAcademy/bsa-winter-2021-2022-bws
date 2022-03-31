@@ -20,6 +20,7 @@ const initialState: State = {
 const reducer = createReducer(initialState, (builder) => {
   builder.addCase(loadSpaces.pending, (state) => {
     state.dataStatus = DataStatus.PENDING;
+    state.spaces = [];
   });
   builder.addCase(loadSpaces.fulfilled, (state, action) => {
     state.dataStatus = DataStatus.FULFILLED;

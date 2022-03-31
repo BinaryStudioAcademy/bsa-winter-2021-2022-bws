@@ -16,7 +16,6 @@ import {
 } from '~/services/services';
 import {
   InstanceDefaultParam,
-  UserRole,
   HttpCode,
   ExceptionMessage,
   InstanceState,
@@ -101,14 +100,9 @@ class Instance {
     token: string;
   }): Promise<SCInstanceCreateResponseDto> {
     const { name, operationSystemId, userData } = instanceCredentials;
-    const { userId, userRole, tenantId }: TokenPayload =
-      await this.#tokenService.decode(token);
-    if (userRole !== UserRole.WORKER) {
-      throw new SCError({
-        status: HttpCode.DENIED,
-        message: ExceptionMessage.MASTER_INSTANCE_CREATE,
-      });
-    }
+    const { userId, tenantId }: TokenPayload = await this.#tokenService.decode(
+      token,
+    );
 
     const keyPairId = await this.#keyPairService.create();
     const operationSystem =

@@ -148,7 +148,7 @@ const EAMConfigurateWorker: FC<Props> = () => {
             </li>
           </ul>
           <div className={styles.buttonContainer}>
-            <div className={styles.saveBtnWrapper}>
+            <div className={styles.saveBtnWrapper} data-testid="save-csv-btn">
               {hasCsvColumns && (
                 <button
                   className={styles.saveBtn}

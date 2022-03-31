@@ -1,4 +1,4 @@
-import { FastifyPluginAsync, FastifyRequest } from 'fastify';
+import { FastifyPluginAsync, FastifyReply, FastifyRequest } from 'fastify';
 import {
   EAMTenantByIdRequestParamsDto,
   EAMTenantCreateRequestDto,
@@ -23,7 +23,7 @@ const initTenantsApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     url: TenantsApiPath.$ID,
     async handler(
       req: FastifyRequest<{ Params: EAMTenantByIdRequestParamsDto }>,
-      rep,
+      rep: FastifyReply,
     ) {
       const tenant = await tenantService.getTenantById(req.params.id);
       return rep.send(tenant).status(HttpCode.OK);
@@ -50,7 +50,7 @@ const initTenantsApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
         Params: EAMTenantUpdateRequestDto;
         Body: EAMTenantUpdateRequestDto;
       }>,
-      rep,
+      rep: FastifyReply,
     ) {
       const tenant = await tenantService.updateTenantById({
         id: req.params.id,

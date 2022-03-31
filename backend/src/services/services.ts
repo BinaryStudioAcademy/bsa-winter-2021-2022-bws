@@ -110,8 +110,6 @@ const worker = new Worker({
   instanceRepository,
   encryptService: encrypt,
   tokenService: token,
-  masterService: master,
-  tenantService: tenant,
   instanceService: instance,
   spaceService: space,
   slcFunctionService: slcFunction,

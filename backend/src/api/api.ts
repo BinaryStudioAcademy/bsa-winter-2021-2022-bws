@@ -76,7 +76,6 @@ const initApi: FastifyPluginAsync = async (fastify) => {
   fastify.register(initSLCApi, {
     services: {
       slcFunction,
-      token,
     },
     prefix: ApiPath.SLC,
   });

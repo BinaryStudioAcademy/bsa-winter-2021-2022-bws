@@ -1,4 +1,6 @@
-import { useAppDispatch, useEffect, useParams } from 'hooks/hooks';
+import { EntityType } from 'common/enums/enums';
+import { ConfirmDeletePopup } from 'components/common/common';
+import { useAppDispatch, useEffect, useParams, useState } from 'hooks/hooks';
 import { ObjectsTable } from './components/components';
 import React, { FC } from 'react';
 import styles from './styles.module.scss';
@@ -6,6 +8,7 @@ import { BSSpace as BSSpaceActions } from 'store/actions';
 
 const BSSpace: FC = () => {
   const dispatch = useAppDispatch();
+  const [currentObjectId, setCurrentObjectId] = useState<string | null>(null);
 
   const { id } = useParams();
 
@@ -30,29 +33,42 @@ const BSSpace: FC = () => {
     );
   };
 
-  const handleObjectDelete = (objectId: string): void => {
+  const handleObjectDelete = (id: string): void => setCurrentObjectId(id);
+
+  const handleCancelDelete = (): void => setCurrentObjectId(null);
+
+  const handleConfirmDelete = (): void => {
     dispatch(
       BSSpaceActions.deleteObject({
         spaceId: id as string,
-        objectId,
+        objectId: currentObjectId as string,
       }),
     );
+    setCurrentObjectId(null);
   };
 
   return (
-    <div className={styles.wrapper}>
-      <h2 className={styles.title}>
-        BS - <br />
-        Binary Storage
-      </h2>
-      <div className={styles.tableWrapper}>
-        <ObjectsTable
-          spaceId={id as string}
-          onObjectDelete={handleObjectDelete}
-          onObjectDownload={handleObjectDownload}
-        />
+    <>
+      <div className={styles.wrapper}>
+        <h2 className={styles.title}>
+          BS - <br />
+          Binary Storage
+        </h2>
+        <div className={styles.tableWrapper}>
+          <ObjectsTable
+            spaceId={id as string}
+            onObjectDelete={handleObjectDelete}
+            onObjectDownload={handleObjectDownload}
+          />
+        </div>
       </div>
-    </div>
+      <ConfirmDeletePopup
+        isOpen={Boolean(currentObjectId)}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        entityType={EntityType.OBJECT}
+      />
+    </>
   );
 };
 

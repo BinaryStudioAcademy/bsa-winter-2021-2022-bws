@@ -1,4 +1,4 @@
-import { FastifyRequest } from 'fastify';
+import { FastifyRequest, FastifyReply } from 'fastify';
 import { HttpCode, ExceptionMessage, Permission } from '~/common/enums/enums';
 import {
   EAMWorkerSignInResponseDto,
@@ -9,8 +9,8 @@ import { checkHasPermission } from '~/helpers/helpers';
 
 const checkHasPermissions =
   (...permissions: Permission[]) =>
-  async <T extends FastifyRequest>(req: T): Promise<void> => {
-    const { user: userData } = req;
+  async (req: FastifyRequest, _rep: FastifyReply): Promise<void> => {
+    const { userData } = req;
 
     const hasUser = Boolean(userData);
 
