@@ -18,10 +18,15 @@ const Pagination: FC<Props> = ({
   currentPage,
   countItems,
 }) => {
+  const hasOneResult = countItems === 1;
+
   return (
     <div className={styles.pagination}>
       <div className={styles.countItems}>
-        <div className={styles.count}>{countItems} results</div>
+        <div className={styles.count}>
+          {countItems}
+          {hasOneResult ? ' result' : ' results'}
+        </div>
       </div>
       <div className={styles.currentPage}>
         <IconButton
