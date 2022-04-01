@@ -16,10 +16,7 @@ import {
   InputType,
 } from 'common/enums/enums';
 import { getNameOf } from 'helpers/helpers';
-import {
-  EAMGroupConfigurate as EAMGroupConfigurateActions,
-  auth as authActions,
-} from 'store/actions';
+import { EAMGroupConfigurate as EAMGroupConfigurateActions } from 'store/actions';
 import styles from './styles.module.scss';
 import {
   EAMGroupConfigurateRequestDto,
@@ -88,7 +85,6 @@ const EAMConfigurateGroup: FC = () => {
         permissionsIds: selectedPermissions.selectedItems,
       };
       dispatch(EAMGroupConfigurateActions.update(newPayload));
-      dispatch(authActions.loadCurrentUser());
     } else {
       const newPayload: EAMGroupConfigurateRequestDto = {
         name: payload.name,
