@@ -18,6 +18,8 @@ type Props = {
   type?: InputType;
   placeholder?: string;
   rows?: number;
+  value?: string;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
 };
 
 const Input: FC<Props> = ({
@@ -28,6 +30,8 @@ const Input: FC<Props> = ({
   placeholder = '',
   type = InputType.TEXT,
   rows,
+  value,
+  onChange,
 }) => {
   const { field } = useFormControl({ name, control });
   const hasError = Boolean(errors[name]);
@@ -60,6 +64,8 @@ const Input: FC<Props> = ({
             className={getValidClasses(
               hasError ? styles.inputError : styles.input,
             )}
+            value={value}
+            onChange={onChange}
           />
         )}
       </span>
