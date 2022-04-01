@@ -1,5 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { NotificationTitle, NotificationMessage } from 'common/enums/enums';
+import {
+  NotificationTitle,
+  NotificationMessage,
+  Permission,
+  AppRoute,
+} from 'common/enums/enums';
 import {
   AsyncThunkConfig,
   EAMGroupConfigurateRequestDto,
@@ -13,7 +18,7 @@ import {
   EAMGroupUpdateRequestDto,
 } from 'common/types/types';
 import { ActionType } from './common';
-import { AppRoute } from '../../common/enums/app/app-route.enum';
+import { checkHasPermission } from 'helpers/helpers';
 
 const create = createAsyncThunk<
   EAMGroupCreateResponseDto,
@@ -48,7 +53,7 @@ const update = createAsyncThunk<
   EAMGroupUpdateRequestDto,
   AsyncThunkConfig
 >(ActionType.UPDATE, async (payload, { getState, extra }) => {
-  const { eamApi, navigation, notification } = extra;
+  const { eamApi, navigation, notification, authApi } = extra;
 
   const { app } = getState();
   const { tenant } = app;
@@ -61,12 +66,25 @@ const update = createAsyncThunk<
   };
 
   const group = await eamApi.updateGroup(payload.id, request);
+  const { user } = await authApi.getCurrentUser();
 
-  navigation.push(AppRoute.EAM);
-  notification.success(
-    NotificationTitle.SUCCESS,
-    NotificationMessage.EAM_GROUP_UPDATE,
+  const hasEamPermission = checkHasPermission(
+    [Permission.MANAGE_EAM],
+    user.permissions,
   );
+  if (hasEamPermission) {
+    navigation.push(AppRoute.EAM);
+    notification.success(
+      NotificationTitle.SUCCESS,
+      NotificationMessage.EAM_GROUP_UPDATE,
+    );
+  } else {
+    notification.success(
+      NotificationTitle.SUCCESS,
+      NotificationMessage.EAM_GROUP_UPDATE,
+    );
+    navigation.push(AppRoute.ROOT);
+  }
 
   return group;
 });
