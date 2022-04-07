@@ -29,6 +29,7 @@ import {
   eamGroupCreate as groupCreateValidationSchema,
   eamWorkerCreateBackend as workerValidationSchema,
   eamGroupUpdate as groupUpdateValidationSchema,
+  UUID as UUIDValidationSchema,
 } from '~/validation-schemas/validation-schemas';
 import {
   checkHasPermissions as checkHasPermissionsHook,
@@ -118,6 +119,7 @@ const initEamApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     url: `${EAMApiPath.GROUPS}${GroupsApiPath.$ID}`,
     schema: {
       body: groupUpdateValidationSchema,
+      params: UUIDValidationSchema,
     },
     preHandler: checkHasPermissionsHook(Permission.MANAGE_EAM),
     validatorCompiler({
@@ -147,6 +149,18 @@ const initEamApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     method: HttpMethod.GET,
     url: `${EAMApiPath.GROUPS}${GroupsApiPath.$ID}`,
     preHandler: checkHasPermissionsHook(Permission.MANAGE_EAM),
+    schema: {
+      params: UUIDValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof UUIDValidationSchema>) {
+      return (
+        data: EamGroupGetByIdRequestDto,
+      ): ReturnType<typeof UUIDValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
     async handler(
       req: FastifyRequest<{
         Params: EamGroupGetByIdRequestDto;
@@ -201,6 +215,18 @@ const initEamApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     method: HttpMethod.DELETE,
     url: `${EAMApiPath.GROUPS}${GroupsApiPath.$ID}`,
     preHandler: checkHasPermissionsHook(Permission.MANAGE_EAM),
+    schema: {
+      params: UUIDValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof UUIDValidationSchema>) {
+      return (
+        data: EAMGroupDeleteParamsDto,
+      ): ReturnType<typeof UUIDValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
     async handler(
       req: FastifyRequest<{ Params: EAMGroupDeleteParamsDto }>,
       rep: FastifyReply,
@@ -220,6 +246,19 @@ const initEamApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
       checkHasPermissionsHook(Permission.MANAGE_EAM),
       checkHasRoleHook(UserRole.MASTER),
     ],
+    schema: {
+      params: UUIDValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof UUIDValidationSchema>) {
+      return (
+        data: EAMWorkerDeleteRequestDto,
+      ): ReturnType<typeof UUIDValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
+
     async handler(
       req: FastifyRequest<{ Params: EAMWorkerDeleteRequestDto }>,
       rep: FastifyReply,

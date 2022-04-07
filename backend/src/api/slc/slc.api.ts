@@ -1,7 +1,10 @@
 import { FastifyPluginAsync, FastifyReply, FastifyRequest } from 'fastify';
 import { FastifyRouteSchemaDef } from 'fastify/types/schema';
 import { slcFunction as slcFunctionServ } from '~/services/services';
-import { slcFunctionCreate as slcFunctionCreateValidationSchema } from '~/validation-schemas/validation-schemas';
+import {
+  slcFunctionCreate as slcFunctionCreateValidationSchema,
+  UUID as UUIDValidationSchema,
+} from '~/validation-schemas/validation-schemas';
 import {
   HttpCode,
   HttpMethod,
@@ -75,6 +78,19 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
       checkHasPermissionsHook(Permission.MANAGE_SLC),
       checkHasRoleHook(UserRole.WORKER),
     ],
+    schema: {
+      params: UUIDValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof UUIDValidationSchema>) {
+      return (
+        data: SLCFunctionLoadParamsDto,
+      ): ReturnType<typeof UUIDValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
+
     async handler(
       req: FastifyRequest<{
         Params: SLCFunctionRunParamsDto;
@@ -114,6 +130,18 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
     method: HttpMethod.GET,
     url: `${SLCApiPath.SLC_FUNCTIONS}${SLCFunctionApiPath.$ID}`,
     preHandler: checkHasPermissionsHook(Permission.MANAGE_SLC),
+    schema: {
+      params: UUIDValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof UUIDValidationSchema>) {
+      return (
+        data: SLCFunctionLoadParamsDto,
+      ): ReturnType<typeof UUIDValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
     async handler(
       req: FastifyRequest<{
         Params: SLCFunctionLoadParamsDto;
@@ -137,6 +165,18 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
       checkHasPermissionsHook(Permission.MANAGE_SLC),
       checkHasRoleHook(UserRole.WORKER),
     ],
+    schema: {
+      params: UUIDValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof UUIDValidationSchema>) {
+      return (
+        data: SLCFunctionLoadParamsDto,
+      ): ReturnType<typeof UUIDValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
     async handler(
       req: FastifyRequest<{ Params: SLCFunctionDeleteParamsDto }>,
       rep: FastifyReply,
@@ -154,6 +194,18 @@ const initSLCApi: FastifyPluginAsync<Options> = async (fastify, opts) => {
       checkHasPermissionsHook(Permission.MANAGE_SLC),
       checkHasRoleHook(UserRole.WORKER),
     ],
+    schema: {
+      params: UUIDValidationSchema,
+    },
+    validatorCompiler({
+      schema,
+    }: FastifyRouteSchemaDef<typeof UUIDValidationSchema>) {
+      return (
+        data: SLCFunctionLoadParamsDto,
+      ): ReturnType<typeof UUIDValidationSchema['validate']> => {
+        return schema.validate(data);
+      };
+    },
     async handler(
       req: FastifyRequest<{
         Params: SLCFunctionUpdateParamsDto;

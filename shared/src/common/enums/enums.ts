@@ -32,6 +32,8 @@ export {
   SCInstanceValidationMessage,
   SLCFunctionValidationMessage,
   SLCFunctionValidationRule,
+  UUIDValidationRule,
+  UUIDValidationMessage,
 } from './validation/validation';
 export { Permission } from './permissions/permissions';
 export { UserRole } from './roles/roles';
